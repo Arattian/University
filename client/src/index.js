@@ -16,7 +16,9 @@ ReactDOM.render(
                 </Provider>
             </Route>
             <Route exact path='/admin'>
-                <App />
+                <Provider store={store}>
+                    <App />
+                </Provider>
             </Route>
         </Switch>
     </Router>,

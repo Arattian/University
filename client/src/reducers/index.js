@@ -1,5 +1,15 @@
+import { LOGIN } from '../actions';
+
 const reducer = (state={}, action) => {
-    return state;
+    switch(action.type) {
+        case LOGIN:
+            return {
+                loggedIn: action.loggedIn,
+            };
+        default: {
+            return state;
+        }
+    }
 }
 
 

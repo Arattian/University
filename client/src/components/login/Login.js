@@ -1,14 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
+import { login } from '../../actions';
 import './Login.css';
 class Login extends React.Component {
 
     submit(ev) {
         const {mail, pass} = this.refs;
+        this.props.handleLogin(mail, pass);
         ev.preventDefault();
     }
 
+    shouldComponentUpdate(nextProps) {
+        console.log(nextProps.loggedIn);
+        if (nextProps.loggedIn) {
+            this.props.history.push(`/admin`);
+        }
+        return true;
+    }
+
     render() {
+        console.log(this.props);
         return (
             <form onSubmit={(ev) => this.submit(ev)}>
                 <h2>Login</h2>
@@ -28,14 +40,14 @@ class Login extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        
+        loggedIn: state.loggedIn,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+        handleLogin: (mail, pass) => dispatch(login(mail, pass)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
