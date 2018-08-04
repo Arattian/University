@@ -1,5 +1,11 @@
+@font-face {
+    font-family: roboto;
+    src: url('./fonts/Roboto-Light.ttf');
+}
+
 * {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
+    font-family: roboto;
 }

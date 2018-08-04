@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
-import { login } from '../../actions';
+import { login } from '../../actions/loginAction';
 import './Login.css';
 class Login extends React.Component {
 
@@ -11,19 +11,19 @@ class Login extends React.Component {
         ev.preventDefault();
     }
 
-    shouldComponentUpdate(nextProps) {
-        console.log(nextProps.loggedIn);
-        if (nextProps.loggedIn) {
-            this.props.history.push(`/admin`);
+    shouldComponentUpdate() {
+        if (localStorage.token !== "undefined") {
+            this.props.history.push('/admin');
+            return false;
+        } else {
+            return true;
         }
-        return true;
     }
-
+    
     render() {
-        console.log(this.props);
         return (
             <form onSubmit={(ev) => this.submit(ev)}>
-                <h2>Login</h2>
+                <h2>Admin Panel</h2>
                 <div className="input-container">
                     <i className="fa fa-envelope icon"></i>
                     <input className="input-field" type="text" placeholder="Email" name="mail" ref="mail"/>
