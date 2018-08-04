@@ -1,14 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const controller = require('./controllers');
+const login = require('./routes/login');
+const admin = require('./routes/admin');
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
-app.post('/', (req, res) => {
-    controller.allowLogin(req, res);
-});
+app.use('/', login);
+app.use('/admin', admin);
 
 app.listen(process.env.PORT);
