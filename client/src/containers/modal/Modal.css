@@ -17,7 +17,13 @@
     border-radius: 10px;
     position: relative;
     padding: 25px;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-type-container {
+    width: 100%;
 }
 
 .close-icon {

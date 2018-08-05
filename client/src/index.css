@@ -12,5 +12,5 @@ html {
     padding: 0px;
     box-sizing: border-box;
     font-family: roboto;
-    overflow: hidden;
+    list-style: none;
 }

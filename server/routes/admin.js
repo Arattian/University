@@ -1,5 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const addController = require('../controllers/addController');
+const dataController = require('../controllers/dataController');
 const router = express.Router();
 require('dotenv').config();
 
@@ -9,7 +11,37 @@ router.get('/', getToken, (req, res) => {
         if (err) {
             res.sendStatus(404);
         } else {
-            res.json('Coming soon...');
+            dataController.totalData(req, res);
+        }
+    })
+});
+
+router.post('/classes', getToken, (req, res) => {
+    jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
+        if (err) {
+            res.json({status: 404, text: 'Permission denied'});
+        } else {
+            addController.addClass(req, res);
+        }
+    })
+});
+
+router.post('/teachers', getToken, (req, res) => {
+    jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
+        if (err) {
+            res.json({status: 404, text: 'Permission denied'});
+        } else {
+            addController.addTeacher(req, res);
+        }
+    })
+});
+
+router.post('/students', getToken, (req, res) => {
+    jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
+        if (err) {
+            res.json({status: 404, text: 'Permission denied'});
+        } else {
+            addController.addStudent(req, res);
         }
     })
 });
