@@ -3,9 +3,14 @@
     src: url('./fonts/Roboto-Light.ttf');
 }
 
+html {
+    font-size: 20px;
+} 
+
 * {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
     font-family: roboto;
+    overflow: hidden;
 }

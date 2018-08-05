@@ -1,16 +1,23 @@
 import { LOGIN } from '../actions/loginAction';
 
-const reducer = (state={}, action) => {
+const initialState = {
+    loggedIn: false,
+}
+
+const loginReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOGIN:
-            return {
+            state = {
+                ...state,
                 loggedIn: action.loggedIn,
             };
+            break;
         default: {
             return state;
         }
     }
+    return state;
 }
 
 
-export default reducer;
+export default loginReducer;

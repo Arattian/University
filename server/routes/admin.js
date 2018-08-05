@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 require('dotenv').config();
 
-router.post('/', getToken, (req, res) => {
+router.get('/', getToken, (req, res) => {
     //Verifies if token matches with key and not expired yet
     jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
         if (err) {
