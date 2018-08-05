@@ -1,0 +1,100 @@
+.main {
+    flex: 3;
+    min-width: 300px;
+    height: 100vh; 
+}
+
+.main header {
+    width: 100%;
+    border-bottom: 1px solid #dedede;
+    color: #445260;
+    padding: 25px;
+}
+
+.main p {
+    font-size: 0.8rem;
+}
+
+.statistics {
+    width: 100%;
+    padding: 25px;
+}
+
+.stat-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.statistics h2 {
+    color: #445260;
+    margin-bottom: 25px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+    height: 200px;
+    border-radius: 20px;
+    padding: 25px;
+    color: #fff;
+}
+
+.stat .menu-icon {
+    font-size: 4rem;
+}
+
+.classes .menu-icon {
+    color: #faa99e;
+}
+
+.teachers .menu-icon {
+    color: #9ac5cf;
+}
+
+.students .menu-icon {
+    color: #fdc393;
+}
+
+.stat h4 {
+    font-size: 3.1rem;
+}
+
+.classes {
+    background: #f88575;
+}
+
+.teachers {
+    background: #6fadbb;
+}
+
+.students {
+    background: #f7a254;
+}
+
+.stat-info {
+    flex: 1;
+}
+
+@media only screen and (max-width: 1080px) and (min-width: 720px) {
+    html {
+        font-size: 16px !important;
+    }
+} 
+
+@media only screen and (max-width: 990px) {
+    html {
+        font-size: 15px !important;
+    }
+
+    .stat-container {
+        display: block;
+    }
+
+    .stat {
+        margin-bottom: 25px;
+        width: 100%;
+    }
+}

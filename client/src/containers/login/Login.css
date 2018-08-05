@@ -1,13 +1,22 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 form {
     width: 350px;
-    position: absolute;
+    /* position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
 }
+
 form h2 {
     text-align: center;
     margin-bottom: 20px;
+    color: #4c5b6b;
 }
 
 .input-container {
@@ -19,8 +28,8 @@ form h2 {
 .icon {
   font-size: 16px;
   line-height: 50px;
-  background: dodgerblue;
-  color: white;
+  background: #4c5b6b;
+  color: #fff;
   min-width: 50px;
   text-align: center;
 }
@@ -32,11 +41,11 @@ form h2 {
 }
 
 .input-field:focus {
-  border: 2px solid dodgerblue;
+  border: 2px solid #4c5b6b;
 }
 
 .btn {
-  background-color: dodgerblue;
+  background-color: #4c5b6b;
   color: white;
   padding: 15px 20px;
   border: none;
@@ -47,5 +56,5 @@ form h2 {
 }
 
 .btn:hover {
-  background-color: #197aca;
+  background-color: #384350;
 }
