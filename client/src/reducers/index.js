@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import loginReducer from './loginReducer';
 import totalDataReducer from './totalDataReducer';
-import dialogReducer from './dialogReducer';
+import modalReducer from './modalReducer';
 
-const reducer = combineReducers({login: loginReducer, totalData: totalDataReducer, dialog: dialogReducer});
+const reducer = combineReducers({login: loginReducer, totalData: totalDataReducer, modal: modalReducer});
 
 export default reducer;

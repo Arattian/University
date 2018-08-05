@@ -5,14 +5,14 @@ import { login } from '../../actions/loginAction';
 import './Login.css';
 class Login extends React.Component {
 
-    submit(ev) {
+    submit = (ev) => {
         const {mail, pass} = this.refs;
         this.props.handleLogin(mail, pass);
         ev.preventDefault();
     }
 
     shouldComponentUpdate() {
-        if (localStorage.token !== "undefined") {
+        if (localStorage.token !== 'undefined') {
             this.props.history.push('/admin');
             return false;
         } else {
@@ -23,17 +23,17 @@ class Login extends React.Component {
     render() {
         return (
             <div className='form-container'>
-                <form onSubmit={(ev) => this.submit(ev)}>
+                <form className='login-form' onSubmit={this.submit}>
                     <h2>Admin Panel</h2>
-                    <div className="input-container">
-                        <i className="fa fa-envelope icon"></i>
-                        <input className="input-field" type="text" placeholder="Email" name="mail" ref="mail"/>
+                    <div className='input-container'>
+                        <i className='fa fa-envelope icon'></i>
+                        <input className='input-field' type='text' placeholder='Email' name='mail' ref='mail'/>
                     </div>
-                    <div className="input-container">
-                        <i className="fa fa-key icon"></i>
-                        <input className="input-field" type="password" placeholder="Password" name="psw" ref="pass"/>
+                    <div className='input-container'>
+                        <i className='fa fa-key icon'></i>
+                        <input className='input-field' type='password' placeholder='Password' name='psw' ref='pass'/>
                     </div>
-                    <button type="submit" className="btn">Login</button>
+                    <button type='submit' className='btn'>Login</button>
                 </form>
             </div>
         );

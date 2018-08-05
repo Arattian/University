@@ -15,7 +15,7 @@ ReactDOM.render(
                     <Login />
                 </Provider>
             </Route>
-            <Route exact path='/admin'>
+            <Route path='/admin'>
                 <Provider store={store}>
                     <App />
                 </Provider>

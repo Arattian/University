@@ -1,0 +1,46 @@
+.class-input-container {
+    width: 100%;
+    display: block;
+    margin: 25px 0px;
+    color: #445260;
+}
+
+.class-input-container label {
+    border-bottom: 1px solid #dedede;
+    display: block;
+    width: 100%;
+    margin: 12.5px 0px;
+}
+
+.class-input-field {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+}
+
+.class-input-field:focus {
+    border: 2px solid #4c5b6b;
+}
+
+.class-input-container textarea {
+    height: 200px;
+    resize: none;
+}
+
+
+.class-btn {
+    background-color: #4c5b6b;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    transition: 0.3s ease;
+    margin-top: 25px;
+  }
+  
+  .class-btn:hover {
+    background-color: #384350;
+  }

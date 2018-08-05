@@ -1,0 +1,46 @@
+.teacher-input-container {
+    width: 100%;
+    display: block;
+    margin: 25px 0px;
+    color: #445260;
+}
+
+.teacher-input-container label {
+    border-bottom: 1px solid #dedede;
+    display: block;
+    width: 100%;
+    margin: 12.5px 0px;
+}
+
+.teacher-input-field {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+}
+
+.teacher-input-field:focus {
+    border: 2px solid #4c5b6b;
+}
+
+.teacher-input-container textarea {
+    height: 200px;
+    resize: none;
+}
+
+
+.teacher-btn {
+    background-color: #4c5b6b;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    transition: 0.3s ease;
+    margin-top: 25px;
+  }
+  
+  .teacher-btn:hover {
+    background-color: #384350;
+  }
