@@ -5,15 +5,11 @@
   height: 100vh;
 }
 
-form {
+.login-form {
     width: 350px;
-    /* position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); */
 }
 
-form h2 {
+.login-form h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #4c5b6b;

@@ -12,21 +12,21 @@ class Main extends React.Component {
                 <div className='statistics'>
                     <h2>Statistics</h2>
                     <div className='stat-container'>
-                        <div className='classes stat'>
+                        <div className='classes stat' onClick={() => this.props.changeRoute('classes')}>
                             <div className='stat-info'>
                                 <h4>{this.props.totalClasses}</h4>
                                 <p>Total Classes</p>
                             </div>
                             <i className='fas fa-chalkboard menu-icon'></i>
                         </div>
-                        <div className='teachers stat'>
+                        <div className='teachers stat' onClick={() => this.props.changeRoute('teachers')}>
                             <div className='stat-info'>
                                 <h4>{this.props.totalTeachers}</h4>
                                 <p>Total Teachers</p>
                             </div>
                             <i className='fas fa-chalkboard-teacher menu-icon'></i>
                         </div>
-                        <div className='students stat'>
+                        <div className='students stat' onClick={() => this.props.changeRoute('students')}>
                             <div className='stat-info'>
                                 <h4>{this.props.totalStudents}</h4>
                                 <p>Total students</p>

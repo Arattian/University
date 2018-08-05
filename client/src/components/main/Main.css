@@ -40,6 +40,8 @@
     border-radius: 20px;
     padding: 25px;
     color: #fff;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
 .stat .menu-icon {
@@ -71,6 +73,18 @@
 }
 
 .students {
+    background: #ffaf64;
+}
+
+.classes:hover {
+    background: #ff7462;
+}
+
+.teachers:hover {
+    background: #579cac;
+}
+
+.students:hover {
     background: #f7a254;
 }
 

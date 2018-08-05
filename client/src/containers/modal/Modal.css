@@ -1,0 +1,35 @@
+.modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.modal-box {
+    width: 800px;
+    height: 600px;
+    background: #fff;
+    border-radius: 10px;
+    position: relative;
+    padding: 25px;
+    display: block;
+}
+
+.close-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #445260;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: 0.3s ease;
+}
+
+.close-icon:hover {
+    color: #2b353f;
+}
