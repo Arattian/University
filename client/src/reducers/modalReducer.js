@@ -1,8 +1,9 @@
-import { CLOSE_MODAL, SHOW_MODAL } from '../actions/modalAction';
+import { CLOSE_MODAL, SHOW_MODAL, SHOW_MESSAGE } from '../actions/modalAction';
 
 const initialState = {
     modalVisible: false,
     modalType: null,
+    message: null,
 }
 
 const modalReducer = (state = initialState, action) => {
@@ -10,19 +11,26 @@ const modalReducer = (state = initialState, action) => {
         case CLOSE_MODAL:
             state = {
                 ...state,
+                message: null,
                 modalVisible: false,
             };
             break;
         case SHOW_MODAL:
-        debugger;
             state = {
                 ...state,
                 modalType: action.modalType,
                 modalVisible: true,
             }
-        default: {
-            return state;
-        }
+            break;
+        case SHOW_MESSAGE:
+            state = {
+                ...state,
+                modalType: null,
+                message: action.message,
+            }
+            break;
+        default: 
+            break;
     }
     return state;
 }

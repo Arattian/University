@@ -1,13 +1,15 @@
 export const TOTAL_DATA = 'TOTAL_DATA';
 
-function setData(totalClasses, totalTeachers, totalStudents) {
+
+function setData(classData, teacherData, studentData) {
     return {
         type: TOTAL_DATA,
-        totalClasses,
-        totalTeachers,
-        totalStudents   
+        classData,
+        teacherData,
+        studentData   
     }
 }
+
 
 export function getTotalData() {
     return (dispatch) => {
@@ -21,7 +23,7 @@ export function getTotalData() {
                 },
             });
             const data = await response.json();
-            // dispatch(setData(data.totalClasses, data.totalTeachers, data.totalStudents));
+            dispatch(setData(data.classData, data.teacherData, data.studentData));
         })();
     }
 }

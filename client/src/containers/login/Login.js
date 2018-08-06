@@ -27,11 +27,25 @@ class Login extends React.Component {
                     <h2>Admin Panel</h2>
                     <div className='input-container'>
                         <i className='fa fa-envelope icon'></i>
-                        <input className='input-field' type='text' placeholder='Email' name='mail' ref='mail'/>
+                        <input 
+                            className='input-field'
+                            type='email'
+                            placeholder='Email'
+                            name='mail'
+                            ref='mail'
+                            required
+                        />
                     </div>
                     <div className='input-container'>
                         <i className='fa fa-key icon'></i>
-                        <input className='input-field' type='password' placeholder='Password' name='psw' ref='pass'/>
+                        <input 
+                            className='input-field'
+                            type='password'
+                            placeholder='Password'
+                            name='psw'
+                            ref='pass'
+                            required
+                        />
                     </div>
                     <button type='submit' className='btn'>Login</button>
                 </form>

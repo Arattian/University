@@ -1,9 +1,9 @@
 import { TOTAL_DATA } from '../actions/totalDataAction';
 
 const initialState = {
-    totalClasses: 0,
-    totalTeachers: 0,
-    totalStudents: 0,
+    classData: [],
+    teacherData: [],
+    studentData: [],
 }
 
 const totalDataReducer = (state = initialState, action) => {
@@ -11,9 +11,9 @@ const totalDataReducer = (state = initialState, action) => {
         case TOTAL_DATA:
             state = {
                 ...state,
-                totalClasses: action.totalClasses,
-                totalTeachers: action.totalTeachers,
-                totalStudents: action.totalStudents
+                classData: action.classData,
+                teacherData: action.teacherData,
+                studentData: action.studentData
             };
             break;
         default: {

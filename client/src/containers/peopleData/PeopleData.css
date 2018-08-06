@@ -1,0 +1,50 @@
+.data-main {
+    flex: 3;
+    min-width: 300px;
+    height: 100vh;
+}
+
+.data {
+    border: 1px solid #445260;
+
+}
+
+.data:last-child {
+    border-bottom: 0px;
+}
+
+.row-container {
+    display: block;
+}
+
+.row {
+    width: 100%;
+    text-align: center;
+    line-height: 50px;
+
+    border-bottom: 1px solid #445260;
+    display: flex;
+}
+
+.row li:last-child {
+    border: 0px;
+}
+
+.row li {
+    display: inline-block;
+    flex: 1;
+    margin-left: -1px;
+    border-right: 1px solid #445260;
+}
+
+.first-row {
+    display: block;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    padding: 50px 25px 25px 25px;
+}
+
+.first-row li {
+    flex: 1;
+}
