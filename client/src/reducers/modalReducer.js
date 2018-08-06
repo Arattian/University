@@ -1,9 +1,10 @@
-import { CLOSE_MODAL, SHOW_MODAL, SHOW_MESSAGE } from '../actions/modalAction';
+import { CLOSE_MODAL, SHOW_MODAL, SHOW_MESSAGE, EDIT_MODAL, DELETE_MODAL } from '../actions/modalAction';
 
 const initialState = {
     modalVisible: false,
     modalType: null,
     message: null,
+    data: null,
 }
 
 const modalReducer = (state = initialState, action) => {
@@ -29,6 +30,22 @@ const modalReducer = (state = initialState, action) => {
                 message: action.message,
             }
             break;
+        case EDIT_MODAL:
+            state = {
+                ...state,
+                modalType: 'edit',
+                modalVisible: true,
+                data: action.data,
+            };
+            break;
+        case DELETE_MODAL:
+            state = {
+                ...state,
+                modalType: 'delete',
+                modalVisible: true,
+                data: action.data,
+            };
+            break;        
         default: 
             break;
     }

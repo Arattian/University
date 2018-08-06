@@ -16,6 +16,26 @@ router.get('/', getToken, (req, res) => {
     })
 });
 
+router.put('/', getToken, (req, res) => {
+    jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
+        if (err) {
+            res.sendStatus(404);
+        } else {
+            dataController.editData(req, res);
+        }
+    })
+});
+
+router.delete('/', getToken, (req, res) => {
+    jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
+        if (err) {
+            res.sendStatus(404);
+        } else {
+            dataController.deleteData(req, res);
+        }
+    })
+});
+
 router.post('/classes', getToken, (req, res) => {
     jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
         if (err) {

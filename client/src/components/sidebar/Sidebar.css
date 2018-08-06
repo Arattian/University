@@ -1,9 +1,8 @@
 .sidebar {
-    flex: 1;
-    min-width: 300px;
+    width: 400px;
     background: #4c5b6b;
     height: auto !important;
-    height: 100%;
+    max-height: 100%;
 }
 
 .logo {
@@ -53,4 +52,19 @@
 
 .menu .item:hover .menu-icon{
     color: #fff;
+}
+
+
+.sidebar-fixed {
+    position: fixed;
+    width: inherit;
+    background: #4c5b6b;
+    height: 100vh;
+}
+
+
+@media only screen and (max-width: 1080px) {
+    .sidebar {
+        width: 300px;
+    }
 }

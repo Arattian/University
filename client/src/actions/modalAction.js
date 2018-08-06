@@ -1,6 +1,8 @@
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const SHOW_MESSAGE = 'SHOW_MESSAGE';
+export const EDIT_MODAL = 'EDIT_MODAL';
+export const DELETE_MODAL = 'DELETE_MODAL';
 
 export function showModal(modalType) {
     return {
@@ -15,7 +17,23 @@ export function closeModal() {
     }
 }
 
-function showMessage(message) {
+export function editModal(data, dataBelongTo) {
+    return {
+        type: EDIT_MODAL,
+        data,
+        dataBelongTo,
+    }
+}
+
+export function deleteModal(data, dataBelongTo) {
+    return {
+        type: DELETE_MODAL,
+        data,
+        dataBelongTo
+    }
+}
+
+export function showMessage(message) {
     return {
         type: SHOW_MESSAGE,
         message,
