@@ -5,8 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import Sidebar from '../../components/sidebar/Sidebar';
 import Main from '../../components/main/Main';
 import Modal from '../modal/Modal';
-import PeopleData from '../peopleData/PeopleData';
-import ClassData from '../classData/ClassData';
+import Data from '../data/Data';
 import { getTotalData } from '../../actions/totalDataAction';
 import { showModal } from '../../actions/modalAction';
 import './App.css';
@@ -43,13 +42,13 @@ class App extends React.Component {
                             />
                         </Route>
                         <Route exact path='/admin/classes'>
-                            <ClassData data={this.props.classData}/>
+                            <Data data={this.props.classData} dataBelongTo={'class'} showModal={this.handleShowModalClick}/>
                         </Route>
                         <Route exact path='/admin/teachers'>
-                            <PeopleData data={this.props.teacherData}/>
+                            <Data data={this.props.teacherData} dataBelongTo={'teacher'} showModal={this.handleShowModalClick}/>
                         </Route>
                         <Route exact path='/admin/students'>
-                            <PeopleData data={this.props.studentData}/>
+                            <Data data={this.props.studentData} dataBelongTo={'student'} showModal={this.handleShowModalClick}/>
                         </Route>
                     </Switch>
                 {this.props.modalVisible ? <Modal modalType={this.props.modalType} message={this.props.message}/> : false}

@@ -1,7 +1,7 @@
 import React from 'react';
-import './Message.css';
+import './MessageModal.css';
 
-class Message extends React.Component {
+class MessageModal extends React.Component {
     componentDidMount() {
         setTimeout(this.props.closeModal, 2000);
         this.props.newTotalCount();
@@ -20,4 +20,4 @@ class Message extends React.Component {
     }
 }
 
-export default Message;
+export default MessageModal;

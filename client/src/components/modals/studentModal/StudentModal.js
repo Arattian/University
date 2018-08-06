@@ -4,15 +4,17 @@ import './StudentModal.css';
 class StudentModal extends React.Component {
     render() {
         return (
-            <form onSubmit={(ev) => this.props.handleSubmit(ev, this.refs, 'student')}>
-                <div className='student-input-container'>
+            <form onSubmit={(ev) => {
+                this.props.data ? this.props.handleSubmit(ev, this.refs, 'student', this.props.data.id) : this.props.handleSubmit(ev, this.refs, 'student')
+            }}>
+                <div className='modal-input-container'>
                     <label htmlFor='student-firstname'>
                         <h4>First Name*</h4>
                     </label>
                     <input 
-                        className='student-input-field' 
+                        className='modal-input-field' 
                         type='text' 
-                        placeholder='Enter First Name'
+                        placeholder={this.props.data ? this.props.data.firstname : 'Enter First Name'}
                         name='firstname'
                         ref='firstname'
                         id='student-firstname'
@@ -20,14 +22,14 @@ class StudentModal extends React.Component {
                         required
                     />
                 </div>
-                <div className='student-input-container'>
+                <div className='modal-input-container'>
                     <label htmlFor='student-lastname'>
                         <h4>Last Name*</h4>
                     </label>
                     <input 
-                        className='student-input-field' 
+                        className='modal-input-field' 
                         type='text' 
-                        placeholder='Enter Last Name' 
+                        placeholder={this.props.data ? this.props.data.lastname : 'Enter Last Name'}
                         name='lastname' 
                         ref='lastname' 
                         id='student-lastname' 
@@ -35,14 +37,14 @@ class StudentModal extends React.Component {
                         required
                     />
                 </div>
-                <div className='student-input-container'>
+                <div className='modal-input-container'>
                     <label htmlFor='student-age'>
                         <h4>Age*</h4>
                     </label>
                     <input 
-                        className='student-input-field' 
+                        className='modal-input-field' 
                         type='number' 
-                        placeholder='Enter Age' 
+                        placeholder={this.props.data ? this.props.data.age : 'Enter Age'}
                         name='age' 
                         ref='age' 
                         id='student-age'  
@@ -51,7 +53,7 @@ class StudentModal extends React.Component {
                         required
                     />
                 </div>
-                <button type='submit' className='student-btn'>Add Student</button>
+                <button type='submit' className='modal-btn'>{this.props.data ? 'Confirm changes' : 'Add Student'}</button>
             </form>
         );
     }

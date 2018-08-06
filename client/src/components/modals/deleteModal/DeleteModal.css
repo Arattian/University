@@ -1,0 +1,13 @@
+.btn.delete {
+    background: #ff5757;
+}
+
+.btn.delete:hover {
+    background: #fc3b3b;
+}
+
+.del-text {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 100px;
+}
