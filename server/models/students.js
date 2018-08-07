@@ -3,10 +3,11 @@ module.exports = (sequelize, DataTypes) => {
   var Students = sequelize.define('Students', {
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
-    age: DataTypes.INTEGER
+    age: DataTypes.INTEGER,
+    classId: DataTypes.INTEGER
   }, {});
   Students.associate = function(models) {
-    // associations can be defined here
+    Students.belongsTo(models.Classes);
   };
   return Students;
 };
