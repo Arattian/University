@@ -3,7 +3,7 @@ import './MessageModal.css';
 
 class MessageModal extends React.Component {
     componentDidMount() {
-        setTimeout(this.props.closeModal, 1000);
+        setTimeout(this.props.closeModal, 2000);
         this.props.newTotalCount();
     }
 

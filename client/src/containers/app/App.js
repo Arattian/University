@@ -1,24 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Switch, Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Sidebar from '../../components/sidebar/Sidebar';
-import Home from '../../components/home/Home';
-import ClassData from '../data/classData/ClassData';
-import TeacherData from '../data/classData/ClassData';
-import StudentData from '../data/classData/ClassData';
-import ClassForm from '../forms/classForm/ClassForm';
-import TeacherForm from '../forms/teacherForm/TeacherForm';
-import StudentForm from '../forms/studentForm/StudentForm';
+import Main from '../../components/main/Main';
+import Modal from '../modal/Modal';
+import Data from '../data/Data';
 import { getTotalData } from '../../actions/totalDataAction';
+import { showModal } from '../../actions/modalAction';
 import './App.css';
 
 class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            formData: null,
-        }
-    }
 
     componentDidMount() {
         if (localStorage.token === 'undefined') {
@@ -32,13 +24,8 @@ class App extends React.Component {
         this.props.boundShowModal(modalType);
     }
 
-    handleEditRedirect = (item, belongTo) => {
-        this.props.history.push(`/admin/${belongTo}/edit/${item.id}`)
-        this.setState({formData: item});
-    }
-
-    closeForm = (redirectTo) => {
-        this.props.history.push(`/admin/${redirectTo}`);
+    changeRoute = (route) => {
+        this.props.history.push(`/admin/${route}`);
     }
 
     render() {
@@ -47,42 +34,24 @@ class App extends React.Component {
                 <Sidebar showModal={this.handleShowModalClick}/>
                     <Switch>
                         <Route exact path='/admin'>
-                            <Home 
+                            <Main 
                                 totalClasses={this.props.classData.length}
                                 totalTeachers={this.props.teacherData.length}
                                 totalStudents={this.props.studentData.length}
+                                changeRoute={this.changeRoute}
                             />
                         </Route>
                         <Route exact path='/admin/classes'>
-                            <ClassData data={this.props.classData} handleEditRedirect={this.handleEditRedirect}/>
+                            <Data data={this.props.classData} dataBelongTo={'class'} showModal={this.handleShowModalClick}/>
                         </Route>
                         <Route exact path='/admin/teachers'>
-                            <TeacherData data={this.props.teacherData} handleEditRedirect={this.handleEditRedirect}/>
+                            <Data data={this.props.teacherData} dataBelongTo={'teacher'} showModal={this.handleShowModalClick}/>
                         </Route>
                         <Route exact path='/admin/students'>
-                            <StudentData data={this.props.studentData} handleEditRedirect={this.handleEditRedirect}/>
-                        </Route>
-                        <Route exact path='/admin/courses'>
-                        </Route>
-                        <Route exact path='/admin/classes/edit/:id'>
-                            <ClassForm defaultData={this.state.formData} selectData={this.props.teacherData} closeForm={this.closeForm}/>
-                        </Route>
-                        <Route exact path='/admin/teachers/edit/:id'>
-                            <TeacherForm defaultData={this.state.formData}/>
-                        </Route>
-                        <Route exact path='/admin/students/edit/:id'>
-                            <StudentForm defaultData={this.state.formData}/>
-                        </Route>
-                        <Route exact path='/admin/classes/add'>
-                            <ClassForm selectData={this.props.teacherData} closeForm={this.closeForm}/>
-                        </Route>
-                        <Route exact path='/admin/teachers/add'>
-                            <TeacherForm />
-                        </Route>
-                        <Route exact path='/admin/students/add'>
-                            <StudentForm />
+                            <Data data={this.props.studentData} dataBelongTo={'student'} showModal={this.handleShowModalClick}/>
                         </Route>
                     </Switch>
+                {this.props.modalVisible ? <Modal modalType={this.props.modalType} message={this.props.message}/> : false}
             </div>
         );
     }
@@ -90,6 +59,9 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        modalVisible: state.modal.modalVisible,
+        modalType: state.modal.modalType,
+        message: state.modal.message,
         classData: state.totalData.classData,
         teacherData: state.totalData.teacherData,
         studentData: state.totalData.studentData,
@@ -99,6 +71,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         boundGetTotalData: () => dispatch(getTotalData()),
+        boundShowModal: (modalType) => dispatch(showModal(modalType)),
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

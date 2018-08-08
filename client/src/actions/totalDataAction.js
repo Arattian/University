@@ -1,7 +1,7 @@
-import { CUSTOM_API } from './constants';
+import { showMessage } from './modalAction';
 
 export const TOTAL_DATA = 'TOTAL_DATA';
-export const CURRENT_DATA = 'CURRENT_DATA';
+export const DATA_BELONG = 'DATA_BELONG';
 
 function setData(classData, teacherData, studentData) {
     return {
@@ -12,17 +12,18 @@ function setData(classData, teacherData, studentData) {
     }
 }
 
-function setCurrentData(currentData) {
+export function setDataBelong(dataBelongTo) {
     return {
-        type: CURRENT_DATA,
-        currentData
+        type: DATA_BELONG,
+        dataBelongTo,
     }
 }
+
 
 export function getTotalData() {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin`, {
+            const response = await fetch('http://localhost:3030/admin', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -36,20 +37,38 @@ export function getTotalData() {
     }
 }
 
-export function getCurrentData(id) {
+export function editAction(refs, id, dataBelongTo) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/classes/edit`, {
-                method: 'POST',
+            const response = await fetch('http://localhost:3030/admin/', {
+                method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.token}`
                 },
-                body: JSON.stringify({id}),
+                body: JSON.stringify({refs, id, dataBelongTo}),
             });
-            const data = await response.json();
-            dispatch(setCurrentData(data));
+            const message = await response.json();
+            dispatch(showMessage(message));
+        })();
+    }
+}
+
+export function deleteAction(id, dataBelongTo) {
+    return (dispatch) => {
+        (async () => {
+            const response = await fetch(`http://localhost:3030/admin/`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.token}`
+                },
+                body: JSON.stringify({id, dataBelongTo}),
+            });
+            const message = await response.json();
+            dispatch(showMessage(message));
         })();
     }
 }

@@ -1,0 +1,88 @@
+.modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.modal-box {
+    width: 800px;
+    height: 600px;
+    background: #fff;
+    border-radius: 10px;
+    position: relative;
+    padding: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-type-container {
+    width: 100%;
+}
+
+.close-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #445260;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: 0.3s ease;
+}
+
+.close-icon:hover {
+    color: #2b353f;
+}
+
+.modal-input-container {
+    width: 100%;
+    display: block;
+    margin: 25px 0px;
+    color: #445260;
+}
+
+.modal-input-container label {
+    border-bottom: 1px solid #dedede;
+    display: block;
+    width: 100%;
+    margin: 12.5px 0px;
+}
+
+.modal-input-field {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+}
+
+.modal-input-field:focus {
+    border: 2px solid #4c5b6b;
+}
+
+.modal-input-container textarea {
+    height: 200px;
+    resize: none;
+}
+
+
+.modal-btn {
+    background-color: #4c5b6b;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    transition: 0.3s ease;
+    margin-top: 25px;
+  }
+  
+  .modal-btn:hover {
+    background-color: #384350;
+  }

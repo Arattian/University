@@ -5,14 +5,14 @@ import StudentModal from '../studentModal/StudentModal';
 import './EditModal.css';
 
 
-const EditModal = ({defaultData, editAction, dataBelongTo, selectData}) => {
+const EditModal = ({data, editAction, dataBelongTo}) => {
         return (
             <div>
                 {dataBelongTo === 'class' ? 
-                    <ClassModal handleSubmit={editAction} defaultData={defaultData} selectData={selectData}/> : 
+                    <ClassModal handleSubmit={editAction} data={data}/> : 
                     dataBelongTo === 'teacher' ? 
-                    <TeacherModal handleSubmit={editAction} defaultData={defaultData}/> : 
-                    <StudentModal handleSubmit={editAction} defaultData={defaultData}/>
+                    <TeacherModal handleSubmit={editAction} data={data}/> : 
+                    <StudentModal handleSubmit={editAction} data={data}/>
                 }
             </div>
         );
