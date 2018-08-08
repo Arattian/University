@@ -1,5 +1,10 @@
 import React from 'react';
-import './TeacherForm.css';
+import { withRouter } from 'react-router-dom';
+import { addTeacher } from '../../../actions/addAction';
+import { editAction } from '../../../actions/editAction';
+import { connect } from 'react-redux';
+import { getCurrentData, dropCurrentData } from '../../../actions/totalDataAction';
+import '../Forms.css';
 
 class TeacherForm extends React.Component {
     constructor() {
@@ -29,35 +34,53 @@ class TeacherForm extends React.Component {
         }
     }
 
-    handleSubmit = (ev, data, actionType, id) => {
-        actionType === 'edit' ? this.props.boundEditTeacher(data, id) : this.props.boundAddTeacher(data);
+    handleSubmit = (ev, data, andClose) => {
+        if(this.state.firstname !== '' &&
+            this.state.lastname !== '' &&
+            this.state.age !== '' &&
+            this.state.classId !== '') {
+                this.state.id ? 
+                this.props.boundEditAction(data, data.id, 'teachers') :
+                this.props.boundAddTeacher(data);
+                andClose && this.props.history.push(`/admin/teachers`);
+    }
         ev.preventDefault();        
     }
 
 
     componentDidMount() {
-        this.props.defaultData && this.setState({
-            firstname: this.props.defaultData.firstname, 
-            lastname: this.props.defaultData.lastname, 
-            age: this.props.defaultData.age,
-        });
+        const id = this.props.match.params.id;
+        id && this.props.boundGetCurrentData(id);
+    }
+
+    componentDidUpdate() {
+        if(this.props.currentData) {
+            this.setState({
+                id: this.props.currentData.id,
+                firstname: this.props.currentData.firstname,
+                lastname: this.props.currentData.lastname,
+                age: this.props.currentData.age,
+            });
+            this.props.boundDropCurrentData();
+        }
     }
 
     render() {
+        const {closeForm} = this.props;
         return (
-            <form onSubmit={(ev) => {
-                this.props.defaultData ? this.handleSubmit(ev, this.state, 'edit', this.props.defaultData.id) : this.handleSubmit(ev, this.state, 'add')
-            }}>
-                <div className='modal-input-container'>
+            <form onSubmit={(ev) => this.handleSubmit(ev, this.state)} className='forms-form'>
+                <header className='forms-header'>
+                    <h2>Teacher</h2>
+                </header>
+                <div className='forms-input-container'>
                     <label htmlFor='teacher-firstname'>
                         <h4>First Name*</h4>
                     </label>
                     <input 
-                        className='modal-input-field'
+                        className='forms-input-field'
                         type='text'
                         placeholder='Enter First Name'
                         name='firstname'
-                        ref='firstname'
                         id='teacher-firstname'
                         pattern='[\p{L}]+'
                         value={this.state.firstname}
@@ -65,16 +88,15 @@ class TeacherForm extends React.Component {
                         required
                         />
                 </div>
-                <div className='modal-input-container'>
+                <div className='forms-input-container'>
                     <label htmlFor='teacher-lastname'>
                         <h4>Last Name*</h4>
                     </label>
                     <input 
-                        className='modal-input-field'
+                        className='forms-input-field'
                         type='text'
                         placeholder='Enter Last Name'
                         name='lastname' 
-                        ref='lastname' 
                         id='teacher-lastname'
                         pattern='[\p{L}]+'
                         value={this.state.lastname}
@@ -82,16 +104,15 @@ class TeacherForm extends React.Component {
                         required
                         />
                 </div>
-                <div className='modal-input-container'>
+                <div className='forms-input-container'>
                     <label htmlFor='teacher-age'>
                         <h4>Age*</h4>
                     </label>
                     <input 
-                        className='modal-input-field'
+                        className='forms-input-field'
                         type='number'
-                        placeholder={this.props.data ? this.props.data.age : 'Enter Age'}
+                        placeholder='Enter Age'
                         name='age'
-                        ref='age'
                         id='teacher-age'
                         min='20'
                         max='80'
@@ -100,10 +121,29 @@ class TeacherForm extends React.Component {
                         required
                     />
                 </div>
-                <button type='submit' className='modal-btn'>{this.props.defaultData ? 'Confirm changes' : 'Add Teacher'}</button>
+                <div className='forms-btn-container'>
+                    <button className='forms-btn' onClick={() => closeForm('teachers')}>Close</button>
+                    <button type='submit' className='forms-btn'>{this.state.id ? 'Save' : 'Add Teacher'}</button>
+                    <button className='forms-btn' onClick={(ev) => this.handleSubmit(ev, this.state, true)}>{this.state.id ? 'Save and Close' : 'Add and Close'}</button>
+                </div>
             </form>
         );
     }
 }
 
-export default TeacherForm;
+
+const mapStateToProps = (state) => {
+    return {
+        currentData: state.totalData.currentData,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        boundEditAction: (data, id, editFrom) => dispatch(editAction(data, id, editFrom)),
+        boundAddTeacher: (data) => dispatch(addTeacher(data)),
+        boundGetCurrentData: (id) => dispatch(getCurrentData(id, 'teachers')),
+        boundDropCurrentData: () => dispatch(dropCurrentData()),
+    }
+}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TeacherForm));

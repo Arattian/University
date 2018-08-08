@@ -1,14 +1,20 @@
 import React from 'react';
-import './StudentForm.css';
+import { withRouter } from 'react-router-dom';
+import { addStudent } from '../../../actions/addAction';
+import { editAction } from '../../../actions/editAction';
+import { connect } from 'react-redux';
+import { dropCurrentData, getCurrentData } from '../../../actions/totalDataAction';
+import '../Forms.css';
 
 class StudentForm extends React.Component {
     constructor() {
         super();
         this.state = {
+            id: null,
             firstname: '',
             lastname: '',
-            age: null,
-            studiesAt: null
+            age: '',
+            classId: ''
         }
     }
 
@@ -31,76 +37,139 @@ class StudentForm extends React.Component {
     }
 
     handleSelectChange = (ev) => {
-        this.setState({studiesAt: ev.target.value});
+        this.setState({classId: ev.target.value});
+    }
+
+    handleSubmit = (ev, data, andClose) => {
+            if(this.state.firstname !== '' &&
+                this.state.lastname !== '' &&
+                this.state.age !== '' &&
+                this.state.classId !== '') {
+                    this.state.id ? 
+                    this.props.boundEditAction(data, data.id, 'students') :
+                    this.props.boundAddStudent(data);
+                    andClose && this.props.history.push(`/admin/students`);
+        }
+        ev.preventDefault();        
     }
 
     componentDidMount() {
-        this.props.data && this.setState({
-            firstname: this.props.data.firstname, 
-            lastname: this.props.data.lastname, 
-            age: this.props.data.age,
-            studiesAt: this.props.data.studiesAt
-        });
+        const id = this.props.match.params.id;
+        id && this.props.boundGetCurrentData(id);
     }
     
+    componentDidUpdate() {
+        if(this.props.currentData) {
+            this.setState({
+                id: this.props.currentData.id,
+                firstname: this.props.currentData.firstname,
+                lastname: this.props.currentData.lastname,
+                age: this.props.currentData.age,
+                classId: this.props.currentData.classId,
+            });
+            this.props.boundDropCurrentData();
+        }
+    }
+
     render() {
+        const {selectData, closeForm} = this.props;
         return (
-            <form onSubmit={(ev) => {
-                this.props.data ? this.props.handleSubmit(ev, this.refs, 'student', this.props.data.id) : this.props.handleSubmit(ev, this.refs, 'student')
-            }}>
-                <div className='modal-input-container'>
+            <form onSubmit={(ev) => this.handleSubmit(ev, this.state)} className='forms-form'>
+                <header className='forms-header'>
+                    <h2>Student</h2>
+                </header>
+                <div className='forms-input-container'>
                     <label htmlFor='student-firstname'>
                         <h4>First Name*</h4>
                     </label>
                     <input 
-                        className='modal-input-field' 
+                        className='forms-input-field' 
                         type='text' 
                         placeholder='Enter First Name'
                         name='firstname'
-                        ref='firstname'
                         id='student-firstname'
                         pattern='[\p{L}]+'
                         value={this.state.firstname}
+                        onChange={(ev) => this.handleInputChange(ev, 'firstname')}
                         required
                     />
                 </div>
-                <div className='modal-input-container'>
+                <div className='forms-input-container'>
                     <label htmlFor='student-lastname'>
                         <h4>Last Name*</h4>
                     </label>
                     <input 
-                        className='modal-input-field' 
+                        className='forms-input-field' 
                         type='text' 
                         placeholder='Enter Last Name'
-                        name='lastname' 
-                        ref='lastname' 
+                        name='lastname'  
                         id='student-lastname' 
                         pattern='[\p{L}]+'
                         value={this.state.lastname}
+                        onChange={(ev) => this.handleInputChange(ev, 'lastname')}
                         required
                     />
                 </div>
-                <div className='modal-input-container'>
+                <div className='forms-input-container'>
                     <label htmlFor='student-age'>
                         <h4>Age*</h4>
                     </label>
                     <input 
-                        className='modal-input-field' 
+                        className='forms-input-field' 
                         type='number' 
-                        placeholder={this.props.data ? this.props.data.age : 'Enter Age'}
+                        placeholder='Enter Age'
                         name='age' 
-                        ref='age' 
                         id='student-age'  
                         min='16' 
                         max='80'
-                        value={this.state.age} 
+                        value={this.state.age}
+                        onChange={(ev) => this.handleInputChange(ev, 'age')} 
                         required
                     />
                 </div>
-                <button type='submit' className='modal-btn'>{this.props.data ? 'Confirm changes' : 'Add Student'}</button>
+                <div className='forms-input-container'>
+                        <label>
+                            <h4>Class*</h4>
+                        </label>
+                        <div className="select">
+                            <select name="slct" required value={this.state.classId} onChange={this.handleSelectChange}>
+                                {!this.state.id && <option value='' default> Choose an option </option>}
+                                {selectData.map(item => {
+                                    return (
+                                        <option 
+                                        value={item.id}
+                                        key={'#'+Math.floor(Math.random()*16777215).toString(16)}
+                                        >
+                                            {`${item.name}`}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                        </div>
+                    </div>
+                <div className='forms-btn-container'>
+                    <button className='forms-btn' onClick={() => closeForm('students')}>Close</button>
+                    <button type='submit' className='forms-btn'>{this.state.id ? 'Save' : 'Add Student'}</button>
+                    <button className='forms-btn' onClick={(ev) => this.handleSubmit(ev, this.state, true)}>{this.state.id ? 'Save and Close' : 'Add and Close'}</button>
+                </div>
             </form>
         );
     }
 }
 
-export default StudentForm;
+
+const mapStateToProps = (state) => {
+    return {
+        currentData: state.totalData.currentData,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        boundEditAction: (data, id, editFrom) => dispatch(editAction(data, id, editFrom)),
+        boundAddStudent: (data) => dispatch(addStudent(data)),
+        boundGetCurrentData: (id) => dispatch(getCurrentData(id, 'students')),
+        boundDropCurrentData: () => dispatch(dropCurrentData()),
+    }
+}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StudentForm));

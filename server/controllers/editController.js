@@ -4,10 +4,10 @@ function editClass(req,res) {
       models.Classes.findById(req.body.id)
         .then(classToEdit => classToEdit.update({
           name: req.body.data.name,
-          teacherId: req.body.data.teacher,
+          teacherId: req.body.data.teacherId,
         }))
-        .then(() => res.json({status: 200, text: 'Successfully edited'}))
-        .catch(err => res.json({status: 403, text: 'Something went wrong'}));
+        .then(() => res.json({statusCode: 200, status: true}))
+        .catch(err => res.json({statusCode: 403, status: false}));
 }
 
 function editTeacher(req, res) {
@@ -17,24 +17,40 @@ function editTeacher(req, res) {
     lastname: req.body.data.lastname,
     age: req.body.data.age,
   }))
-  .then(() => res.json({status: 200, text: 'Successfully edited!'}))
-  .catch(err => res.json({status: 403, text: `${err.message}`}));
+  .then(() => res.json({statusCode: 200, status: true}))
+  .catch(err => res.json({statusCode: 403, status: false}));
 }
 
 function editStudent(req, res) {
   models.Students.findById(req.body.id)
-  .then(teacherToEdit => teacherToEdit.update({
+  .then(studentToEdit => studentToEdit.update({
     firstname: req.body.data.firstname,
     lastname: req.body.data.lastname,
     age: req.body.data.age,
-    classId: req.body.data.studiesAt,
+    classId: req.body.data.classId,
   }))
-  .then(() => res.json({status: 200, text: 'Successfully edited!'}))
-  .catch(err => res.json({status: 403, text: 'Something went wrong'}));
+  .then(() => res.json({statusCode: 200, status: true}))
+  .catch(err => res.json({statusCode: 403, status: false}));
+}
+
+function editCourse(req, res) {
+  models.Courses.findById(req.body.id)
+  .then(courseToEdit => courseToEdit.update({
+    name: req.body.data.name,
+    start: req.body.data.start,
+    end: req.body.data.end,
+    startTime: req.body.data.startTime,
+    endTime: req.body.data.endTime,
+    teacherId: req.body.data.teacherId,
+    classId: req.body.data.classId,
+  }))
+  .then(() => res.json({statusCode: 200, status: true}))
+  .catch(err => res.json({statusCode: 403, status: false}));
 }
 
 module.exports =  {
   editClass,
   editTeacher,
-  editStudent
+  editStudent,
+  editCourse
 };

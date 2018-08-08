@@ -18,6 +18,14 @@ module.exports = {
       },
       end: {
         allowNull: false,
+        type: Sequelize.DATEONLY
+      },
+      startTime: {
+        allowNull: false,
+        type: Sequelize.TIME
+      },
+      endTime: {
+        allowNull: false,
         type: Sequelize.TIME
       },
       classId: {

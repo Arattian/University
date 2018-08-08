@@ -1,17 +1,19 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { addClass } from '../../../actions/addAction';
-import { editClass } from '../../../actions/editAction';
+import { editAction } from '../../../actions/editAction';
 import { connect } from 'react-redux';
+import { getCurrentData, dropCurrentData } from '../../../actions/totalDataAction';
 import '../Forms.css';
-import { getTotalData, getCurrentData } from '../../../actions/totalDataAction';
 
 class ClassForm extends React.Component {
     constructor() {
         super();
         this.state = {
+            id: null,
             name: '',
-            teacherId: null
+            teacherId: '',
+            show: false,
         }
     }
 
@@ -23,24 +25,38 @@ class ClassForm extends React.Component {
         this.setState({teacherId: ev.target.value});
     }
 
-    handleSubmit = (ev, data, actionType, id) => {
-        actionType === 'edit' ? this.props.boundEditAction(data, id) : this.props.boundAddClass(data);
-        this.props.boundGetNewData();
+    handleSubmit = (ev, data, andClose) => {
+        if(this.state.name !== '' && this.state.teacherId !== '') {
+            this.state.id ? 
+            this.props.boundEditAction(data, data.id, 'classes') :
+            this.props.boundAddClass(data);
+            andClose && this.props.history.push(`/admin/classes`);
+        }
         ev.preventDefault();        
     }
 
     componentDidMount() {
-        const id = this.props.location.pathname[this.props.location.pathname.length - 1];
-        this.props.boundGetCurrentData(id);
+        const id = this.props.match.params.id;
+        id && this.props.boundGetCurrentData(id);
     }
 
+    componentDidUpdate() {
+        if(this.props.currentData) {
+            this.setState({
+                id: this.props.currentData.id,
+                name: this.props.currentData.name,
+                teacherId: this.props.currentData.teacherId,
+            });
+            this.props.boundDropCurrentData();
+        }
+    }
     render() {
-        const {defaultData, selectData, closeForm, currentData} = this.props;
-        console.log(currentData);
+        const {selectData, closeForm} = this.props;
         return (
-                <form onSubmit={(ev) => {
-                    defaultData ? this.handleSubmit(ev, this.state, 'edit', defaultData.id) : this.handleSubmit(ev, this.state, 'add', )
-                }} className='forms-form'>
+                <form onSubmit={(ev) => this.handleSubmit(ev, this.state)} className='forms-form'>
+                    <header className='forms-header'>
+                        <h2>Class</h2>
+                    </header>
                     <div className='forms-input-container'>
                         <label htmlFor='class'>
                             <h4>Class Name*</h4>
@@ -61,8 +77,8 @@ class ClassForm extends React.Component {
                             <h4>Teacher*</h4>
                         </label>
                         <div className="select">
-                            <select name="slct" required value={this.state.teacherId ? this.state.teacherId : 'default'} onChange={this.handleSelectChange}>
-                                {defaultData ? defaultData.teacherId ? false : <option value='' default> Choose an option </option> : <option value='' default> Choose an option </option>}
+                            <select name="slct" required value={this.state.teacherId} onChange={this.handleSelectChange}>
+                                {!this.state.id && <option value='' default> Choose an option </option>}
                                 {selectData.map(item => {
                                     return (
                                         <option 
@@ -78,8 +94,8 @@ class ClassForm extends React.Component {
                     </div>
                     <div className='forms-btn-container'>
                         <button className='forms-btn' onClick={() => closeForm('classes')}>Close</button>
-                        <button type='submit' className='forms-btn'>{this.props.defaultData ? 'Save' : 'Add Class'}</button>
-                        <button type='submit' className='forms-btn' onClick={() => this.submitAndClose()}>{this.props.defaultData ? 'Save and Close' : 'Add Class and Close'}</button>
+                        <button type='submit' className='forms-btn'>{this.state.id ? 'Save' : 'Add Class'}</button>
+                        <button className='forms-btn' type='submit' onClick={(ev) => this.handleSubmit(ev, this.state, true)}>{this.state.id ? 'Save and Close' : 'Add and Close'}</button>
                     </div>
                 </form>
         );
@@ -94,10 +110,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        boundEditAction: (data, id) => dispatch(editClass(data, id)),
+        boundEditAction: (data, id, editFrom) => dispatch(editAction(data, id, editFrom)),
         boundAddClass: (data) => dispatch(addClass(data)),
-        boundGetNewData: () => dispatch(getTotalData()),
-        boundGetCurrentData: (id) => dispatch(getCurrentData(id)),
+        boundGetCurrentData: (id) => dispatch(getCurrentData(id, 'classes')),
+        boundDropCurrentData: () => dispatch(dropCurrentData()),
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ClassForm));

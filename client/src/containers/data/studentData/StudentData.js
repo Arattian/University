@@ -1,9 +1,9 @@
 import React from 'react';
 import './StudentData.css';
 
-const StudentData = ({data, handleEditRedirect, handleDeleteRedirect}) => {
+const StudentData = ({data, handleEditRedirect, handleDelete}) => {
     return (
-        <div>
+        <div className='data-main'>
             <header>
                 <h2>Students</h2>
             </header>
@@ -12,7 +12,8 @@ const StudentData = ({data, handleEditRedirect, handleDeleteRedirect}) => {
                     <li>First Name</li>
                     <li>Last Name</li>
                     <li>Age</li>
-                    <li>Studies At</li>
+                    <li>Class</li>
+                    <div className='empty'></div>
                     <div className='empty'></div>
                 </ul>
                 {data.map((item) => {
@@ -22,11 +23,12 @@ const StudentData = ({data, handleEditRedirect, handleDeleteRedirect}) => {
                                 <li>{item.firstname}</li>
                                 <li>{item.lastname}</li>
                                 <li>{item.age}</li>
+                                <li>{item.Class ? item.Class.name : '-----------------'}</li>
                             </ul>
-                            <div className='action-icon-container' onClick={() => handleEditRedirect(item, 'student')}>
+                            <div className='action-icon-container' onClick={() => handleEditRedirect(item.id, 'students')}>
                                 <i className="far fa-edit icon-edit action-icon"></i>
                             </div>
-                            <div className='action-icon-container' onClick={() => handleDeleteRedirect(item, 'student')}>
+                            <div className='action-icon-container' onClick={() => handleDelete(item, 'students')}>
                                 <i className="fas fa-trash-alt icon-delete action-icon"></i>
                             </div>
                         </li>

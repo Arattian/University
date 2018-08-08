@@ -1,0 +1,117 @@
+.data-main {
+    flex: 3;
+    min-width: 300px;
+    height: 100vh;
+}
+
+.data {
+    border: 1px solid #dedede;
+    background: #4c5b6b;
+    margin: 50px 25px 25px 25px;
+    min-width: 400px;
+}
+
+.data:last-child {
+    border-bottom: 0px;
+}
+
+.row-container {
+    display: flex;
+    min-height: 70px;
+}
+
+.row {
+    width: 100%;
+    text-align: center;
+    line-height: 70px;
+    border-bottom: 1px solid #445260;
+    display: flex;
+    color: #becddf;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.row li {
+    display: inline-block;
+    flex: 1;
+    margin-left: -1px;
+    border-right: 1px solid #445260;
+}
+
+.first-row {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    color: #becddf;
+    border-bottom: 1px solid #445260;
+    min-height: 70px;
+    line-height: 70px;
+}
+
+.first-row li {
+    border-right: 1px solid #445260;
+    flex: 1;
+}
+
+.data-main header {
+    width: 100%;
+    border-bottom: 1px solid #dedede;
+    color: #445260;
+    padding: 25px 25px 46px 25px;
+}
+
+.row li {
+    overflow: auto;
+    word-wrap: break-word;
+    padding: 0 10px;
+}
+
+.row:hover {
+    background: #445260;
+    -moz-box-shadow:    inset 0 0 5px #2d373f;
+    -webkit-box-shadow: inset 0 0 5px #2d373f;
+    box-shadow:         inset 0 0 5px #2d373f;
+    color: #fff;
+}
+
+.action-icon-container {
+    line-height: 50px;
+    min-width: 70px;
+    text-align: center;
+    border-bottom: 1px solid #445260;
+    border-right: 1px solid #445260;
+    color: #becddf;
+    cursor: pointer;
+    padding: 0px 10px;
+    position: relative;
+}
+
+.action-icon-container:hover {
+    color: #ffdeac;
+    background: #445260;
+    -moz-box-shadow:    inset 0 0 5px #2d373f;
+    -webkit-box-shadow: inset 0 0 5px #2d373f;
+    box-shadow:         inset 0 0 5px #2d373f;
+}
+
+.action-icon-container:hover .icon-delete {
+    color: #ffacac;
+}
+
+.action-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.empty {
+    line-height: 50px;
+    min-width: 70px;
+    text-align: center;
+    border-bottom: 1px solid #445260;
+    border-right: 1px solid #445260;
+    color: #becddf;
+    padding: 0px 10px;
+    position: relative;
+}

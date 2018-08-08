@@ -2,8 +2,10 @@
 module.exports = (sequelize, DataTypes) => {
   var Courses = sequelize.define('Courses', {
     name: DataTypes.STRING,
-    start: DataTypes.TIME,
-    end: DataTypes.TIME,
+    start: DataTypes.DATEONLY,
+    end: DataTypes.DATEONLY,
+    startTime: DataTypes.TIME,
+    endTime: DataTypes.TIME,
     classId: DataTypes.INTEGER,
     teacherId: DataTypes.INTEGER
   }, {});

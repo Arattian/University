@@ -1,9 +1,11 @@
 import { CUSTOM_API } from './constants';
+import { getTotalData } from './totalDataAction';
+import { showSuccess, showError } from './alertAction';
 
-export function deleteClass(id) {
+export function deleteAction(id, deleteFrom) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/classes`, {
+            const response = await fetch(`${CUSTOM_API}/admin/${deleteFrom}`, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -12,41 +14,9 @@ export function deleteClass(id) {
                 },
                 body: JSON.stringify({id}),
             });
-            // const message = await response.json();
-        })();
-    }
-}
-
-export function deleteStudent(id) {
-    return (dispatch) => {
-        (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/classes`, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.token}`
-                },
-                body: JSON.stringify({id}),
-            });
-            // const message = await response.json();
-        })();
-    }
-}
-
-export function deleteTeacher(id) {
-    return (dispatch) => {
-        (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/classes`, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.token}`
-                },
-                body: JSON.stringify({id}),
-            });
-            // const message = await response.json();
+            const res = await response.json();
+            res.status ? dispatch(showSuccess('deleted')) : dispatch(showError());
+            dispatch(getTotalData());
         })();
     }
 }

@@ -1,32 +1,20 @@
 .forms-form {
     flex: 3;
-    min-width: 300px;
-    height: 500px; 
-    padding: 0px 300px;
-    position: relative !important;
-    top: 50vh;
-    transform: translateY(-50%);
+    min-width: 30;
+    height: 100vh; 
+    padding: 5% 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-
-.close-icon {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+.forms-header {
+    width: 100%;
+    border-bottom: 1px solid #dedede;
     color: #445260;
-    cursor: pointer;
-    font-size: 1.5rem;
-    transition: 0.3s ease;
-}
-
-.close-icon:hover {
-    color: #2b353f;
 }
 
 .forms-input-container {
-    width: 100%;
-    display: block;
-    margin: 50px 0px;
     color: #445260;
 }
 
@@ -52,26 +40,23 @@
     border: 2px solid #4c5b6b;
 }
 
-.forms-input-container textarea {
-    height: 200px;
-    resize: none;
-}
-
-
 .forms-btn {
     background-color: #4c5b6b;
     color: #becddf;
-    padding: 15px 20px;
+    padding: 5px 20px;
     border: none;
     cursor: pointer;
     width: 30%;
     font-size: 1rem;
     transition: 0.3s ease;
+    height: 50px;
+    border-radius: 5px;
   }
 
 .forms-btn:hover {
 background-color: #384350;
 }
+
 .forms-btn-container {
     display: flex;
     justify-content: space-between;
@@ -92,8 +77,8 @@ select {
 .select {
 position: relative;
 display: block;
-width: 20em;
-height: 3em;
+width: 20rem;
+height: 3rem;
 line-height: 3;
 background: #4c5b6b;
 overflow: hidden;
@@ -135,6 +120,7 @@ color: #f39c12;
 -o-transition: .25s all ease;
 transition: .25s all ease;
 }
+
 
 @media only screen and (max-width: 1080px) {
     .forms-btn-container {

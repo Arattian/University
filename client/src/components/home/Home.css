@@ -22,8 +22,10 @@
 
 .stat-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    flex-flow: row wrap;
+    align-content: stretch;
 }
 
 .statistics h2 {
@@ -35,9 +37,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 30%;
+    width: 47.5%;
     height: 200px;
     border-radius: 20px;
+    margin-bottom: 5%;
     padding: 25px;
     color: #fff;
     cursor: pointer;
@@ -50,15 +53,19 @@
 }
 
 .classes .menu-icon {
-    color: #faa99e;
+    color: #9ac5cf;
 }
 
 .teachers .menu-icon {
-    color: #9ac5cf;
+    color: #faa99e;
 }
 
 .students .menu-icon {
     color: #fdc393;
+}
+
+.courses .menu-icon{
+    color: #a5daa0;
 }
 
 .stat h4 {
@@ -66,27 +73,35 @@
 }
 
 .classes {
-    background: #f88575;
+    background: #6fadbb;
 }
 
 .teachers {
-    background: #6fadbb;
+    background: #f88575;
 }
 
 .students {
     background: #ffaf64;
 }
 
+.courses {
+    background: #7cbb76;
+}
+
 .classes:hover {
-    background: #ff7462;
+    background: #579cac;
 }
 
 .teachers:hover {
-    background: #579cac;
+    background: #ff7462;
 }
 
 .students:hover {
     background: #f7a254;
+}
+
+.courses:hover {
+    background: #68aa62;
 }
 
 .stat-info {
