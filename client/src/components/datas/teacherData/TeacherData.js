@@ -1,21 +1,18 @@
 import React from 'react';
-import './StudentData.css';
+import './TeacherData.css';
 
-const StudentData = ({data, handleEditRedirect, handleDeleteRedirect}) => {
+const TeacherData = ({data, handleEdit, handleDelete}) => {
     return (
         <div>
-            <header>
-                <h2>Students</h2>
-            </header>
             <ul className='data'>
                 <ul className='first-row'>
                     <li>First Name</li>
                     <li>Last Name</li>
                     <li>Age</li>
-                    <li>Studies At</li>
+                    <div className='empty'></div>
                     <div className='empty'></div>
                 </ul>
-                {data.map((item) => {
+                {data.map((item, index) => {
                     return (
                         <li key={'#'+Math.floor(Math.random()*16777215).toString(16)} className='row-container'>
                             <ul className='row'>
@@ -23,10 +20,10 @@ const StudentData = ({data, handleEditRedirect, handleDeleteRedirect}) => {
                                 <li>{item.lastname}</li>
                                 <li>{item.age}</li>
                             </ul>
-                            <div className='action-icon-container' onClick={() => handleEditRedirect(item, 'student')}>
+                            <div className='action-icon-container' onClick={() => handleEdit(item, 'teacher')}>
                                 <i className="far fa-edit icon-edit action-icon"></i>
                             </div>
-                            <div className='action-icon-container' onClick={() => handleDeleteRedirect(item, 'student')}>
+                            <div className='action-icon-container' onClick={() => handleDelete(item, 'teacher')}>
                                 <i className="fas fa-trash-alt icon-delete action-icon"></i>
                             </div>
                         </li>
@@ -37,4 +34,4 @@ const StudentData = ({data, handleEditRedirect, handleDeleteRedirect}) => {
     );
 }
 
-export default StudentData;
+export default TeacherData;

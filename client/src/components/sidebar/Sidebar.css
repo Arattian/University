@@ -62,13 +62,9 @@
     height: 100vh;
 }
 
-.link {
-    text-decoration: none;
-}
 
 @media only screen and (max-width: 1080px) {
     .sidebar {
         width: 300px;
     }
 }
-

@@ -1,8 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import './Home.css';
+import './Main.css';
 
-class Home extends React.Component {
+class Main extends React.Component {
     render() {
         return (
             <div className='main'>
@@ -13,27 +12,27 @@ class Home extends React.Component {
                 <div className='statistics'>
                     <h2>Statistics</h2>
                     <div className='stat-container'>
-                        <Link to='/admin/classes' className='classes stat'>
-                                <div className='stat-info'>
-                                    <h4>{this.props.totalClasses}</h4>
-                                    <p>Total Classes</p>
-                                </div>
-                                <i className='fas fa-chalkboard menu-icon'></i>
-                        </Link>
-                        <Link to='/admin/teachers' className='teachers stat'>
+                        <div className='classes stat' onClick={() => this.props.changeRoute('classes')}>
+                            <div className='stat-info'>
+                                <h4>{this.props.totalClasses}</h4>
+                                <p>Total Classes</p>
+                            </div>
+                            <i className='fas fa-chalkboard menu-icon'></i>
+                        </div>
+                        <div className='teachers stat' onClick={() => this.props.changeRoute('teachers')}>
                             <div className='stat-info'>
                                 <h4>{this.props.totalTeachers}</h4>
                                 <p>Total Teachers</p>
                             </div>
                             <i className='fas fa-chalkboard-teacher menu-icon'></i>
-                        </Link>
-                        <Link to='/admin/students' className='students stat'>
+                        </div>
+                        <div className='students stat' onClick={() => this.props.changeRoute('students')}>
                             <div className='stat-info'>
                                 <h4>{this.props.totalStudents}</h4>
                                 <p>Total students</p>
                             </div>
                             <i className='fas fa-user-graduate menu-icon'></i>
-                        </Link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,4 +41,4 @@ class Home extends React.Component {
 }
 
 
-export default Home;
+export default Main;

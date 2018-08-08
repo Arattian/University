@@ -1,10 +1,10 @@
-import { TOTAL_DATA, CURRENT_DATA } from '../actions/totalDataAction';
+import { TOTAL_DATA, DATA_BELONG } from '../actions/totalDataAction';
 
 const initialState = {
     classData: [],
     teacherData: [],
     studentData: [],
-    currentData: null,
+    dataBelongTo: null,
 }
 
 
@@ -18,11 +18,12 @@ const totalDataReducer = (state = initialState, action) => {
                 studentData: action.studentData
             };
             break;
-        case CURRENT_DATA:
+        case DATA_BELONG: 
             state = {
                 ...state,
-                currentData: action.currentData,
+                dataBelongTo: action.dataBelongTo,
             }
+            break;
         default: {
             return state;
         }
