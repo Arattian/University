@@ -1,7 +1,7 @@
-import { showMessage } from './modalAction';
+import { CUSTOM_API } from './constants';
 
 export const TOTAL_DATA = 'TOTAL_DATA';
-export const DATA_BELONG = 'DATA_BELONG';
+export const CURRENT_DATA = 'CURRENT_DATA';
 
 function setData(classData, teacherData, studentData) {
     return {
@@ -12,18 +12,17 @@ function setData(classData, teacherData, studentData) {
     }
 }
 
-export function setDataBelong(dataBelongTo) {
+function setCurrentData(currentData) {
     return {
-        type: DATA_BELONG,
-        dataBelongTo,
+        type: CURRENT_DATA,
+        currentData
     }
 }
-
 
 export function getTotalData() {
     return (dispatch) => {
         (async () => {
-            const response = await fetch('http://localhost:3030/admin', {
+            const response = await fetch(`${CUSTOM_API}/admin`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -37,38 +36,20 @@ export function getTotalData() {
     }
 }
 
-export function editAction(refs, id, dataBelongTo) {
+export function getCurrentData(id) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch('http://localhost:3030/admin/', {
-                method: 'PUT',
+            const response = await fetch(`${CUSTOM_API}/admin/classes/edit`, {
+                method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.token}`
                 },
-                body: JSON.stringify({refs, id, dataBelongTo}),
+                body: JSON.stringify({id}),
             });
-            const message = await response.json();
-            dispatch(showMessage(message));
-        })();
-    }
-}
-
-export function deleteAction(id, dataBelongTo) {
-    return (dispatch) => {
-        (async () => {
-            const response = await fetch(`http://localhost:3030/admin/`, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.token}`
-                },
-                body: JSON.stringify({id, dataBelongTo}),
-            });
-            const message = await response.json();
-            dispatch(showMessage(message));
+            const data = await response.json();
+            dispatch(setCurrentData(data));
         })();
     }
 }

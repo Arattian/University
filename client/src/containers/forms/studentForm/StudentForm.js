@@ -1,7 +1,48 @@
 import React from 'react';
-import './StudentModal.css';
+import './StudentForm.css';
 
-class StudentModal extends React.Component {
+class StudentForm extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            firstname: '',
+            lastname: '',
+            age: null,
+            studiesAt: null
+        }
+    }
+
+    handleInputChange = (ev, fieldToChange) => {
+        switch(fieldToChange) {
+            case 'firstname': {
+                this.setState({firstname: ev.target.value});
+                break;
+            }
+            case 'lastname': {
+                this.setState({lastname: ev.target.value});
+                break;
+            }
+            case 'age': {
+                this.setState({age: ev.target.value});
+                break;
+            }
+            default:
+        }
+    }
+
+    handleSelectChange = (ev) => {
+        this.setState({studiesAt: ev.target.value});
+    }
+
+    componentDidMount() {
+        this.props.data && this.setState({
+            firstname: this.props.data.firstname, 
+            lastname: this.props.data.lastname, 
+            age: this.props.data.age,
+            studiesAt: this.props.data.studiesAt
+        });
+    }
+    
     render() {
         return (
             <form onSubmit={(ev) => {
@@ -14,11 +55,12 @@ class StudentModal extends React.Component {
                     <input 
                         className='modal-input-field' 
                         type='text' 
-                        placeholder={this.props.data ? this.props.data.firstname : 'Enter First Name'}
+                        placeholder='Enter First Name'
                         name='firstname'
                         ref='firstname'
                         id='student-firstname'
                         pattern='[\p{L}]+'
+                        value={this.state.firstname}
                         required
                     />
                 </div>
@@ -29,11 +71,12 @@ class StudentModal extends React.Component {
                     <input 
                         className='modal-input-field' 
                         type='text' 
-                        placeholder={this.props.data ? this.props.data.lastname : 'Enter Last Name'}
+                        placeholder='Enter Last Name'
                         name='lastname' 
                         ref='lastname' 
                         id='student-lastname' 
                         pattern='[\p{L}]+'
+                        value={this.state.lastname}
                         required
                     />
                 </div>
@@ -49,7 +92,8 @@ class StudentModal extends React.Component {
                         ref='age' 
                         id='student-age'  
                         min='16' 
-                        max='80' 
+                        max='80'
+                        value={this.state.age} 
                         required
                     />
                 </div>
@@ -59,4 +103,4 @@ class StudentModal extends React.Component {
     }
 }
 
-export default StudentModal;
+export default StudentForm;

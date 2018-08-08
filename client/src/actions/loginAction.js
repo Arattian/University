@@ -1,5 +1,5 @@
+import { CUSTOM_API } from './constants';
 export const LOGIN = 'LOGIN';
-
 function loginStatus(loggedIn) {
     return {
         type: LOGIN,
@@ -10,7 +10,7 @@ function loginStatus(loggedIn) {
 export function login(mail, pass) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch('http://localhost:3030/', {
+            const response = await fetch(`${CUSTOM_API}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -19,7 +19,7 @@ export function login(mail, pass) {
                 body: JSON.stringify({mail: mail.value, pass: pass.value})
             });
             const data = await response.json();
-            localStorage.token = data.token;
+            localStorage.token = data.token
             dispatch(loginStatus(data.result));
         })();
     }
