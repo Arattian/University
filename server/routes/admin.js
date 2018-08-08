@@ -2,68 +2,60 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const addController = require('../controllers/addController');
 const dataController = require('../controllers/dataController');
+const editController = require('../controllers/editController');
+const deleteController = require('../controllers/deleteController');
 const router = express.Router();
 require('dotenv').config();
 
-router.get('/', getToken, (req, res) => {
-    //Verifies if token matches with key and not expired yet
-    jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
-        if (err) {
-            res.sendStatus(404);
-        } else {
-            dataController.totalData(req, res);
-        }
-    })
+router.get('/', getToken, verifyToken, (req, res) => {
+    dataController.totalData(req, res);
 });
 
-router.put('/', getToken, (req, res) => {
-    jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
-        if (err) {
-            res.sendStatus(404);
-        } else {
-            dataController.editData(req, res);
-        }
-    })
+/*Classes*/
+router.get('/classes/edit', getToken, verifyToken, (req, res) => {
+    dataController.currentClass(req, res);
 });
 
-router.delete('/', getToken, (req, res) => {
-    jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
-        if (err) {
-            res.sendStatus(404);
-        } else {
-            dataController.deleteData(req, res);
-        }
-    })
+router.post('/classes', getToken, verifyToken, (req, res) => {
+    addController.addClass(req, res);
 });
 
-router.post('/classes', getToken, (req, res) => {
-    jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
-        if (err) {
-            res.json({status: 404, text: 'Permission denied'});
-        } else {
-            addController.addClass(req, res);
-        }
-    })
+router.put('/classes', getToken, verifyToken, (req, res) => {
+    editController.editClass(req, res);
 });
 
-router.post('/teachers', getToken, (req, res) => {
-    jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
-        if (err) {
-            res.json({status: 404, text: 'Permission denied'});
-        } else {
-            addController.addTeacher(req, res);
-        }
-    })
+router.delete('/classes', getToken, verifyToken, (req, res) => {
+    deleteController.deleteClass(req, res);
 });
 
-router.post('/students', getToken, (req, res) => {
-    jwt.verify(req.token, process.env.SECRET_KEY, (err, adminData) => {
-        if (err) {
-            res.json({status: 404, text: 'Permission denied'});
-        } else {
-            addController.addStudent(req, res);
-        }
-    })
+/*Teachers*/
+
+router.post('/teachers', getToken, verifyToken, (req, res) => {
+    addController.addTeacher(req, res);
+});
+
+router.put('/teachers', getToken, verifyToken, (req, res) => {
+    editController.editTeacher(req, res);
+});
+
+router.delete('/teachers', getToken, verifyToken, (req, res) => {
+    deleteController.deleteTeacher(req, res);
+});
+
+/*Students*/
+
+router.post('/students', getToken, verifyToken, (req, res) => {
+    addController.addStudent(req, res);
+});
+
+router.put('/students', getToken, verifyToken, (req, res) => {
+    editController.editStudent(req, res);
+});
+
+
+
+router.delete('/students', getToken, verifyToken, (req, res) => {
+    deleteController.deleteStudent(req, res);
 });
 
 //Checks if token exists in header and saving it in req.token
@@ -77,6 +69,16 @@ function getToken(req, res, next) {
     } else {
         res.sendStatus(404);
     }
+}
+
+function verifyToken(req, res, next) {
+    jwt.verify(req.token, process.env.SECRET_KEY, (err) => {
+        if (err) {
+            res.sendStatus(401);
+        } else {
+            next();
+        }
+    })
 }
 
 module.exports = router;

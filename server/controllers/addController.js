@@ -1,7 +1,7 @@
 const models = require("../models");
 
 function addClass(req, res) {
-  models.Classes.create({name: req.body.name})
+  models.Classes.create({name: req.body.name, teacherId: req.body.teacherId})
     .then(() => res.json({status: 200, text: 'Successfully added!'}))
     .catch(error => res.json({status: 403, text: 'Something went wrong!'}))
 }
