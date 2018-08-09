@@ -14,7 +14,7 @@ module.exports = {
       },
       start: {
         allowNull: false,
-        type: Sequelize.TIME
+        type: Sequelize.DATEONLY
       },
       end: {
         allowNull: false,
@@ -22,11 +22,11 @@ module.exports = {
       },
       startTime: {
         allowNull: false,
-        type: Sequelize.TIME
+        type: Sequelize.STRING
       },
       endTime: {
         allowNull: false,
-        type: Sequelize.TIME
+        type: Sequelize.STRING
       },
       classId: {
         type: Sequelize.INTEGER,

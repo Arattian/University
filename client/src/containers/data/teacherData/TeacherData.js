@@ -26,7 +26,7 @@ const TeacherData = ({data, handleEditRedirect, handleDelete}) => {
                             <div className='action-icon-container' onClick={() => handleEditRedirect(item.id, 'teachers')}>
                                 <i className="far fa-edit icon-edit action-icon"></i>
                             </div>
-                            <div className='action-icon-container' onClick={() => handleDelete(item, 'teachers')}>
+                            <div className='action-icon-container' onClick={() => handleDelete(item.id, 'teachers')}>
                                 <i className="fas fa-trash-alt icon-delete action-icon"></i>
                             </div>
                         </li>

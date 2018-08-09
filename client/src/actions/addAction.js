@@ -70,7 +70,7 @@ export function addCourse(data) {
                     'Authorization': `Bearer ${localStorage.token}`
                 },
                 body: JSON.stringify({
-                    name: data.firstname,
+                    name: data.name,
                     startTime: data.startTime,
                     endTime: data.endTime, 
                     start: data.start,
