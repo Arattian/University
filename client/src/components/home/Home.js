@@ -30,9 +30,16 @@ class Home extends React.Component {
                         <Link to='/admin/students' className='students stat'>
                             <div className='stat-info'>
                                 <h4>{this.props.totalStudents}</h4>
-                                <p>Total students</p>
+                                <p>Total Students</p>
                             </div>
                             <i className='fas fa-user-graduate menu-icon'></i>
+                        </Link>
+                        <Link to='/admin/courses' className='courses stat'>
+                            <div className='stat-info'>
+                                <h4>{this.props.totalCourses}</h4>
+                                <p>Total Courses</p>
+                            </div>
+                            <i className='far fa-calendar-alt menu-icon'></i>
                         </Link>
                     </div>
                 </div>

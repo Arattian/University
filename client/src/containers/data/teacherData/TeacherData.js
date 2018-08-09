@@ -1,9 +1,9 @@
 import React from 'react';
-import './TeacherData.css';
+import '../Data.css';
 
-const TeacherData = ({data, handleEditRedirect, handleDeleteRedirect}) => {
+const TeacherData = ({data, handleEditRedirect, handleDelete}) => {
     return (
-        <div>
+        <div className='data-main'>
             <header>
                 <h2>Teachers</h2>
             </header>
@@ -23,10 +23,10 @@ const TeacherData = ({data, handleEditRedirect, handleDeleteRedirect}) => {
                                 <li>{item.lastname}</li>
                                 <li>{item.age}</li>
                             </ul>
-                            <div className='action-icon-container' onClick={() => handleEditRedirect(item, 'teacher')}>
+                            <div className='action-icon-container' onClick={() => handleEditRedirect(item.id, 'teachers')}>
                                 <i className="far fa-edit icon-edit action-icon"></i>
                             </div>
-                            <div className='action-icon-container' onClick={() => handleDeleteRedirect(item, 'teacher')}>
+                            <div className='action-icon-container' onClick={() => handleDelete(item, 'teachers')}>
                                 <i className="fas fa-trash-alt icon-delete action-icon"></i>
                             </div>
                         </li>

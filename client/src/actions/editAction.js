@@ -1,9 +1,11 @@
 import { CUSTOM_API } from './constants';
+import { getTotalData } from './totalDataAction';
+import { showSuccess, showError } from './alertAction';
 
-export function editClass(data, id) {
+export function editAction(data, id, editFrom) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/classes`, {
+            const response = await fetch(`${CUSTOM_API}/admin/${editFrom}/edit`, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -12,42 +14,9 @@ export function editClass(data, id) {
                 },
                 body: JSON.stringify({data, id}),
             });
-            // const message = await response.json();
+            const res = await response.json();
+            res.status ? dispatch(showSuccess('edited')) : dispatch(showError()); 
+            dispatch(getTotalData());
         })();
     }
 }
-
-export function editTeacher(data, id) {
-    return (dispatch) => {
-        (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/teachers`, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.token}`
-                },
-                body: JSON.stringify({data, id}),
-            });
-            // const message = await response.json();
-        })();
-    }
-}
-
-export function editStudent(data, id) {
-    return (dispatch) => {
-        (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/students`, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.token}`
-                },
-                body: JSON.stringify({data, id}),
-            });
-            // const message = await response.json();
-        })();
-    }
-}
-

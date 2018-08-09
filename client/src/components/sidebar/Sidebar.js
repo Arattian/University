@@ -30,6 +30,11 @@ class Sidebar extends React.Component {
                                 <i className='fas fa-user-graduate menu-icon'></i>Add Student
                             </li>
                         </Link>
+                        <Link to='/admin/courses/add' className='link'>
+                            <li className='menu item'>
+                                <i className="far fa-calendar-alt menu-icon"></i>Add Course
+                            </li>
+                        </Link>
                     </ul>
                 </div>
             </div>

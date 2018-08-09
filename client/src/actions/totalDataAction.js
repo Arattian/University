@@ -2,13 +2,15 @@ import { CUSTOM_API } from './constants';
 
 export const TOTAL_DATA = 'TOTAL_DATA';
 export const CURRENT_DATA = 'CURRENT_DATA';
+export const DROP_CURRENT_DATA = 'DROP_CURRENT_DATA';
 
-function setData(classData, teacherData, studentData) {
+function setData(classData, teacherData, studentData, courseData) {
     return {
         type: TOTAL_DATA,
         classData,
         teacherData,
-        studentData   
+        studentData,
+        courseData   
     }
 }
 
@@ -31,15 +33,15 @@ export function getTotalData() {
                 },
             });
             const data = await response.json();
-            dispatch(setData(data.classData, data.teacherData, data.studentData));
+            dispatch(setData(data.classData, data.teacherData, data.studentData, data.courseData));
         })();
     }
 }
 
-export function getCurrentData(id) {
+export function getCurrentData(id, getFrom) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/classes/edit`, {
+            const response = await fetch(`${CUSTOM_API}/admin/${getFrom}/edit`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -51,5 +53,11 @@ export function getCurrentData(id) {
             const data = await response.json();
             dispatch(setCurrentData(data));
         })();
+    }
+}
+
+export function dropCurrentData() {
+    return {
+        type: DROP_CURRENT_DATA,
     }
 }
