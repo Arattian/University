@@ -13,7 +13,7 @@ import TeacherForm from '../forms/teacherForm/TeacherForm';
 import StudentForm from '../forms/studentForm/StudentForm';
 import CourseForm from '../forms/courseForm/CourseForm';
 import { getTotalData } from '../../actions/totalDataAction';
-import { hideAlert } from '../../actions/alertAction';
+import { hideAlert, showDelete } from '../../actions/alertAction';
 import { deleteAction } from '../../actions/deleteAction';
 import './App.css';
 
@@ -32,7 +32,7 @@ class App extends React.Component {
     }
 
     handleDelete = (id, deleteFrom) => {
-        this.props.boundDeleteData(id, deleteFrom);
+        this.props.boundShowDelete(id, deleteFrom);
     }
 
     closeForm = (redirectTo) => {
@@ -144,6 +144,20 @@ class App extends React.Component {
                         confirmButtonClass={'msg msg-error'}
                         onConfirm={() => this.props.boundHideAlert()}
                     />
+                    <SweetAlert
+                        show={this.props.showDelete}
+                        type={'warning'}
+                        title={`Are you sure?`}
+                        text={"You won't be able to revert this!"}
+                        confirmButtonColor={'#ff5f59'}
+                        confirmButtonClass={'msg msg-error'}
+                        confirmButtonText={'Delete it!'}
+                        showCancelButton= {true}
+                        onConfirm={() => {
+                            this.props.boundDeleteData(this.props.deleteId, this.props.deleteFrom);
+                            this.props.boundHideAlert();
+                        }}
+                    />
             </div>
         );
     }
@@ -157,7 +171,10 @@ const mapStateToProps = (state) => {
         courseData: state.totalData.courseData,
         showSuccess: state.alert.showSuccess,
         showError: state.alert.showError,
+        showDelete: state.alert.showDelete,
         alertMessage: state.alert.alertMessage,
+        deleteId: state.alert.deleteId,
+        deleteFrom: state.alert.deleteFrom,
     }
 }
 
@@ -166,6 +183,7 @@ const mapDispatchToProps = (dispatch) => {
         boundGetTotalData: () => dispatch(getTotalData()),
         boundHideAlert: () => dispatch(hideAlert()),
         boundDeleteData: (id, deleteFrom) => dispatch(deleteAction(id, deleteFrom)),
+        boundShowDelete: (id, deleteFrom) => dispatch(showDelete(id, deleteFrom)),
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

@@ -24,8 +24,8 @@ const CourseData = ({data, handleEditRedirect, handleDelete}) => {
                                 <li>{item.name}</li>
                                 <li>{item.start}</li>
                                 <li>{item.end}</li>
-                                <li>{`${item.Teacher.firstname} ${item.Teacher.lastname}`}</li>
-                                <li>{item.Classes.name}</li>
+                                <li>{item.Teacher ? `${item.Teacher.firstname} ${item.Teacher.lastname}` : '-----------------'}</li>
+                                <li>{item.Class ? item.Class.name : '-----------------'}</li>
                             </ul>
                             <div className='action-icon-container' onClick={() => handleEditRedirect(item.id, 'courses')}>
                                 <i className="far fa-edit icon-edit action-icon"></i>

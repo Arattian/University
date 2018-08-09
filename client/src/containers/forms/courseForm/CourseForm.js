@@ -103,6 +103,7 @@ class CourseForm extends React.Component {
 
     render() {
         const {selectClassData, selectTeacherData, closeForm} = this.props;
+        console.log(this.state);
         return (
             <form onSubmit={(ev) => this.handleSubmit(ev, this.state)} className='course-form forms-form'>
                 <header className='forms-header'>
@@ -207,6 +208,7 @@ class CourseForm extends React.Component {
                         name='start-time' 
                         id='course-start-time' 
                         pattern='[\p{L}]+'
+                        value={this.state.startTime}
                         onChange={(ev) => this.handleInputChange(ev, 'startTime')}
                         required
                     />
