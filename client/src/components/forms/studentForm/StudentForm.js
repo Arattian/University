@@ -1,10 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { addStudent } from '../../../actions/addAction';
-import { editAction } from '../../../actions/editAction';
-import { connect } from 'react-redux';
-import { dropCurrentData, getCurrentData } from '../../../actions/totalDataAction';
-import '../Forms.css';
+import './StudentForm.css';
 
 class StudentForm extends React.Component {
     constructor() {
@@ -47,17 +42,12 @@ class StudentForm extends React.Component {
                 this.state.classId !== '') {
                     this.state.id ? 
                     this.props.boundEditAction(data, data.id, 'students') :
-                    this.props.boundAddStudent(data);
-                    andClose && this.props.history.push(`/admin/students`);
+                    this.props.boundAddAction(data, 'students');
+                    andClose && this.props.closeForm('students');
         }
         ev.preventDefault();        
     }
 
-    componentDidMount() {
-        const id = this.props.match.params.id;
-        id && this.props.boundGetCurrentData(id);
-    }
-    
     componentDidUpdate() {
         if(this.props.currentData) {
             this.setState({
@@ -67,7 +57,6 @@ class StudentForm extends React.Component {
                 age: this.props.currentData.age,
                 classId: this.props.currentData.classId,
             });
-            this.props.boundDropCurrentData();
         }
     }
 
@@ -157,19 +146,4 @@ class StudentForm extends React.Component {
     }
 }
 
-
-const mapStateToProps = (state) => {
-    return {
-        currentData: state.totalData.currentData,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        boundEditAction: (data, id, editFrom) => dispatch(editAction(data, id, editFrom)),
-        boundAddStudent: (data) => dispatch(addStudent(data)),
-        boundGetCurrentData: (id) => dispatch(getCurrentData(id, 'students')),
-        boundDropCurrentData: () => dispatch(dropCurrentData()),
-    }
-}
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StudentForm));
+export default StudentForm;

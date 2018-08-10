@@ -108,23 +108,3 @@
     flex: 1;
 }
 
-@media only screen and (max-width: 1080px) and (min-width: 720px) {
-    html {
-        font-size: 16px !important;
-    }
-} 
-
-@media only screen and (max-width: 990px) {
-    html {
-        font-size: 15px !important;
-    }
-
-    .stat-container {
-        display: block;
-    }
-
-    .stat {
-        margin-bottom: 25px;
-        width: 100%;
-    }
-}

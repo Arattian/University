@@ -1,9 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { addCourse } from '../../../actions/addAction';
-import { editAction } from '../../../actions/editAction';
-import { connect } from 'react-redux';
-import { getCurrentData, dropCurrentData } from '../../../actions/totalDataAction';
 import './CourseForm.css';
 
 class CourseForm extends React.Component {
@@ -73,16 +68,10 @@ class CourseForm extends React.Component {
             this.state.classId !== '') {
                 this.state.id ? 
                 this.props.boundEditAction(data, data.id, 'courses') :
-                this.props.boundAddCourse(data);
-                andClose && this.props.history.push(`/admin/courses`);
+                this.props.boundAddAction(data, 'courses');
+                andClose && this.props.closeForm('courses');
         }
         ev.preventDefault();        
-    }
-
-
-    componentDidMount() {
-        const id = this.props.match.params.id;
-        id && this.props.boundGetCurrentData(id);
     }
 
     componentDidUpdate() {
@@ -97,15 +86,13 @@ class CourseForm extends React.Component {
                 teacherId: this.props.currentData.teacherId,
                 classId: this.props.currentData.classId,
             });
-            this.props.boundDropCurrentData();
         }
     }
 
     render() {
         const {selectClassData, selectTeacherData, closeForm} = this.props;
-        console.log(this.state);
         return (
-            <form onSubmit={(ev) => this.handleSubmit(ev, this.state)} className='course-form forms-form'>
+            <form onSubmit={(ev) => this.handleSubmit(ev, this.state)} className='course-form'>
                 <header className='forms-header'>
                     <h2>Course</h2>
                 </header>
@@ -176,7 +163,7 @@ class CourseForm extends React.Component {
                         name='start'  
                         id='course-start'
                         min="2018-01-01" 
-                        max="2019-12-31"  
+                        max="2022-12-31"  
                         value={this.state.start}
                         onChange={(ev) => this.handleInputChange(ev, 'start')} 
                         required
@@ -192,7 +179,7 @@ class CourseForm extends React.Component {
                         name='end'  
                         id='course-end' 
                         min="2018-01-01" 
-                        max="2019-12-31"  
+                        max="2022-12-31"  
                         value={this.state.end}
                         onChange={(ev) => this.handleInputChange(ev, 'end')} 
                         required
@@ -238,18 +225,4 @@ class CourseForm extends React.Component {
 }
 
 
-const mapStateToProps = (state) => {
-    return {
-        currentData: state.totalData.currentData,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        boundEditAction: (data, id, editFrom) => dispatch(editAction(data, id, editFrom)),
-        boundAddCourse: (data) => dispatch(addCourse(data)),
-        boundGetCurrentData: (id) => dispatch(getCurrentData(id, 'courses')),
-        boundDropCurrentData: () => dispatch(dropCurrentData()),
-    }
-}
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CourseForm));
+export default CourseForm;

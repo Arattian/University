@@ -1,17 +1,18 @@
 import React from 'react';
-import '../Data.css';
+import './StudentData.css';
 
-const TeacherData = ({data, handleEditRedirect, handleDelete}) => {
+const StudentData = ({data, handleEditRedirect, handleDelete}) => {
     return (
-        <div className='data-main'>
+        <div>
             <header>
-                <h2>Teachers</h2>
+                <h2>Students</h2>
             </header>
             <ul className='data'>
                 <ul className='first-row'>
                     <li>First Name</li>
                     <li>Last Name</li>
                     <li>Age</li>
+                    <li>Class</li>
                     <div className='empty'></div>
                     <div className='empty'></div>
                 </ul>
@@ -22,11 +23,12 @@ const TeacherData = ({data, handleEditRedirect, handleDelete}) => {
                                 <li>{item.firstname}</li>
                                 <li>{item.lastname}</li>
                                 <li>{item.age}</li>
+                                <li>{item.Class ? item.Class.name : '-----------------'}</li>
                             </ul>
-                            <div className='action-icon-container' onClick={() => handleEditRedirect(item.id, 'teachers')}>
+                            <div className='action-icon-container' onClick={() => handleEditRedirect(item.id, 'students')}>
                                 <i className="far fa-edit icon-edit action-icon"></i>
                             </div>
-                            <div className='action-icon-container' onClick={() => handleDelete(item.id, 'teachers')}>
+                            <div className='action-icon-container' onClick={() => handleDelete(item.id, 'students')}>
                                 <i className="fas fa-trash-alt icon-delete action-icon"></i>
                             </div>
                         </li>
@@ -37,4 +39,4 @@ const TeacherData = ({data, handleEditRedirect, handleDelete}) => {
     );
 }
 
-export default TeacherData;
+export default StudentData;

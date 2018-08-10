@@ -1,20 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Switch, Route } from 'react-router-dom';
-import SweetAlert from 'sweetalert2-react';
 import Sidebar from '../../components/sidebar/Sidebar';
 import Home from '../../components/home/Home';
-import ClassData from '../data/classData/ClassData';
-import TeacherData from '../data/teacherData/TeacherData';
-import StudentData from '../data/studentData/StudentData';
-import CourseData from '../data/courseData/CourseData';
-import ClassForm from '../forms/classForm/ClassForm';
-import TeacherForm from '../forms/teacherForm/TeacherForm';
-import StudentForm from '../forms/studentForm/StudentForm';
-import CourseForm from '../forms/courseForm/CourseForm';
+import Data from '../../containers/data/Data';
+import Form from '../../containers/form/Form';
 import { getTotalData } from '../../actions/totalDataAction';
 import { hideAlert, showDelete } from '../../actions/alertAction';
 import { deleteAction } from '../../actions/deleteAction';
+import SweetAlert from 'sweetalert2-react';
 import './App.css';
 
 class App extends React.Component {
@@ -25,18 +19,6 @@ class App extends React.Component {
             return;
         }
         this.props.boundGetTotalData();
-    }
-
-    handleEditRedirect = (id, belongTo) => {
-        this.props.history.push(`/admin/${belongTo}/edit/${id}`)
-    }
-
-    handleDelete = (id, deleteFrom) => {
-        this.props.boundShowDelete(id, deleteFrom);
-    }
-
-    closeForm = (redirectTo) => {
-        this.props.history.push(`/admin/${redirectTo}`);
     }
 
     render() {
@@ -52,79 +34,14 @@ class App extends React.Component {
                                 totalCourses={this.props.courseData.length}
                             />
                         </Route>
-                        <Route exact path='/admin/classes'>
-                            <ClassData 
-                                data={this.props.classData}
-                                handleEditRedirect={this.handleEditRedirect}
-                                handleDelete={this.handleDelete}
-                            />
+                        <Route exact path='/admin/:data'>
+                            <Data boundShowDelete={this.props.boundShowDelete}/>
                         </Route>
-                        <Route exact path='/admin/teachers'>
-                            <TeacherData 
-                                data={this.props.teacherData}
-                                handleEditRedirect={this.handleEditRedirect}
-                                handleDelete={this.handleDelete}
-                            />
+                        <Route exact path='/admin/:data/:action'>
+                            <Form />
                         </Route>
-                        <Route exact path='/admin/students'>
-                            <StudentData 
-                                data={this.props.studentData} 
-                                handleEditRedirect={this.handleEditRedirect}
-                                handleDelete={this.handleDelete}
-                            />
-                        </Route>
-                        <Route exact path='/admin/courses'>
-                            <CourseData
-                                data={this.props.courseData}
-                                handleEditRedirect={this.handleEditRedirect}
-                                handleDelete={this.handleDelete}
-                            />
-                        </Route>
-                        <Route exact path='/admin/classes/add'>
-                            <ClassForm 
-                                selectData={this.props.teacherData}
-                                closeForm={this.closeForm}
-                            />
-                        </Route>
-                        <Route exact path='/admin/teachers/add'>
-                            <TeacherForm closeForm={this.closeForm}/>
-                        </Route>
-                        <Route exact path='/admin/students/add'>
-                            <StudentForm 
-                                selectData={this.props.classData} 
-                                closeForm={this.closeForm}
-                            />
-                        </Route>
-                        <Route exact path='/admin/courses/add'>
-                            <CourseForm 
-                                selectClassData={this.props.classData}
-                                selectTeacherData={this.props.teacherData}
-                                closeForm={this.closeForm}
-                            />
-                        </Route>
-                        <Route exact path='/admin/classes/edit/:id'>
-                            <ClassForm 
-                                closeForm={this.closeForm}
-                                selectData={this.props.teacherData}
-                            />
-                        </Route>
-                        <Route exact path='/admin/teachers/edit/:id'>
-                            <TeacherForm 
-                                closeForm={this.closeForm}
-                            />
-                        </Route>
-                        <Route exact path='/admin/students/edit/:id'>
-                            <StudentForm 
-                                closeForm={this.closeForm}
-                                selectData={this.props.classData}
-                            />
-                        </Route>
-                        <Route exact path='/admin/courses/edit/:id'>
-                            <CourseForm 
-                                closeForm={this.closeForm}
-                                selectClassData={this.props.classData}
-                                selectTeacherData={this.props.teacherData}
-                            />
+                        <Route exact path='/admin/:data/:action/:id'>
+                            <Form />
                         </Route>
                     </Switch>
                     <SweetAlert
@@ -152,11 +69,14 @@ class App extends React.Component {
                         confirmButtonColor={'#ff5f59'}
                         confirmButtonClass={'msg msg-error'}
                         confirmButtonText={'Delete it!'}
+                        cancelButtonClass={'msg msg-cancel'}
                         showCancelButton= {true}
                         onConfirm={() => {
                             this.props.boundDeleteData(this.props.deleteId, this.props.deleteFrom);
                             this.props.boundHideAlert();
-                        }}
+                            }
+                        }
+                        onCancel={() => this.props.boundHideAlert()}
                     />
             </div>
         );

@@ -1,10 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { addClass } from '../../../actions/addAction';
-import { editAction } from '../../../actions/editAction';
-import { connect } from 'react-redux';
-import { getCurrentData, dropCurrentData } from '../../../actions/totalDataAction';
-import '../Forms.css';
+import './ClassForm.css';
 
 class ClassForm extends React.Component {
     constructor() {
@@ -13,7 +8,6 @@ class ClassForm extends React.Component {
             id: null,
             name: '',
             teacherId: '',
-            show: false,
         }
     }
 
@@ -29,27 +23,22 @@ class ClassForm extends React.Component {
         if(this.state.name !== '' && this.state.teacherId !== '') {
             this.state.id ? 
             this.props.boundEditAction(data, data.id, 'classes') :
-            this.props.boundAddClass(data);
-            andClose && this.props.history.push(`/admin/classes`);
+            this.props.boundAddAction(data, 'classes');
+            andClose && this.props.closeForm('classes');
         }
         ev.preventDefault();        
     }
 
-    componentDidMount() {
-        const id = this.props.match.params.id;
-        id && this.props.boundGetCurrentData(id);
-    }
-
     componentDidUpdate() {
-        if(this.props.currentData) {
+        if(this.props.currentData && !this.state.id) {
             this.setState({
                 id: this.props.currentData.id,
                 name: this.props.currentData.name,
                 teacherId: this.props.currentData.teacherId,
             });
-            this.props.boundDropCurrentData();
         }
     }
+
     render() {
         const {selectData, closeForm} = this.props;
         return (
@@ -102,18 +91,4 @@ class ClassForm extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        currentData: state.totalData.currentData,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        boundEditAction: (data, id, editFrom) => dispatch(editAction(data, id, editFrom)),
-        boundAddClass: (data) => dispatch(addClass(data)),
-        boundGetCurrentData: (id) => dispatch(getCurrentData(id, 'classes')),
-        boundDropCurrentData: () => dispatch(dropCurrentData()),
-    }
-}
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ClassForm));
+export default ClassForm;

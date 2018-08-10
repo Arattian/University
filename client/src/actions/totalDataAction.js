@@ -21,6 +21,12 @@ function setCurrentData(currentData) {
     }
 }
 
+export function dropCurrentData() {
+    return {
+        type: DROP_CURRENT_DATA,
+    }
+}
+
 export function getTotalData() {
     return (dispatch) => {
         (async () => {
@@ -53,11 +59,5 @@ export function getCurrentData(id, getFrom) {
             const data = await response.json();
             dispatch(setCurrentData(data));
         })();
-    }
-}
-
-export function dropCurrentData() {
-    return {
-        type: DROP_CURRENT_DATA,
     }
 }
