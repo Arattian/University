@@ -1,9 +1,9 @@
 import React from 'react';
-import '../Data.css';
+import './ClassData.css';
 
 const ClassData = ({data, handleEditRedirect, handleDelete}) => {
     return (
-        <div className='data-main'>
+        <div>
             <header>
                 <h2>Classes</h2>
             </header>

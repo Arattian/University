@@ -1,15 +1,11 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { addTeacher } from '../../../actions/addAction';
-import { editAction } from '../../../actions/editAction';
-import { connect } from 'react-redux';
-import { getCurrentData, dropCurrentData } from '../../../actions/totalDataAction';
-import '../Forms.css';
+import './TeacherForm.css';
 
 class TeacherForm extends React.Component {
     constructor() {
         super();
         this.state = {
+            id: null,
             firstname: '',
             lastname: '',
             age: '',
@@ -41,16 +37,10 @@ class TeacherForm extends React.Component {
             this.state.classId !== '') {
                 this.state.id ? 
                 this.props.boundEditAction(data, data.id, 'teachers') :
-                this.props.boundAddTeacher(data);
-                andClose && this.props.history.push(`/admin/teachers`);
+                this.props.boundAddAction(data, 'teachers');
+                andClose && this.props.closeForm('teachers');
     }
         ev.preventDefault();        
-    }
-
-
-    componentDidMount() {
-        const id = this.props.match.params.id;
-        id && this.props.boundGetCurrentData(id);
     }
 
     componentDidUpdate() {
@@ -61,7 +51,6 @@ class TeacherForm extends React.Component {
                 lastname: this.props.currentData.lastname,
                 age: this.props.currentData.age,
             });
-            this.props.boundDropCurrentData();
         }
     }
 
@@ -131,19 +120,4 @@ class TeacherForm extends React.Component {
     }
 }
 
-
-const mapStateToProps = (state) => {
-    return {
-        currentData: state.totalData.currentData,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        boundEditAction: (data, id, editFrom) => dispatch(editAction(data, id, editFrom)),
-        boundAddTeacher: (data) => dispatch(addTeacher(data)),
-        boundGetCurrentData: (id) => dispatch(getCurrentData(id, 'teachers')),
-        boundDropCurrentData: () => dispatch(dropCurrentData()),
-    }
-}
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TeacherForm));
+export default TeacherForm;

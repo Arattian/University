@@ -1,8 +1,12 @@
+.form-container {
+    width: 100%;
+}
+
 .forms-form {
     flex: 3;
     min-width: 30;
     height: 100vh; 
-    padding: 5% 10%;
+    padding: 2% 10%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -122,15 +126,3 @@ transition: .25s all ease;
 }
 
 
-@media only screen and (max-width: 1080px) {
-    .forms-btn-container {
-        display: block;
-    }
-
-    .forms-btn {
-        display: block;
-        width: 100%;
-        font-size: 1rem;
-        margin: 25px 0px;
-    }
-}

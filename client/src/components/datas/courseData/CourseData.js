@@ -1,19 +1,21 @@
 import React from 'react';
-import '../Data.css';
+import './CourseData.css';
 
 const CourseData = ({data, handleEditRedirect, handleDelete}) => {
     return (
-        <div className='data-main'>
+        <div>
             <header>
                 <h2>Courses</h2>
             </header>
             <ul className='data'>
                 <ul className='first-row'>
                     <li>Name</li>
-                    <li>Start</li>
-                    <li>End</li>
                     <li>Teacher</li>
                     <li>Class</li>
+                    <li>Start Date</li>
+                    <li>End Date</li>
+                    <li>Start Time</li>
+                    <li>End Time</li>
                     <div className='empty'></div>
                     <div className='empty'></div>
                 </ul>
@@ -22,10 +24,12 @@ const CourseData = ({data, handleEditRedirect, handleDelete}) => {
                         <li key={'#'+Math.floor(Math.random()*16777215).toString(16)} className='row-container'>
                             <ul className='row'>
                                 <li>{item.name}</li>
-                                <li>{item.start}</li>
-                                <li>{item.end}</li>
                                 <li>{item.Teacher ? `${item.Teacher.firstname} ${item.Teacher.lastname}` : '-----------------'}</li>
                                 <li>{item.Class ? item.Class.name : '-----------------'}</li>
+                                <li>{item.start}</li>
+                                <li>{item.end}</li>
+                                <li>{item.startTime}</li>
+                                <li>{item.endTime}</li>
                             </ul>
                             <div className='action-icon-container' onClick={() => handleEditRedirect(item.id, 'courses')}>
                                 <i className="far fa-edit icon-edit action-icon"></i>

@@ -28,7 +28,7 @@ function totalData(req, res) {
       data.studentData = studentData;
       return models.Courses.findAll({
         include: [{model: models.Teachers}, {model: models.Classes}],
-        attributes: ['id', 'name', 'start', 'end']
+        attributes: ['id', 'name', 'start', 'end', 'startTime', 'endTime']
       });
     })
     .then(courseData => {
