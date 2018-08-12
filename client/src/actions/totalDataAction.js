@@ -1,8 +1,10 @@
 import { CUSTOM_API } from './constants';
-
+import { showSuccess } from './alertAction';
+import { redirect } from './redirectAction';
 export const TOTAL_DATA = 'TOTAL_DATA';
 export const CURRENT_DATA = 'CURRENT_DATA';
 export const DROP_CURRENT_DATA = 'DROP_CURRENT_DATA';
+export const AVAILABLE_TEACHERS = 'AVAILABLE_TEACHERS';
 
 function setData(classData, teacherData, studentData, courseData) {
     return {
@@ -21,13 +23,26 @@ function setCurrentData(currentData) {
     }
 }
 
-export function dropCurrentData() {
+function availableTeachers() {
+    return {
+        type: AVAILABLE_TEACHERS,
+    }
+}
+
+function setNullCurrentData() {
     return {
         type: DROP_CURRENT_DATA,
     }
 }
 
-export function getTotalData() {
+export function dropCurrentData() {
+    return (dispatch) => {
+        dispatch(setNullCurrentData());
+        dispatch(availableTeachers());
+    }
+}
+
+export function getTotalData(message, redirectTo, redirectId) {
     return (dispatch) => {
         (async () => {
             const response = await fetch(`${CUSTOM_API}/admin`, {
@@ -40,6 +55,10 @@ export function getTotalData() {
             });
             const data = await response.json();
             dispatch(setData(data.classData, data.teacherData, data.studentData, data.courseData));
+            message && dispatch(showSuccess(message));
+            redirectId && dispatch(redirect(redirectTo, redirectId));
+            dispatch(availableTeachers());
+            message === 'edited' && dispatch(dropCurrentData()); //this line erases currentData ang gets new currentData
         })();
     }
 }
@@ -58,6 +77,7 @@ export function getCurrentData(id, getFrom) {
             });
             const data = await response.json();
             dispatch(setCurrentData(data));
+            getFrom === 'classes' && dispatch(availableTeachers());
         })();
     }
 }

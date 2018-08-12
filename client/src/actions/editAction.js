@@ -1,6 +1,6 @@
 import { CUSTOM_API } from './constants';
 import { getTotalData } from './totalDataAction';
-import { showSuccess, showError } from './alertAction';
+import { showError } from './alertAction';
 
 export function editAction(data, id, editFrom) {
     return (dispatch) => {
@@ -15,8 +15,7 @@ export function editAction(data, id, editFrom) {
                 body: JSON.stringify({data, id}),
             });
             const res = await response.json();
-            res.status ? dispatch(showSuccess('edited')) : dispatch(showError()); 
-            dispatch(getTotalData());
+            res.status ? dispatch(getTotalData('edited')) : dispatch(showError()); 
         })();
     }
 }

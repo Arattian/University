@@ -4,7 +4,8 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 import Sidebar from '../../components/sidebar/Sidebar';
 import Home from '../../components/home/Home';
 import Data from '../../containers/data/Data';
-import Form from '../../containers/form/Form';
+import AddForm from '../../containers/form/addForm/AddForm';
+import EditForm from '../../containers/form/editForm/EditForm';
 import { getTotalData } from '../../actions/totalDataAction';
 import { hideAlert, showDelete } from '../../actions/alertAction';
 import { deleteAction } from '../../actions/deleteAction';
@@ -37,11 +38,11 @@ class App extends React.Component {
                         <Route exact path='/admin/:data'>
                             <Data boundShowDelete={this.props.boundShowDelete}/>
                         </Route>
-                        <Route exact path='/admin/:data/:action'>
-                            <Form />
+                        <Route exact path='/admin/:data/add'>
+                            <AddForm />
                         </Route>
-                        <Route exact path='/admin/:data/:action/:id'>
-                            <Form />
+                        <Route exact path='/admin/:data/edit/:id'>
+                            <EditForm />
                         </Route>
                     </Switch>
                     <SweetAlert

@@ -30,21 +30,30 @@ class TeacherForm extends React.Component {
         }
     }
 
-    handleSubmit = (ev, data, andClose) => {
+    handleSubmit = (ev, data, redirect) => {
         if(this.state.firstname !== '' &&
             this.state.lastname !== '' &&
             this.state.age !== '' &&
             this.state.classId !== '') {
-                this.state.id ? 
-                this.props.boundEditAction(data, data.id, 'teachers') :
-                this.props.boundAddAction(data, 'teachers');
-                andClose && this.props.closeForm('teachers');
+                if(this.state.id) {
+                    this.props.boundEditAction(data, data.id, 'teachers');
+                    redirect && this.props.closeForm('teachers'); 
+                } else if (redirect) {
+                    this.props.boundAddAction(data, 'teachers', redirect);
+                } else {
+                    this.props.boundAddAction(data, 'teachers');
+                    this.setState({
+                        firstname: '',
+                        lastname: '',
+                        age: '',
+                    });
+                }
     }
         ev.preventDefault();        
     }
 
     componentDidUpdate() {
-        if(this.props.currentData) {
+        if(this.props.currentData && !this.state.id) {
             this.setState({
                 id: this.props.currentData.id,
                 firstname: this.props.currentData.firstname,
@@ -112,8 +121,8 @@ class TeacherForm extends React.Component {
                 </div>
                 <div className='forms-btn-container'>
                     <button className='forms-btn' onClick={() => closeForm('teachers')}>Close</button>
-                    <button type='submit' className='forms-btn'>{this.state.id ? 'Save' : 'Add Teacher'}</button>
-                    <button className='forms-btn' onClick={(ev) => this.handleSubmit(ev, this.state, true)}>{this.state.id ? 'Save and Close' : 'Add and Close'}</button>
+                    <button type='submit' className='forms-btn'>{this.state.id ? 'Save' : 'Add and Create New'}</button>
+                    <button className='forms-btn' onClick={(ev) => this.handleSubmit(ev, this.state, true)}>{this.state.id ? 'Save and Close' : 'Add Teacher'}</button>
                 </div>
             </form>
         );

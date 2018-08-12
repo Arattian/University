@@ -2,19 +2,19 @@ const models = require("../models");
 
 function addClass(req, res) {
   models.Classes.create({name: req.body.data.name, teacherId: req.body.data.teacherId})
-    .then(() => res.json({statusCode: 200, status: true}))
+    .then((raw) => res.json({statusCode: 200, status: true, id: raw.id}))
     .catch(error => res.json({statusCode: 403, status: false}))
 }
 
 function addTeacher(req, res) {
   models.Teachers.create({firstname: req.body.data.firstname, lastname: req.body.data.lastname, age: req.body.data.age})
-    .then(() => res.json({statusCode: 200, status: true}))
+    .then((raw) => res.json({statusCode: 200, status: true, id: raw.id}))
     .catch(error => res.json({statusCode: 403, status: false}))
 }
 
 function addStudent(req, res) {
   models.Students.create({firstname: req.body.data.firstname, lastname: req.body.data.lastname, age: req.body.data.age, classId: req.body.data.classId})
-    .then(() => res.json({statusCode: 200, status: true}))
+    .then((raw) => res.json({statusCode: 200, status: true, id: raw.id}))
     .catch(error => res.json({statusCode: 403, status: false}))
 }
 
@@ -28,7 +28,7 @@ function addCourse(req, res) {
     teacherId: req.body.data.teacherId,
     classId: req.body.data.classId,
   })
-    .then(() => res.json({statusCode: 200, status: true}))
+    .then((raw) => res.json({statusCode: 200, status: true, id: raw.id}))
     .catch(error => res.json({statusCode: 403, status: false}))
 }
 
