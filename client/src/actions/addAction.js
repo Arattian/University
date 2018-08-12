@@ -1,8 +1,8 @@
 import { CUSTOM_API } from './constants';
 import { getTotalData } from './totalDataAction';
-import { showSuccess, showError } from './alertAction';
+import { showError } from './alertAction';
 
-export function addAction(data, addTo) {
+export function addAction(data, addTo, needToRedirect) {
     return (dispatch) => {
         (async () => {
             const response = await fetch(`${CUSTOM_API}/admin/${addTo}`, {
@@ -15,8 +15,11 @@ export function addAction(data, addTo) {
                 body: JSON.stringify({data}),
             });
             const res = await response.json();
-            res.status ? dispatch(showSuccess('added')) : dispatch(showError());
-            dispatch(getTotalData());
+            if(res.status) {
+                needToRedirect ? dispatch(getTotalData('added', addTo, res.id)) : dispatch(getTotalData('added', addTo));
+             } else {
+                dispatch(showError());
+             }
         })();
     }
 }

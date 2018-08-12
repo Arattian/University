@@ -26,7 +26,6 @@ const alertReducer = (state = initialState, action) => {
             }
             break;
         case HIDE_ALERT:
-        debugger;
             state = {
                 ...state,
                 showError: false,

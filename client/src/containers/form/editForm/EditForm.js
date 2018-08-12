@@ -1,59 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import ClassForm from '../../components/forms/classForm/ClassForm';
-import TeacherForm from '../../components/forms/teacherForm/TeacherForm';
-import StudentForm from '../../components/forms/studentForm/StudentForm';
-import CourseForm from '../../components/forms/courseForm/CourseForm';
-import { addAction } from '../../actions/addAction';
-import { editAction } from '../../actions/editAction';
-import { getCurrentData, dropCurrentData } from '../../actions/totalDataAction';
-import './Form.css';
+import ClassForm from '../../../components/forms/classForm/ClassForm';
+import TeacherForm from '../../../components/forms/teacherForm/TeacherForm';
+import StudentForm from '../../../components/forms/studentForm/StudentForm';
+import CourseForm from '../../../components/forms/courseForm/CourseForm';
+import { editAction } from '../../../actions/editAction';
+import { getCurrentData, dropCurrentData, getTotalData } from '../../../actions/totalDataAction';
+import { dropRedirect } from '../../../actions/redirectAction';
+import './EditForm.css';
 
-class Form extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            availableTeachers: [],
-        }
-    }
-
-    getAvailableTeachers = () => {
-        let teachers = this.props.teacherData;
-        let classes = this.props.classData;
-        const availableTeachers = [];
-        for (let i=0; i < teachers.length; ++i){
-            let matched = false;
-            for(let j=0; j < classes.length; ++j){
-                if(teachers[i].id === classes[j].Teacher.id){
-                    matched = true;
-                }
-            }
-            if(!matched){
-                availableTeachers.push(teachers[i]);
-            }
-        }
-        this.setState({availableTeachers});
-    }
+class EditForm extends React.Component {
 
     closeForm = (redirectTo) => {
         this.props.history.push(`/admin/${redirectTo}`);
     }
     
     componentDidMount() {
-        const id = this.props.match.params.id;
-        const getFrom = this.props.match.params.data;
-        id && this.props.boundGetCurrentData(id, getFrom);
-        getFrom === 'classes' && this.getAvailableTeachers();
+        this.props.redirectId && this.props.boundDropRedirect();
+        this.props.boundDropCurrentData();
     }
 
     componentDidUpdate() {
-        if(this.props.currentData && this.state.availableTeachers !== []) {
-            const availableTeachers = [...this.state.availableTeachers];
-            availableTeachers.unshift(this.props.currentData.Teacher);
-            this.setState({availableTeachers});
+        if(this.props.fetched && !this.props.currentData) {
+            const id = this.props.match.params.id;
+            const getFrom = this.props.match.params.data;
+            id && this.props.boundGetCurrentData(id, getFrom);
         }
-        this.props.boundDropCurrentData();
     }
 
     render() {
@@ -63,9 +36,8 @@ class Form extends React.Component {
                 {dataUrl === 'classes' ?
                     <ClassForm 
                                 closeForm={this.closeForm}
-                                selectData={this.state.availableTeachers}
+                                selectData={this.props.availableTeachers}
                                 currentData={this.props.currentData}
-                                boundAddAction={this.props.boundAddAction}
                                 boundEditAction={this.props.boundEditAction}
                                 boundDropCurrentData={this.props.boundDropCurrentData}
                     /> :
@@ -73,7 +45,6 @@ class Form extends React.Component {
                     <TeacherForm 
                                 closeForm={this.closeForm}
                                 currentData={this.props.currentData}
-                                boundAddAction={this.props.boundAddAction}
                                 boundEditAction={this.props.boundEditAction}
                                 boundDropCurrentData={this.props.boundDropCurrentData}
                     /> :
@@ -82,7 +53,6 @@ class Form extends React.Component {
                                 closeForm={this.closeForm}
                                 selectData={this.props.classData}
                                 currentData={this.props.currentData}
-                                boundAddAction={this.props.boundAddAction}
                                 boundEditAction={this.props.boundEditAction}
                                 boundDropCurrentData={this.props.boundDropCurrentData}
                     /> :
@@ -91,7 +61,6 @@ class Form extends React.Component {
                                 selectClassData={this.props.classData}
                                 selectTeacherData={this.props.teacherData}
                                 currentData={this.props.currentData}
-                                boundAddAction={this.props.boundAddAction}
                                 boundEditAction={this.props.boundEditAction}
                                 boundDropCurrentData={this.props.boundDropCurrentData}
                     />
@@ -103,20 +72,24 @@ class Form extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        fetched: state.totalData.fetched,
+        redirectId: state.redirect.redirectId,
         classData: state.totalData.classData,
         teacherData: state.totalData.teacherData,
         studentData: state.totalData.studentData,
         courseData: state.totalData.courseData,
         currentData: state.totalData.currentData,
+        availableTeachers: state.totalData.availableTeachers,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         boundEditAction: (data, id, editFrom) => dispatch(editAction(data, id, editFrom)),
-        boundAddAction: (data, addTo) => dispatch(addAction(data, addTo)),
         boundGetCurrentData: (id, getFrom) => dispatch(getCurrentData(id, getFrom)),
         boundDropCurrentData: () => dispatch(dropCurrentData()),
+        boundDropRedirect: () => dispatch(dropRedirect()),
+        boundGetTotalData: () => dispatch(getTotalData()),
     }
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditForm));

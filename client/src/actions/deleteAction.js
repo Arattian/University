@@ -1,6 +1,6 @@
 import { CUSTOM_API } from './constants';
 import { getTotalData } from './totalDataAction';
-import { showSuccess, showError } from './alertAction';
+import { showError } from './alertAction';
 
 export function deleteAction(id, deleteFrom) {
     return (dispatch) => {
@@ -15,8 +15,7 @@ export function deleteAction(id, deleteFrom) {
                 body: JSON.stringify({id}),
             });
             const res = await response.json();
-            res.status ? dispatch(showSuccess('deleted')) : dispatch(showError());
-            dispatch(getTotalData());
+            res.status ? dispatch(getTotalData('deleted')) : dispatch(showError()); 
         })();
     }
 }

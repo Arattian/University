@@ -19,12 +19,20 @@ class ClassForm extends React.Component {
         this.setState({teacherId: ev.target.value});
     }
 
-    handleSubmit = (ev, data, andClose) => {
+    handleSubmit = (ev, data, redirect) => {
         if(this.state.name !== '' && this.state.teacherId !== '') {
-            this.state.id ? 
-            this.props.boundEditAction(data, data.id, 'classes') :
-            this.props.boundAddAction(data, 'classes');
-            andClose && this.props.closeForm('classes');
+            if(this.state.id) {
+                this.props.boundEditAction(data, data.id, 'classes');
+                redirect && this.props.closeForm('classes'); 
+            } else if (redirect) {
+                this.props.boundAddAction(data, 'classes', redirect);
+            } else {
+                this.props.boundAddAction(data, 'classes');
+                this.setState({
+                    name: '',
+                    teacherId: '',
+                });
+            }
         }
         ev.preventDefault();        
     }
@@ -83,8 +91,8 @@ class ClassForm extends React.Component {
                     </div>
                     <div className='forms-btn-container'>
                         <button className='forms-btn' onClick={() => closeForm('classes')}>Close</button>
-                        <button type='submit' className='forms-btn'>{this.state.id ? 'Save' : 'Add Class'}</button>
-                        <button className='forms-btn' type='submit' onClick={(ev) => this.handleSubmit(ev, this.state, true)}>{this.state.id ? 'Save and Close' : 'Add and Close'}</button>
+                        <button type='submit' className='forms-btn'>{this.state.id ? 'Save' : 'Add and Create New'}</button>
+                        <button className='forms-btn' type='submit' onClick={(ev) => this.handleSubmit(ev, this.state, true)}>{this.state.id ? 'Save and Close' : 'Add Class'}</button>
                     </div>
                 </form>
         );
