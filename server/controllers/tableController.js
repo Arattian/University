@@ -1,38 +1,38 @@
 const models = require("../models");
 
-function totalData(req, res) {
+function allTables(req, res) {
   const data = {
-    classData: [],
-    teacherData: [],
-    studentData: [],
-    courseData: [],
+    classList: [],
+    teacherList: [],
+    studentList: [],
+    courseList: [],
   };
   models.Classes.findAll({
       include: [{ model: models.Teachers}],
       attributes: ['id', 'name']
     })
-    .then(classData => {
-      data.classData = classData;
+    .then(classList => {
+      data.classList = classList;
       return models.Teachers.findAll({
         attributes: ['id', 'firstname', 'lastname', 'age']
       });
     })
-    .then(teacherData => {
-      data.teacherData = teacherData;
+    .then(teacherList => {
+      data.teacherList = teacherList;
       return models.Students.findAll({
         include: [{ model: models.Classes}],
         attributes: ['id', 'firstname', 'lastname', 'age']
       });
     })
-    .then(studentData => {
-      data.studentData = studentData;
+    .then(studentList => {
+      data.studentList = studentList;
       return models.Courses.findAll({
         include: [{model: models.Teachers}, {model: models.Classes}],
         attributes: ['id', 'name', 'start', 'end', 'startTime', 'endTime']
       });
     })
-    .then(courseData => {
-      data.courseData = courseData;
+    .then(courseList => {
+      data.courseList = courseList;
       res.json(data);
     })
     .catch(err => res.json({status: 403, text: 'Something went wrong'}));
@@ -82,7 +82,7 @@ function currentCourse(req, res) {
 }
 
 module.exports =  {
-  totalData,
+  allTables,
   currentClass,
   currentTeacher,
   currentStudent,

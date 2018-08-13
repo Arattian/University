@@ -2,6 +2,10 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "engines" : { 
+    "npm" : "6.1.0",
+    "node" : "10.7.0"
+  },
   "dependencies": {
     "dotenv": "^6.0.0",
     "react": "^16.4.1",

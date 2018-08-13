@@ -14,39 +14,29 @@ class StudentForm extends React.Component {
     }
 
     handleInputChange = (ev, fieldToChange) => {
-        switch(fieldToChange) {
-            case 'firstname': {
-                this.setState({firstname: ev.target.value});
-                break;
-            }
-            case 'lastname': {
-                this.setState({lastname: ev.target.value});
-                break;
-            }
-            case 'age': {
-                this.setState({age: ev.target.value});
-                break;
-            }
-            default:
-        }
+        this.setState({[fieldToChange] : ev.target.value});
     }
 
     handleSelectChange = (ev) => {
         this.setState({classId: ev.target.value});
     }
 
-    handleSubmit = (ev, data, redirect) => {
-            if(this.state.firstname !== '' &&
+    validateInput = () => {
+        return this.state.firstname !== '' &&
                 this.state.lastname !== '' &&
                 this.state.age !== '' &&
-                this.state.classId !== '') {
+                this.state.classId !== '';
+    }
+
+    handleSubmit = (ev, data, redirect) => {
+            if(this.validateInput()) {
                     if(this.state.id) {
-                        this.props.boundEditAction(data, data.id, 'students');
+                        this.props.onSubmit(data, data.id, 'students');
                         redirect && this.props.closeForm('students'); 
                     } else if (redirect) {
-                        this.props.boundAddAction(data, 'students', redirect);
+                        this.props.onSubmit(data, 'students', redirect);
                     } else {
-                        this.props.boundAddAction(data, 'students');
+                        this.props.onSubmit(data, 'students');
                         this.setState({
                             firstname: '',
                             lastname: '',
@@ -59,19 +49,19 @@ class StudentForm extends React.Component {
     }
 
     componentDidUpdate() {
-        if(this.props.currentData && !this.state.id) {
+        if(this.props.currentItem && !this.state.id) {
             this.setState({
-                id: this.props.currentData.id,
-                firstname: this.props.currentData.firstname,
-                lastname: this.props.currentData.lastname,
-                age: this.props.currentData.age,
-                classId: this.props.currentData.classId,
+                id: this.props.currentItem.id,
+                firstname: this.props.currentItem.firstname,
+                lastname: this.props.currentItem.lastname,
+                age: this.props.currentItem.age,
+                classId: this.props.currentItem.classId,
             });
         }
     }
 
     render() {
-        const {selectData, closeForm} = this.props;
+        const {itemList, closeForm} = this.props;
         return (
             <form onSubmit={(ev) => this.handleSubmit(ev, this.state)} className='forms-form'>
                 <header className='forms-header'>
@@ -133,7 +123,7 @@ class StudentForm extends React.Component {
                         <div className="select">
                             <select name="slct" required value={this.state.classId} onChange={this.handleSelectChange}>
                                 {!this.state.id && <option value='' default> Choose an option </option>}
-                                {selectData.map(item => {
+                                {itemList.map(item => {
                                     return (
                                         <option 
                                         value={item.id}

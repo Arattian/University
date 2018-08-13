@@ -6,20 +6,20 @@ export const CURRENT_DATA = 'CURRENT_DATA';
 export const DROP_CURRENT_DATA = 'DROP_CURRENT_DATA';
 export const AVAILABLE_TEACHERS = 'AVAILABLE_TEACHERS';
 
-function setData(classData, teacherData, studentData, courseData) {
+function setData(classList, teacherList, studentList, courseList) {
     return {
         type: TOTAL_DATA,
-        classData,
-        teacherData,
-        studentData,
-        courseData   
+        classList,
+        teacherList,
+        studentList,
+        courseList   
     }
 }
 
-function setCurrentData(currentData) {
+function setCurrentItem(currentItem) {
     return {
         type: CURRENT_DATA,
-        currentData
+        currentItem
     }
 }
 
@@ -29,15 +29,15 @@ function availableTeachers() {
     }
 }
 
-function setNullCurrentData() {
+function setNullCurrentItem() {
     return {
         type: DROP_CURRENT_DATA,
     }
 }
 
-export function dropCurrentData() {
+export function dropCurrentItem() {
     return (dispatch) => {
-        dispatch(setNullCurrentData());
+        dispatch(setNullCurrentItem());
         dispatch(availableTeachers());
     }
 }
@@ -54,19 +54,19 @@ export function getTotalData(message, redirectTo, redirectId) {
                 },
             });
             const data = await response.json();
-            dispatch(setData(data.classData, data.teacherData, data.studentData, data.courseData));
+            dispatch(setData(data.classList, data.teacherList, data.studentList, data.courseList));
             message && dispatch(showSuccess(message));
             redirectId && dispatch(redirect(redirectTo, redirectId));
             dispatch(availableTeachers());
-            message === 'edited' && dispatch(dropCurrentData()); //this line erases currentData ang gets new currentData
+            message === 'edited' && dispatch(dropCurrentItem()); //this line erases currentItem ang gets new currentItem
         })();
     }
 }
 
-export function getCurrentData(id, getFrom) {
+export function getCurrentItem(id, pageName) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/${getFrom}/edit`, {
+            const response = await fetch(`${CUSTOM_API}/admin/${pageName}/edit`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -76,8 +76,8 @@ export function getCurrentData(id, getFrom) {
                 body: JSON.stringify({id}),
             });
             const data = await response.json();
-            dispatch(setCurrentData(data));
-            getFrom === 'classes' && dispatch(availableTeachers());
+            dispatch(setCurrentItem(data));
+            pageName === 'classes' && dispatch(availableTeachers());
         })();
     }
 }

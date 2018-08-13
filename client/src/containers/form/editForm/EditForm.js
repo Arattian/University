@@ -6,7 +6,7 @@ import TeacherForm from '../../../components/forms/teacherForm/TeacherForm';
 import StudentForm from '../../../components/forms/studentForm/StudentForm';
 import CourseForm from '../../../components/forms/courseForm/CourseForm';
 import { editAction } from '../../../actions/editAction';
-import { getCurrentData, dropCurrentData, getTotalData } from '../../../actions/totalDataAction';
+import { getCurrentItem, dropCurrentItem, getTotalData } from '../../../actions/tablesAction';
 import { dropRedirect } from '../../../actions/redirectAction';
 import './EditForm.css';
 
@@ -18,51 +18,47 @@ class EditForm extends React.Component {
     
     componentDidMount() {
         this.props.redirectId && this.props.boundDropRedirect();
-        this.props.boundDropCurrentData();
+        this.props.boundDropCurrentItem();
     }
 
     componentDidUpdate() {
-        if(this.props.fetched && !this.props.currentData) {
+        if(this.props.fetched && !this.props.currentItem) {
             const id = this.props.match.params.id;
-            const getFrom = this.props.match.params.data;
-            id && this.props.boundGetCurrentData(id, getFrom);
+            const pageName = this.props.match.params.page;
+            id && this.props.boundGetCurrentItem(id, pageName);
         }
     }
 
     render() {
-        const dataUrl = this.props.match.params.data;
+        const pageName = this.props.match.params.page;
         return (
             <div className='form-container'>
-                {dataUrl === 'classes' ?
+                {pageName === 'classes' ?
                     <ClassForm 
                                 closeForm={this.closeForm}
-                                selectData={this.props.availableTeachers}
-                                currentData={this.props.currentData}
-                                boundEditAction={this.props.boundEditAction}
-                                boundDropCurrentData={this.props.boundDropCurrentData}
+                                itemList={this.props.availableTeachers}
+                                currentItem={this.props.currentItem}
+                                onSubmit={this.props.boundEditAction}
                     /> :
-                    dataUrl === 'teachers' ?
+                    pageName === 'teachers' ?
                     <TeacherForm 
                                 closeForm={this.closeForm}
-                                currentData={this.props.currentData}
-                                boundEditAction={this.props.boundEditAction}
-                                boundDropCurrentData={this.props.boundDropCurrentData}
+                                currentItem={this.props.currentItem}
+                                onSubmit={this.props.boundEditAction}
                     /> :
-                    dataUrl === 'students' ?
+                    pageName === 'students' ?
                     <StudentForm 
                                 closeForm={this.closeForm}
-                                selectData={this.props.classData}
-                                currentData={this.props.currentData}
-                                boundEditAction={this.props.boundEditAction}
-                                boundDropCurrentData={this.props.boundDropCurrentData}
+                                itemList={this.props.classList}
+                                currentItem={this.props.currentItem}
+                                onSubmit={this.props.boundEditAction}
                     /> :
                     <CourseForm 
                                 closeForm={this.closeForm}
-                                selectClassData={this.props.classData}
-                                selectTeacherData={this.props.teacherData}
-                                currentData={this.props.currentData}
-                                boundEditAction={this.props.boundEditAction}
-                                boundDropCurrentData={this.props.boundDropCurrentData}
+                                selectclassList={this.props.classList}
+                                selectteacherList={this.props.teacherList}
+                                currentItem={this.props.currentItem}
+                                onSubmit={this.props.boundEditAction}
                     />
                 }
             </div>
@@ -72,22 +68,22 @@ class EditForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        fetched: state.totalData.fetched,
+        fetched: state.tables.fetched,
         redirectId: state.redirect.redirectId,
-        classData: state.totalData.classData,
-        teacherData: state.totalData.teacherData,
-        studentData: state.totalData.studentData,
-        courseData: state.totalData.courseData,
-        currentData: state.totalData.currentData,
-        availableTeachers: state.totalData.availableTeachers,
+        classList: state.tables.classList,
+        teacherList: state.tables.teacherList,
+        studentList: state.tables.studentList,
+        courseList: state.tables.courseList,
+        currentItem: state.tables.currentItem,
+        availableTeachers: state.tables.availableTeachers,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        boundEditAction: (data, id, editFrom) => dispatch(editAction(data, id, editFrom)),
-        boundGetCurrentData: (id, getFrom) => dispatch(getCurrentData(id, getFrom)),
-        boundDropCurrentData: () => dispatch(dropCurrentData()),
+        boundEditAction: (data, id, pageName) => dispatch(editAction(data, id, pageName)),
+        boundGetCurrentItem: (id, pageName) => dispatch(getCurrentItem(id, pageName)),
+        boundDropCurrentItem: () => dispatch(dropCurrentItem()),
         boundDropRedirect: () => dispatch(dropRedirect()),
         boundGetTotalData: () => dispatch(getTotalData()),
     }

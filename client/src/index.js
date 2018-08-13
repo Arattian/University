@@ -9,17 +9,17 @@ import './index.css';
 
 ReactDOM.render(
     <Router>
-        <Switch>
-            <Route exact path='/'>
-                <Provider store={store}>
-                    <Login />
-                </Provider>
-            </Route>
-            <Route path='/admin'>
-                <Provider store={store}>
-                    <App />
-                </Provider>
-            </Route>
-        </Switch>
+            <Switch>
+                <Route exact path='/'>
+                    <Provider store={store}>
+                        <Login />
+                    </Provider>
+                </Route>
+                <Route path='/admin'>
+                    <Provider store={store}>
+                        <App />
+                    </Provider>
+                </Route>
+            </Switch>
     </Router>,
     document.getElementById('root'));

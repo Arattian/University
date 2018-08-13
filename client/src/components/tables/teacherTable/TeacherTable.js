@@ -1,7 +1,7 @@
 import React from 'react';
-import './TeacherData.css';
+import './TeacherTable.css';
 
-const TeacherData = ({data, handleEditRedirect, handleDelete}) => {
+const TeacherTable = ({table, handleEditRedirect, handleDelete}) => {
     return (
         <div>
             <header>
@@ -15,7 +15,7 @@ const TeacherData = ({data, handleEditRedirect, handleDelete}) => {
                     <div className='empty'></div>
                     <div className='empty'></div>
                 </ul>
-                {data.map((item) => {
+                {table.map((item) => {
                     return (
                         <li key={'#'+Math.floor(Math.random()*16777215).toString(16)} className='row-container'>
                             <ul className='row'>
@@ -37,4 +37,4 @@ const TeacherData = ({data, handleEditRedirect, handleDelete}) => {
     );
 }
 
-export default TeacherData;
+export default TeacherTable;

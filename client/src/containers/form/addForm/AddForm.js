@@ -7,7 +7,7 @@ import StudentForm from '../../../components/forms/studentForm/StudentForm';
 import CourseForm from '../../../components/forms/courseForm/CourseForm';
 import { addAction } from '../../../actions/addAction';
 import './AddForm.css';
-import { getTotalData, dropCurrentData } from '../../../actions/totalDataAction';
+import { getTotalData, dropCurrentItem } from '../../../actions/tablesAction';
 
 class AddForm extends React.Component {
 
@@ -25,35 +25,35 @@ class AddForm extends React.Component {
         if(!this.props.fetched) {
             this.props.boundGetTotalData();
         }
-        this.props.boundDropCurrentData();
+        this.props.boundDropCurrentItem();
     }
 
     render() {
-        const dataUrl = this.props.match.params.data;
+        const pageName = this.props.match.params.page;
         return (
             <div className='form-container'>
-                {dataUrl === 'classes' ?
+                {pageName === 'classes' ?
                     <ClassForm 
                                 closeForm={this.closeForm}
-                                boundAddAction={this.props.boundAddAction}
-                                selectData={this.props.availableTeachers}
+                                onSubmit={this.props.boundAddAction}
+                                itemList={this.props.availableTeachers}
                     /> :
-                    dataUrl === 'teachers' ?
+                    pageName === 'teachers' ?
                     <TeacherForm 
                                 closeForm={this.closeForm}
-                                boundAddAction={this.props.boundAddAction}
+                                onSubmit={this.props.boundAddAction}
                     /> :
-                    dataUrl === 'students' ?
+                    pageName === 'students' ?
                     <StudentForm 
                                 closeForm={this.closeForm}
-                                selectData={this.props.classData}
-                                boundAddAction={this.props.boundAddAction}
+                                itemList={this.props.classList}
+                                onSubmit={this.props.boundAddAction}
                     /> :
                     <CourseForm 
                                 closeForm={this.closeForm}
-                                selectClassData={this.props.classData}
-                                selectTeacherData={this.props.teacherData}
-                                boundAddAction={this.props.boundAddAction}
+                                selectclassList={this.props.classList}
+                                selectteacherList={this.props.teacherList}
+                                onSubmit={this.props.boundAddAction}
                     />
                 }
             </div>
@@ -63,22 +63,22 @@ class AddForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        fetched: state.totalData.fetched,
+        fetched: state.tables.fetched,
         redirectId: state.redirect.redirectId,
         redirectTo: state.redirect.redirectTo,
-        classData: state.totalData.classData,
-        teacherData: state.totalData.teacherData,
-        studentData: state.totalData.studentData,
-        courseData: state.totalData.courseData,
-        availableTeachers: state.totalData.availableTeachers,
+        classList: state.tables.classList,
+        teacherList: state.tables.teacherList,
+        studentList: state.tables.studentList,
+        courseList: state.tables.courseList,
+        availableTeachers: state.tables.availableTeachers,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        boundAddAction: (data, addTo, needToRedirect) => dispatch(addAction(data, addTo, needToRedirect)),
+        boundAddAction: (data, pageName, needToRedirect) => dispatch(addAction(data, pageName, needToRedirect)),
         boundGetTotalData: () => dispatch(getTotalData()),
-        boundDropCurrentData: () => dispatch(dropCurrentData()),
+        boundDropCurrentItem: () => dispatch(dropCurrentItem()),
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddForm));

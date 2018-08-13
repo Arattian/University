@@ -1,41 +1,37 @@
 const models = require("../models");
 
 function editClass(req,res) {
-      models.Classes.findById(req.body.id)
-        .then(classToEdit => classToEdit.update({
-          name: req.body.data.name,
-          teacherId: req.body.data.teacherId,
-        }))
-        .then(() => res.json({statusCode: 200, status: true}))
-        .catch(err => res.json({statusCode: 403, status: false}));
+      models.Classes.update({
+        name: req.body.data.name,
+        teacherId: req.body.data.teacherId,
+      }, {where: {id: req.body.id}})
+        .then(() => res.json({statusCode: 200, success: true}))
+        .catch(err => res.json({statusCode: 403, success: false}));
 }
 
 function editTeacher(req, res) {
-  models.Teachers.findById(req.body.id)
-  .then(teacherToEdit => teacherToEdit.update({
+  models.Teachers.update({
     firstname: req.body.data.firstname,
     lastname: req.body.data.lastname,
     age: req.body.data.age,
-  }))
-  .then(() => res.json({statusCode: 200, status: true}))
-  .catch(err => res.json({statusCode: 403, status: false}));
+  }, {where: {id: req.body.id}})
+  .then(() => res.json({statusCode: 200, success: true}))
+  .catch(err => res.json({statusCode: 403, success: false}));
 }
 
 function editStudent(req, res) {
-  models.Students.findById(req.body.id)
-  .then(studentToEdit => studentToEdit.update({
+  models.Students.update({
     firstname: req.body.data.firstname,
     lastname: req.body.data.lastname,
     age: req.body.data.age,
     classId: req.body.data.classId,
-  }))
-  .then(() => res.json({statusCode: 200, status: true}))
-  .catch(err => res.json({statusCode: 403, status: false}));
+  }, {where: {id: req.body.id}})
+  .then(() => res.json({statusCode: 200, success: true}))
+  .catch(err => res.json({statusCode: 403, success: false}));
 }
 
 function editCourse(req, res) {
-  models.Courses.findById(req.body.id)
-  .then(courseToEdit => courseToEdit.update({
+  models.Courses.update({
     name: req.body.data.name,
     start: req.body.data.start,
     end: req.body.data.end,
@@ -43,9 +39,9 @@ function editCourse(req, res) {
     endTime: req.body.data.endTime,
     teacherId: req.body.data.teacherId,
     classId: req.body.data.classId,
-  }))
-  .then(() => res.json({statusCode: 200, status: true}))
-  .catch(err => res.json({statusCode: 403, status: false}));
+  }, {where: {id: req.body.id}})
+  .then(() => res.json({statusCode: 200, success: true}))
+  .catch(err => res.json({statusCode: 403, success: false}));
 }
 
 module.exports =  {

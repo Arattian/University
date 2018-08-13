@@ -19,15 +19,19 @@ class ClassForm extends React.Component {
         this.setState({teacherId: ev.target.value});
     }
 
+    validateInput = () => {
+        return this.state.name !== '' && this.state.teacherId !== '';
+    }
+
     handleSubmit = (ev, data, redirect) => {
-        if(this.state.name !== '' && this.state.teacherId !== '') {
+        if(this.validateInput()) {
             if(this.state.id) {
-                this.props.boundEditAction(data, data.id, 'classes');
+                this.props.onSubmit(data, data.id, 'classes');
                 redirect && this.props.closeForm('classes'); 
             } else if (redirect) {
-                this.props.boundAddAction(data, 'classes', redirect);
+                this.props.onSubmit(data, 'classes', redirect);
             } else {
-                this.props.boundAddAction(data, 'classes');
+                this.props.onSubmit(data, 'classes');
                 this.setState({
                     name: '',
                     teacherId: '',
@@ -38,17 +42,17 @@ class ClassForm extends React.Component {
     }
 
     componentDidUpdate() {
-        if(this.props.currentData && !this.state.id) {
+        if(this.props.currentItem && !this.state.id) {
             this.setState({
-                id: this.props.currentData.id,
-                name: this.props.currentData.name,
-                teacherId: this.props.currentData.teacherId,
+                id: this.props.currentItem.id,
+                name: this.props.currentItem.name,
+                teacherId: this.props.currentItem.teacherId,
             });
         }
     }
 
     render() {
-        const {selectData, closeForm} = this.props;
+        const {itemList, closeForm} = this.props;
         return (
                 <form onSubmit={(ev) => this.handleSubmit(ev, this.state)} className='forms-form'>
                     <header className='forms-header'>
@@ -76,7 +80,7 @@ class ClassForm extends React.Component {
                         <div className="select">
                             <select name="slct" required value={this.state.teacherId} onChange={this.handleSelectChange}>
                                 {!this.state.id && <option value='' default> Choose an option </option>}
-                                {selectData.map(item => {
+                                {itemList.map(item => {
                                     return (
                                         <option 
                                         value={item.id}

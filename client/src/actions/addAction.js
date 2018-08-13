@@ -1,11 +1,11 @@
 import { CUSTOM_API } from './constants';
-import { getTotalData } from './totalDataAction';
+import { getTotalData } from './tablesAction';
 import { showError } from './alertAction';
 
-export function addAction(data, addTo, needToRedirect) {
+export function addAction(data, pageName, needToRedirect) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/${addTo}`, {
+            const response = await fetch(`${CUSTOM_API}/admin/${pageName}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -15,8 +15,8 @@ export function addAction(data, addTo, needToRedirect) {
                 body: JSON.stringify({data}),
             });
             const res = await response.json();
-            if(res.status) {
-                needToRedirect ? dispatch(getTotalData('added', addTo, res.id)) : dispatch(getTotalData('added', addTo));
+            if(res.success) {
+                needToRedirect ? dispatch(getTotalData('added', pageName, res.id)) : dispatch(getTotalData('added', pageName));
              } else {
                 dispatch(showError());
              }

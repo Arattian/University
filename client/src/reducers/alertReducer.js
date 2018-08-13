@@ -27,13 +27,7 @@ const alertReducer = (state = initialState, action) => {
             break;
         case HIDE_ALERT:
             state = {
-                ...state,
-                showError: false,
-                showSuccess: false,
-                alertMessage: false,
-                showDelete: false,
-                deleteId: null,
-                deleteFrom: null,
+                ...initialState,
             };
             break;
         case SHOW_DELETE:

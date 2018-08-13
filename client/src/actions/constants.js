@@ -1,1 +1,1 @@
-export const CUSTOM_API = 'http://localhost:3030';
+export const CUSTOM_API = 'https://university-server.herokuapp.com';

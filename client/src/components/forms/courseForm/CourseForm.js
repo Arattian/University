@@ -17,29 +17,7 @@ class CourseForm extends React.Component {
     }
 
     handleInputChange = (ev, fieldToChange) => {
-        switch(fieldToChange) {
-            case 'name': {
-                this.setState({name: ev.target.value});
-                break;
-            }
-            case 'startTime': {
-                this.setState({startTime: ev.target.value});
-                break;
-            }
-            case 'endTime': {
-                this.setState({endTime: ev.target.value});
-                break;
-            }
-            case 'start': {
-                this.setState({start: ev.target.value});
-                break;
-            }
-            case 'end': {
-                this.setState({end: ev.target.value});
-                break;
-            }
-            default:
-        }
+        this.setState({[fieldToChange]: ev.target.value});
     }
 
     
@@ -58,21 +36,25 @@ class CourseForm extends React.Component {
 
     }
 
+    validateInput = () => {
+        return this.state.name !== '' &&
+                this.state.start !== '' &&
+                this.state.end !== '' &&
+                this.state.startTime !== '' &&
+                this.state.endTime !== '' &&
+                this.state.teacherId !== '' &&
+                this.state.classId !== '';
+    }
+
     handleSubmit = (ev, data, redirect) => {
-        if(this.state.name !== '' &&
-            this.state.start !== '' &&
-            this.state.end !== '' &&
-            this.state.startTime !== '' &&
-            this.state.endTime !== '' &&
-            this.state.teacherId !== '' &&
-            this.state.classId !== '') {
+        if(this.validateInput()) {
                 if(this.state.id) {
-                    this.props.boundEditAction(data, data.id, 'courses');
+                    this.props.onSubmit(data, data.id, 'courses');
                     redirect && this.props.closeForm('courses'); 
                 } else if (redirect) {
-                    this.props.boundAddAction(data, 'courses', redirect);
+                    this.props.onSubmit(data, 'courses', redirect);
                 } else {
-                    this.props.boundAddAction(data, 'courses');
+                    this.props.onSubmit(data, 'courses');
                     this.setState({
                         name: '',
                         start: '',
@@ -88,22 +70,22 @@ class CourseForm extends React.Component {
     }
 
     componentDidUpdate() {
-        if(this.props.currentData && !this.state.id) {
+        if(this.props.currentItem && !this.state.id) {
             this.setState({
-                id: this.props.currentData.id,
-                name: this.props.currentData.name,
-                start: this.props.currentData.start,
-                end: this.props.currentData.end,
-                startTime: this.props.currentData.startTime,
-                endTime: this.props.currentData.endTime,
-                teacherId: this.props.currentData.teacherId,
-                classId: this.props.currentData.classId,
+                id: this.props.currentItem.id,
+                name: this.props.currentItem.name,
+                start: this.props.currentItem.start,
+                end: this.props.currentItem.end,
+                startTime: this.props.currentItem.startTime,
+                endTime: this.props.currentItem.endTime,
+                teacherId: this.props.currentItem.teacherId,
+                classId: this.props.currentItem.classId,
             });
         }
     }
 
     render() {
-        const {selectClassData, selectTeacherData, closeForm} = this.props;
+        const {selectclassList, selectteacherList, closeForm} = this.props;
         return (
             <form onSubmit={(ev) => this.handleSubmit(ev, this.state)} className='course-form'>
                 <header className='forms-header'>
@@ -133,7 +115,7 @@ class CourseForm extends React.Component {
                         <div className="select">
                             <select name="slct-teacher" required value={this.state.teacherId} onChange={(ev) => this.handleSelectChange(ev, 'teacherId')}>
                                 {!this.state.id && <option value='' default> Choose an option </option>}
-                                {selectTeacherData.map(item => {
+                                {selectteacherList.map(item => {
                                     return (
                                         <option 
                                         value={item.id}
@@ -153,7 +135,7 @@ class CourseForm extends React.Component {
                         <div className="select">
                             <select name="slct-class" required value={this.state.classId} onChange={(ev) => this.handleSelectChange(ev, 'classId')}>
                                 {!this.state.id && <option value='' default> Choose an option </option>}
-                                {selectClassData.map(item => {
+                                {selectclassList.map(item => {
                                     return (
                                         <option 
                                         value={item.id}

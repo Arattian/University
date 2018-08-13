@@ -1,30 +1,34 @@
 import React from 'react';
-import './ClassData.css';
+import './StudentTable.css';
 
-const ClassData = ({data, handleEditRedirect, handleDelete}) => {
+const StudentTable = ({table, handleEditRedirect, handleDelete}) => {
     return (
         <div>
             <header>
-                <h2>Classes</h2>
+                <h2>Students</h2>
             </header>
             <ul className='data'>
                 <ul className='first-row'>
-                    <li>Name</li>
-                    <li>Teacher</li>
+                    <li>First Name</li>
+                    <li>Last Name</li>
+                    <li>Age</li>
+                    <li>Class</li>
                     <div className='empty'></div>
                     <div className='empty'></div>
                 </ul>
-                {data.map((item) => {
+                {table.map((item) => {
                     return (
                         <li key={'#'+Math.floor(Math.random()*16777215).toString(16)} className='row-container'>
                             <ul className='row'>
-                                <li>{item.name}</li>
-                                <li>{item.Teacher === null ? '-----------------': item.Teacher.firstname + ' ' + item.Teacher.lastname}</li>
+                                <li>{item.firstname}</li>
+                                <li>{item.lastname}</li>
+                                <li>{item.age}</li>
+                                <li>{item.Class ? item.Class.name : '-----------------'}</li>
                             </ul>
-                            <div className='action-icon-container' onClick={() => handleEditRedirect(item.id, 'classes')}>
+                            <div className='action-icon-container' onClick={() => handleEditRedirect(item.id, 'students')}>
                                 <i className="far fa-edit icon-edit action-icon"></i>
                             </div>
-                            <div className='action-icon-container' onClick={() => handleDelete(item.id, 'classes')}> 
+                            <div className='action-icon-container' onClick={() => handleDelete(item.id, 'students')}>
                                 <i className="fas fa-trash-alt icon-delete action-icon"></i>
                             </div>
                         </li>
@@ -35,4 +39,4 @@ const ClassData = ({data, handleEditRedirect, handleDelete}) => {
     );
 }
 
-export default ClassData;
+export default StudentTable;

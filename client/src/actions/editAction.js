@@ -1,11 +1,11 @@
 import { CUSTOM_API } from './constants';
-import { getTotalData } from './totalDataAction';
+import { getTotalData } from './tablesAction';
 import { showError } from './alertAction';
 
-export function editAction(data, id, editFrom) {
+export function editAction(data, id, pageName) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/${editFrom}/edit`, {
+            const response = await fetch(`${CUSTOM_API}/admin/${pageName}/edit`, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -15,7 +15,7 @@ export function editAction(data, id, editFrom) {
                 body: JSON.stringify({data, id}),
             });
             const res = await response.json();
-            res.status ? dispatch(getTotalData('edited')) : dispatch(showError()); 
+            res.success ? dispatch(getTotalData('edited')) : dispatch(showError()); 
         })();
     }
 }

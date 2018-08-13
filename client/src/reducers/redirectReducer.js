@@ -17,9 +17,7 @@ const redirectReducer = (state = initialState, action) => {
             break;
         case DROP_REDIRECT:
             state = {
-                ...state,
-                redirectId: null,
-                redirectTo: null,
+                ...initialState,
             }
             break;
         default: {

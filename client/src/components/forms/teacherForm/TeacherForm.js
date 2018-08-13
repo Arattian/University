@@ -13,35 +13,25 @@ class TeacherForm extends React.Component {
     }
 
     handleInputChange = (ev, fieldToChange) => {
-        switch(fieldToChange) {
-            case 'firstname': {
-                this.setState({firstname: ev.target.value});
-                break;
-            }
-            case 'lastname': {
-                this.setState({lastname: ev.target.value});
-                break;
-            }
-            case 'age': {
-                this.setState({age: ev.target.value});
-                break;
-            }
-            default:
-        }
+        this.setState({[fieldToChange]: ev.target.value});
+    }
+
+    validateInput = () => {
+        return this.state.firstname !== '' &&
+                this.state.lastname !== '' &&
+                this.state.age !== '' &&
+                this.state.classId !== '';
     }
 
     handleSubmit = (ev, data, redirect) => {
-        if(this.state.firstname !== '' &&
-            this.state.lastname !== '' &&
-            this.state.age !== '' &&
-            this.state.classId !== '') {
+        if(this.validateInput()) {
                 if(this.state.id) {
-                    this.props.boundEditAction(data, data.id, 'teachers');
+                    this.props.onSubmit(data, data.id, 'teachers');
                     redirect && this.props.closeForm('teachers'); 
                 } else if (redirect) {
-                    this.props.boundAddAction(data, 'teachers', redirect);
+                    this.props.onSubmit(data, 'teachers', redirect);
                 } else {
-                    this.props.boundAddAction(data, 'teachers');
+                    this.props.onSubmit(data, 'teachers');
                     this.setState({
                         firstname: '',
                         lastname: '',
@@ -53,12 +43,12 @@ class TeacherForm extends React.Component {
     }
 
     componentDidUpdate() {
-        if(this.props.currentData && !this.state.id) {
+        if(this.props.currentItem && !this.state.id) {
             this.setState({
-                id: this.props.currentData.id,
-                firstname: this.props.currentData.firstname,
-                lastname: this.props.currentData.lastname,
-                age: this.props.currentData.age,
+                id: this.props.currentItem.id,
+                firstname: this.props.currentItem.firstname,
+                lastname: this.props.currentItem.lastname,
+                age: this.props.currentItem.age,
             });
         }
     }

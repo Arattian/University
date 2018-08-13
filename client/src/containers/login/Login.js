@@ -11,8 +11,8 @@ class Login extends React.Component {
         ev.preventDefault();
     }
 
-    shouldComponentUpdate() {
-        if (localStorage.token !== 'undefined') {
+    shouldComponentUpdate(nextProps) {
+        if (localStorage.token !== 'undefined' && nextProps.loggedIn) {
             this.props.history.push('/admin');
             return false;
         } else {

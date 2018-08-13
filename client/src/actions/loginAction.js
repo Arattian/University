@@ -19,7 +19,7 @@ export function login(mail, pass) {
                 body: JSON.stringify({mail: mail.value, pass: pass.value})
             });
             const data = await response.json();
-            localStorage.token = data.token
+            localStorage.token = data.token;
             dispatch(loginStatus(data.result));
         })();
     }

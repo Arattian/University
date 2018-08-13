@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import Sidebar from '../../components/sidebar/Sidebar';
 import Home from '../../components/home/Home';
-import Data from '../../containers/data/Data';
+import TableWrapper from '../../containers/tableWrapper/TableWrapper';
 import AddForm from '../../containers/form/addForm/AddForm';
 import EditForm from '../../containers/form/editForm/EditForm';
-import { getTotalData } from '../../actions/totalDataAction';
+import { getTotalData } from '../../actions/tablesAction';
 import { hideAlert, showDelete } from '../../actions/alertAction';
 import { deleteAction } from '../../actions/deleteAction';
 import SweetAlert from 'sweetalert2-react';
@@ -29,19 +29,19 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path='/admin'>
                             <Home 
-                                totalClasses={this.props.classData.length}
-                                totalTeachers={this.props.teacherData.length}
-                                totalStudents={this.props.studentData.length}
-                                totalCourses={this.props.courseData.length}
+                                totalClasses={this.props.classList.length}
+                                totalTeachers={this.props.teacherList.length}
+                                totalStudents={this.props.studentList.length}
+                                totalCourses={this.props.courseList.length}
                             />
                         </Route>
-                        <Route exact path='/admin/:data'>
-                            <Data boundShowDelete={this.props.boundShowDelete}/>
+                        <Route exact path='/admin/:page'>
+                            <TableWrapper boundShowDelete={this.props.boundShowDelete}/>
                         </Route>
-                        <Route exact path='/admin/:data/add'>
+                        <Route exact path='/admin/:page/add'>
                             <AddForm />
                         </Route>
-                        <Route exact path='/admin/:data/edit/:id'>
+                        <Route exact path='/admin/:page/edit/:id'>
                             <EditForm />
                         </Route>
                     </Switch>
@@ -86,10 +86,10 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        classData: state.totalData.classData,
-        teacherData: state.totalData.teacherData,
-        studentData: state.totalData.studentData,
-        courseData: state.totalData.courseData,
+        classList: state.tables.classList,
+        teacherList: state.tables.teacherList,
+        studentList: state.tables.studentList,
+        courseList: state.tables.courseList,
         showSuccess: state.alert.showSuccess,
         showError: state.alert.showError,
         showDelete: state.alert.showDelete,
