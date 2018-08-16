@@ -23,6 +23,7 @@ const alertReducer = (state = initialState, action) => {
             state = {
                 ...state,
                 showError: true,
+                alertMessage: action.alertMessage
             }
             break;
         case HIDE_ALERT:

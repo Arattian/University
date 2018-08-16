@@ -1,18 +1,48 @@
-import { CUSTOM_API } from './constants';
+import { CUSTOM_API, fetchHelper } from './constants';
 import { showSuccess } from './alertAction';
 import { redirect } from './redirectAction';
-export const TOTAL_DATA = 'TOTAL_DATA';
 export const CURRENT_DATA = 'CURRENT_DATA';
 export const DROP_CURRENT_DATA = 'DROP_CURRENT_DATA';
 export const AVAILABLE_TEACHERS = 'AVAILABLE_TEACHERS';
+export const COUNT_RAWS = 'COUNT_RAWS';
+export const SET_CLASSES = 'SET_CLASSES';
+export const SET_COURSES = 'SET_COURSES';
+export const SET_TEACHERS = 'SET_TEACHERS';
+export const SET_STUDENTS = 'SET_STUDENTS';
 
-function setData(classList, teacherList, studentList, courseList) {
+function setTable(list, tableName) {
+    switch(tableName) {
+        case 'classes':
+            return {
+                type: SET_CLASSES,
+                list,
+            };
+        case 'teachers':
+            return {
+                type: SET_TEACHERS,
+                list,
+            };
+        case 'students':
+            return {
+                type: SET_STUDENTS,
+                list,
+            };
+        case 'courses':
+            return {
+                type: SET_COURSES,
+                list,
+            };
+        default:
+    }
+}
+
+function countRaws(classCount, teacherCount, studentCount, courseCount) {
     return {
-        type: TOTAL_DATA,
-        classList,
-        teacherList,
-        studentList,
-        courseList   
+        type: COUNT_RAWS,
+        classCount,
+        teacherCount,
+        studentCount,
+        courseCount
     }
 }
 
@@ -42,39 +72,51 @@ export function dropCurrentItem() {
     }
 }
 
-export function getTotalData(message, redirectTo, redirectId) {
+export function getTable(tableName, message, redirectId) {
+    debugger;
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.token}`
-                },
-            });
-            const data = await response.json();
-            dispatch(setData(data.classList, data.teacherList, data.studentList, data.courseList));
+            const response = await fetchHelper(`${CUSTOM_API}/admin/${tableName}`, 'GET');
+            const list = await response.json();
+            switch(tableName) {
+                case 'classes':
+                    dispatch(setTable(list, tableName));
+                    dispatch(availableTeachers());
+                    break;
+                case 'teachers':
+                    dispatch(setTable(list, tableName));
+                    dispatch(availableTeachers());
+                    break;
+                case 'students':
+                    dispatch(setTable(list, tableName));
+                    break;                    
+                case 'courses':
+                    dispatch(setTable(list, tableName));
+                    break;
+                default:
+            }
             message && dispatch(showSuccess(message));
-            redirectId && dispatch(redirect(redirectTo, redirectId));
-            dispatch(availableTeachers());
-            message === 'edited' && dispatch(dropCurrentItem()); //this line erases currentItem ang gets new currentItem
+            redirectId && dispatch(redirect(tableName, redirectId));
+            message === 'edited' && dispatch(dropCurrentItem());
         })();
     }
 }
 
+export function tableRawCount() {
+    return (dispatch) => {
+        (async () => {
+            const response = await fetchHelper(`${CUSTOM_API}/admin`, 'GET');
+            const counts = await response.json();
+            dispatch(countRaws(counts.classCount, counts.teacherCount, counts.studentCount, counts.courseCount));
+        })();
+    }
+}
+
+
 export function getCurrentItem(id, pageName) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/${pageName}/edit`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.token}`
-                },
-                body: JSON.stringify({id}),
-            });
+            const response = await fetchHelper(`${CUSTOM_API}/admin/${pageName}/edit`, 'POST', {id});
             const data = await response.json();
             dispatch(setCurrentItem(data));
             pageName === 'classes' && dispatch(availableTeachers());

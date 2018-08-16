@@ -1,89 +1,61 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const addController = require('../controllers/addController');
+const teacherController = require('../controllers/teacherController');
+const classController = require('../controllers/classController');
+const studentController = require('../controllers/studentController');
+const courseController = require('../controllers/courseController');
 const tableController = require('../controllers/tableController');
-const editController = require('../controllers/editController');
-const deleteController = require('../controllers/deleteController');
 const router = express.Router();
 require('dotenv').config();
 
 router.use(getToken);
 router.use(verifyToken);
 
-router.get('/', (req, res) => {
-    tableController.allTables(req, res);
-});
+router.get('/', tableController.tableCount);
 
 /*Classes*/
-router.post('/classes/edit', (req, res) => {
-    tableController.currentClass(req, res);
-});
+router.get('/classes', classController.allClasses);
 
-router.post('/classes', (req, res) => {
-    addController.addClass(req, res);
-});
+router.post('/classes/edit', classController.currentClass);
 
-router.put('/classes/edit', (req, res) => {
-    editController.editClass(req, res);
-});
+router.post('/classes', classController.addClass);
 
-router.delete('/classes', (req, res) => {
-    deleteController.deleteClass(req, res);
-});
+router.put('/classes/edit', classController.editClass);
+
+router.delete('/classes', classController.deleteClass);
 
 /*Teachers*/
+router.get('/teachers', teacherController.allTeachers);
 
-router.post('/teachers/edit', (req, res) => {
-    tableController.currentTeacher(req, res);
-});
+router.post('/teachers/edit', teacherController.currentTeacher);
 
-router.post('/teachers', (req, res) => {
-    addController.addTeacher(req, res);
-});
+router.post('/teachers', teacherController.addTeacher);
 
-router.put('/teachers/edit', (req, res) => {
-    editController.editTeacher(req, res);
-});
+router.put('/teachers/edit', teacherController.editTeacher);
 
-router.delete('/teachers', (req, res) => {
-    deleteController.deleteTeacher(req, res);
-});
+router.delete('/teachers', teacherController.deleteTeacher);
 
 /*Students*/
+router.get('/students', studentController.allStudents);
 
-router.post('/students/edit', (req, res) => {
-    tableController.currentStudent(req, res);
-});
+router.post('/students/edit', studentController.currentStudent);
 
-router.post('/students', (req, res) => {
-    addController.addStudent(req, res);
-});
+router.post('/students', studentController.addStudent);
 
-router.put('/students/edit', (req, res) => {
-    editController.editStudent(req, res);
-});
+router.put('/students/edit', studentController.editStudent);
 
-router.delete('/students', (req, res) => {
-    deleteController.deleteStudent(req, res);
-});
+router.delete('/students', studentController.deleteStudent);
 
 /*Courses*/
+router.get('/courses', courseController.allCourses);
 
-router.post('/courses/edit', (req, res) => {
-    tableController.currentCourse(req, res);
-});
+router.post('/courses/edit', courseController.currentCourse);
 
-router.post('/courses', (req, res) => {
-    addController.addCourse(req, res);
-});
+router.post('/courses', courseController.addCourse);
 
-router.put('/courses/edit', (req, res) => {
-    editController.editCourse(req, res);
-});
+router.put('/courses/edit', courseController.editCourse);
 
-router.delete('/courses', (req, res) => {
-    deleteController.deleteCourse(req, res);
-});
+router.delete('/courses', courseController.deleteCourse);
 
 //Checks if token exists in header and saving it in req.token
 function getToken(req, res, next) {

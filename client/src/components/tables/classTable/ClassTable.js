@@ -19,7 +19,7 @@ const ClassTable = ({table, handleEditRedirect, handleDelete}) => {
                         <li key={'#'+Math.floor(Math.random()*16777215).toString(16)} className='row-container'>
                             <ul className='row'>
                                 <li>{item.name}</li>
-                                <li>{item.Teacher === null ? '-----------------': item.Teacher.firstname + ' ' + item.Teacher.lastname}</li>
+                                <li>{item.Teacher === null ? '-----------------': item.Teacher.firstName + ' ' + item.Teacher.lastName}</li>
                             </ul>
                             <div className='action-icon-container' onClick={() => handleEditRedirect(item.id, 'classes')}>
                                 <i className="far fa-edit icon-edit action-icon"></i>

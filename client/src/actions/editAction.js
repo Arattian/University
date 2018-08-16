@@ -1,21 +1,14 @@
 import { CUSTOM_API } from './constants';
-import { getTotalData } from './tablesAction';
+import { getTable } from './tablesAction';
 import { showError } from './alertAction';
+import { fetchHelper } from './constants';
 
 export function editAction(data, id, pageName) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/${pageName}/edit`, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.token}`
-                },
-                body: JSON.stringify({data, id}),
-            });
+            const response = await fetchHelper(`${CUSTOM_API}/admin/${pageName}/edit`, 'PUT', {data, id});
             const res = await response.json();
-            res.success ? dispatch(getTotalData('edited')) : dispatch(showError()); 
+            res.success ? dispatch(getTable(pageName, 'edited')) : dispatch(showError()); 
         })();
     }
 }

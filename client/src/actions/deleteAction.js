@@ -1,21 +1,15 @@
 import { CUSTOM_API } from './constants';
-import { getTotalData } from './tablesAction';
+import { getTable } from './tablesAction';
 import { showError } from './alertAction';
+import { fetchHelper } from './constants';
 
-export function deleteAction(id, deleteFrom) {
+export function deleteAction(id, pageName) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/${deleteFrom}`, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.token}`
-                },
-                body: JSON.stringify({id}),
-            });
+            const response = await fetchHelper(`${CUSTOM_API}/admin/${pageName}`, 'DELETE', {id});
             const res = await response.json();
-            res.success ? dispatch(getTotalData('deleted')) : dispatch(showError()); 
+            debugger;
+            res.success ? dispatch(getTable(pageName, 'deleted')) : dispatch(showError(res.message)); 
         })();
     }
 }

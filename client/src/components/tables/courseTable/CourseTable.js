@@ -24,7 +24,7 @@ const CourseTable = ({table, handleEditRedirect, handleDelete}) => {
                         <li key={'#'+Math.floor(Math.random()*16777215).toString(16)} className='row-container'>
                             <ul className='row'>
                                 <li>{item.name}</li>
-                                <li>{item.Teacher ? `${item.Teacher.firstname} ${item.Teacher.lastname}` : '-----------------'}</li>
+                                <li>{item.Teacher ? `${item.Teacher.firstName} ${item.Teacher.lastName}` : '-----------------'}</li>
                                 <li>{item.Class ? item.Class.name : '-----------------'}</li>
                                 <li>{item.start}</li>
                                 <li>{item.end}</li>

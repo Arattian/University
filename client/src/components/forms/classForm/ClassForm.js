@@ -86,7 +86,7 @@ class ClassForm extends React.Component {
                                         value={item.id}
                                         key={'#'+Math.floor(Math.random()*16777215).toString(16)}
                                         >
-                                            {`${item.firstname} ${item.lastname}`}
+                                            {`${item.firstName} ${item.lastName}`}
                                         </option>
                                     );
                                 })}

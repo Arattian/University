@@ -10,9 +10,10 @@ export function showSuccess(alertMessage) {
     }
 }
 
-export function showError() {
+export function showError(alertMessage) {
     return {
         type: SHOW_ERROR,
+        alertMessage
     }
 }
 

@@ -71,6 +71,7 @@ class CourseForm extends React.Component {
 
     componentDidUpdate() {
         if(this.props.currentItem && !this.state.id) {
+            debugger;
             this.setState({
                 id: this.props.currentItem.id,
                 name: this.props.currentItem.name,
@@ -85,7 +86,8 @@ class CourseForm extends React.Component {
     }
 
     render() {
-        const {selectclassList, selectteacherList, closeForm} = this.props;
+        const {selectClassList, selectTeacherList, closeForm} = this.props;
+        console.log(this.state);
         return (
             <form onSubmit={(ev) => this.handleSubmit(ev, this.state)} className='course-form'>
                 <header className='forms-header'>
@@ -115,13 +117,13 @@ class CourseForm extends React.Component {
                         <div className="select">
                             <select name="slct-teacher" required value={this.state.teacherId} onChange={(ev) => this.handleSelectChange(ev, 'teacherId')}>
                                 {!this.state.id && <option value='' default> Choose an option </option>}
-                                {selectteacherList.map(item => {
+                                {selectTeacherList.map(item => {
                                     return (
                                         <option 
                                         value={item.id}
                                         key={'#'+Math.floor(Math.random()*16777215).toString(16)}
                                         >
-                                            {`${item.firstname} ${item.lastname}`}
+                                            {`${item.firstName} ${item.lastName}`}
                                         </option>
                                     );
                                 })}
@@ -135,7 +137,7 @@ class CourseForm extends React.Component {
                         <div className="select">
                             <select name="slct-class" required value={this.state.classId} onChange={(ev) => this.handleSelectChange(ev, 'classId')}>
                                 {!this.state.id && <option value='' default> Choose an option </option>}
-                                {selectclassList.map(item => {
+                                {selectClassList.map(item => {
                                     return (
                                         <option 
                                         value={item.id}

@@ -3,6 +3,10 @@ import {Link} from 'react-router-dom';
 import './Home.css';
 
 class Home extends React.Component {
+    componentDidMount() {
+        this.props.handleTableRawCount();
+    }
+
     render() {
         return (
             <div className='main'>
@@ -15,28 +19,28 @@ class Home extends React.Component {
                     <div className='stat-container'>
                         <Link to='/admin/classes' className='classes stat'>
                                 <div className='stat-info'>
-                                    <h4>{this.props.totalClasses}</h4>
+                                    <h4>{this.props.classCount}</h4>
                                     <p>Total Classes</p>
                                 </div>
                                 <i className='fas fa-chalkboard menu-icon'></i>
                         </Link>
                         <Link to='/admin/teachers' className='teachers stat'>
                             <div className='stat-info'>
-                                <h4>{this.props.totalTeachers}</h4>
+                                <h4>{this.props.teacherCount}</h4>
                                 <p>Total Teachers</p>
                             </div>
                             <i className='fas fa-chalkboard-teacher menu-icon'></i>
                         </Link>
                         <Link to='/admin/students' className='students stat'>
                             <div className='stat-info'>
-                                <h4>{this.props.totalStudents}</h4>
+                                <h4>{this.props.studentCount}</h4>
                                 <p>Total Students</p>
                             </div>
                             <i className='fas fa-user-graduate menu-icon'></i>
                         </Link>
                         <Link to='/admin/courses' className='courses stat'>
                             <div className='stat-info'>
-                                <h4>{this.props.totalCourses}</h4>
+                                <h4>{this.props.courseCount}</h4>
                                 <p>Total Courses</p>
                             </div>
                             <i className='far fa-calendar-alt menu-icon'></i>

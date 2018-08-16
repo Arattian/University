@@ -20,8 +20,8 @@ const StudentTable = ({table, handleEditRedirect, handleDelete}) => {
                     return (
                         <li key={'#'+Math.floor(Math.random()*16777215).toString(16)} className='row-container'>
                             <ul className='row'>
-                                <li>{item.firstname}</li>
-                                <li>{item.lastname}</li>
+                                <li>{item.firstName}</li>
+                                <li>{item.lastName}</li>
                                 <li>{item.age}</li>
                                 <li>{item.Class ? item.Class.name : '-----------------'}</li>
                             </ul>
