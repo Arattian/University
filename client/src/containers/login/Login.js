@@ -4,10 +4,20 @@ import { withRouter } from 'react-router-dom';
 import { login } from '../../actions/loginAction';
 import './Login.css';
 class Login extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            mail: '',
+            pass: '',
+        }
+    }
+
+    handleInputChange = (ev, fieldToChange) => {
+        this.setState({[fieldToChange] : ev.target.value});
+    }
 
     submit = (ev) => {
-        const {mail, pass} = this.refs;
-        this.props.handleLogin(mail, pass);
+        this.props.handleLogin(this.state);
         ev.preventDefault();
     }
 
@@ -24,7 +34,7 @@ class Login extends React.Component {
         return (
             <div className='form-container'>
                 <form className='login-form' onSubmit={this.submit}>
-                    <h2>Admin Panel</h2>
+                    <h2>Login Panel</h2>
                     <div className='input-container'>
                         <i className='fa fa-envelope icon'></i>
                         <input 
@@ -32,7 +42,8 @@ class Login extends React.Component {
                             type='email'
                             placeholder='Email'
                             name='mail'
-                            ref='mail'
+                            value={this.state.mail}
+                            onChange={(ev) => this.handleInputChange(ev, 'mail')}
                             required
                         />
                     </div>
@@ -43,7 +54,8 @@ class Login extends React.Component {
                             type='password'
                             placeholder='Password'
                             name='psw'
-                            ref='pass'
+                            value={this.state.pass}
+                            onChange={(ev) => this.handleInputChange(ev, 'pass')}
                             required
                         />
                     </div>
@@ -62,7 +74,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleLogin: (mail, pass) => dispatch(login(mail, pass)),
+        handleLogin: (inputs) => dispatch(login(inputs)),
     }
 }
 

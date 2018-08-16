@@ -1,7 +1,11 @@
-import { TOTAL_DATA, CURRENT_DATA, DROP_CURRENT_DATA, AVAILABLE_TEACHERS } from '../actions/tablesAction';
+import { SET_CLASSES, SET_COURSES, SET_TEACHERS, SET_STUDENTS,CURRENT_DATA, DROP_CURRENT_DATA, AVAILABLE_TEACHERS, COUNT_RAWS } from '../actions/tablesAction';
 
 const initialState = {
     fetched: false,
+    classCount: 0,
+    teacherCount: 0,
+    studentCount: 0,
+    courseCount: 0,
     classList: [],
     teacherList: [],
     studentList: [],
@@ -13,15 +17,33 @@ const initialState = {
 
 const tablesReducer = (state = initialState, action) => {
     switch(action.type) {
-        case TOTAL_DATA:
+        case SET_CLASSES:
             state = {
                 ...state,
                 fetched: true,
-                classList: action.classList,
-                teacherList: action.teacherList,
-                studentList: action.studentList,
-                courseList: action.courseList,
+                classList: action.list,
             };
+            break;
+        case SET_COURSES:
+            state = {
+                ...state,
+                fetched: true,
+                courseList: action.list,
+            };
+            break;
+        case SET_STUDENTS:
+            state = {
+                ...state,
+                fetched: true,
+                studentList: action.list,
+            };
+            break;
+        case SET_TEACHERS:
+            state = {
+                ...state,
+                fetched: true,
+                teacherList: action.list,
+            }
             break;
         case CURRENT_DATA:
             state = {
@@ -34,6 +56,15 @@ const tablesReducer = (state = initialState, action) => {
                 ...state,
                 currentItem: null,
             };
+            break;
+        case COUNT_RAWS:
+            state = {
+                ...state,
+                classCount: action.classCount,
+                teacherCount: action.teacherCount,
+                courseCount: action.courseCount,
+                studentCount: action.studentCount,
+            }
             break;
         case AVAILABLE_TEACHERS:
                 const teachers = [];

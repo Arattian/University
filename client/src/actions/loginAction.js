@@ -1,4 +1,5 @@
-import { CUSTOM_API } from './constants';
+import { CUSTOM_API, fetchHelper } from './constants';
+
 export const LOGIN = 'LOGIN';
 function loginStatus(loggedIn) {
     return {
@@ -7,17 +8,10 @@ function loginStatus(loggedIn) {
     }
 }
 
-export function login(mail, pass) {
+export function login(inputs) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({mail: mail.value, pass: pass.value})
-            });
+            const response = await fetchHelper(`${CUSTOM_API}/login`, 'POST', {inputs});
             const data = await response.json();
             localStorage.token = data.token;
             dispatch(loginStatus(data.result));

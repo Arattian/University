@@ -7,7 +7,7 @@ import StudentForm from '../../../components/forms/studentForm/StudentForm';
 import CourseForm from '../../../components/forms/courseForm/CourseForm';
 import { addAction } from '../../../actions/addAction';
 import './AddForm.css';
-import { getTotalData, dropCurrentItem } from '../../../actions/tablesAction';
+import { dropCurrentItem, getTable } from '../../../actions/tablesAction';
 
 class AddForm extends React.Component {
 
@@ -22,8 +22,22 @@ class AddForm extends React.Component {
     }
 
     componentDidMount() {
-        if(!this.props.fetched) {
-            this.props.boundGetTotalData();
+        const pageName = this.props.match.params.page;
+        switch(pageName) {
+            case 'classes':
+                this.props.boundGetTable('classes');
+                this.props.boundGetTable('teachers');
+                break;
+            case 'students':
+                this.props.boundGetTable('classes');
+                break;
+            case 'teachers':
+                break;
+            case 'courses':
+                this.props.boundGetTable('classes');
+                this.props.boundGetTable('teachers');
+                break;
+            default:
         }
         this.props.boundDropCurrentItem();
     }
@@ -51,8 +65,8 @@ class AddForm extends React.Component {
                     /> :
                     <CourseForm 
                                 closeForm={this.closeForm}
-                                selectclassList={this.props.classList}
-                                selectteacherList={this.props.teacherList}
+                                selectClassList={this.props.classList}
+                                selectTeacherList={this.props.teacherList}
                                 onSubmit={this.props.boundAddAction}
                     />
                 }
@@ -77,7 +91,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         boundAddAction: (data, pageName, needToRedirect) => dispatch(addAction(data, pageName, needToRedirect)),
-        boundGetTotalData: () => dispatch(getTotalData()),
+        boundGetTable: (tableName) => dispatch(getTable(tableName)),
         boundDropCurrentItem: () => dispatch(dropCurrentItem()),
     }
 }

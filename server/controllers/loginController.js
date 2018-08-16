@@ -1,13 +1,14 @@
 const models = require("../models");
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const bcrypt = require('bcrypt');
 
-function loginController(req, res) {
-  models.Admins.findOne({
+function authorization(req, res) {
+  models.Users.findOne({
     attributes: ['email', 'password']
-  }).then(admin => {
-    if(admin.email === req.body.mail && admin.password === req.body.pass) {
-      jwt.sign({admin}, process.env.SECRET_KEY, { expiresIn: '10h'}, (err, token) => {
+  }).then(user => {
+    if(user.email === req.body.inputs.mail && bcrypt.compareSync(req.body.inputs.pass, user.password)) {
+      jwt.sign({user}, process.env.SECRET_KEY, { expiresIn: '10h'}, (err, token) => {
         if (err) {
           res.sendStatus(403);
         }
@@ -19,4 +20,6 @@ function loginController(req, res) {
   });
 }
 
-module.exports =  loginController;
+module.exports =  {
+  authorization,
+};

@@ -5,6 +5,7 @@ import ClassTable from '../../components/tables/classTable/ClassTable';
 import TeacherTable from '../../components/tables/teacherTable/TeacherTable';
 import StudentTable from '../../components/tables/studentTable/StudentTable';
 import CourseTable from '../../components/tables/courseTable/CourseTable';
+import { getTable } from '../../actions/tablesAction';
 import './TableWrapper.css';
 
 class TableWrapper extends React.Component {
@@ -15,6 +16,11 @@ class TableWrapper extends React.Component {
 
     handleDelete = (id, deleteFrom) => {
         this.props.boundShowDelete(id, deleteFrom);
+    }
+
+    componentDidMount() {
+        const pageName = this.props.match.params.page;
+        this.props.boundGetTable(pageName);
     }
 
     render() {
@@ -59,4 +65,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(TableWrapper));
+const mapDispatchToProps = (dispatch) => {
+    return {
+        boundGetTable: (tableName) => dispatch(getTable(tableName)),
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TableWrapper));

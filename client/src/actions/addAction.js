@@ -1,22 +1,14 @@
-import { CUSTOM_API } from './constants';
-import { getTotalData } from './tablesAction';
+import { CUSTOM_API, fetchHelper } from './constants';
+import { getTable } from './tablesAction';
 import { showError } from './alertAction';
 
 export function addAction(data, pageName, needToRedirect) {
     return (dispatch) => {
         (async () => {
-            const response = await fetch(`${CUSTOM_API}/admin/${pageName}`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.token}`
-                },
-                body: JSON.stringify({data}),
-            });
+            const response = await fetchHelper(`${CUSTOM_API}/admin/${pageName}`, 'POST', {data});
             const res = await response.json();
             if(res.success) {
-                needToRedirect ? dispatch(getTotalData('added', pageName, res.id)) : dispatch(getTotalData('added', pageName));
+                needToRedirect ? dispatch(getTable(pageName, 'added', res.id)) : dispatch(getTable(pageName, 'added'));
              } else {
                 dispatch(showError());
              }

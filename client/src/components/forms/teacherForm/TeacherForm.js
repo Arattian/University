@@ -6,8 +6,8 @@ class TeacherForm extends React.Component {
         super();
         this.state = {
             id: null,
-            firstname: '',
-            lastname: '',
+            firstName: '',
+            lastName: '',
             age: '',
         }
     }
@@ -17,8 +17,8 @@ class TeacherForm extends React.Component {
     }
 
     validateInput = () => {
-        return this.state.firstname !== '' &&
-                this.state.lastname !== '' &&
+        return this.state.firstName !== '' &&
+                this.state.lastName !== '' &&
                 this.state.age !== '' &&
                 this.state.classId !== '';
     }
@@ -33,8 +33,8 @@ class TeacherForm extends React.Component {
                 } else {
                     this.props.onSubmit(data, 'teachers');
                     this.setState({
-                        firstname: '',
-                        lastname: '',
+                        firstName: '',
+                        lastName: '',
                         age: '',
                     });
                 }
@@ -46,8 +46,8 @@ class TeacherForm extends React.Component {
         if(this.props.currentItem && !this.state.id) {
             this.setState({
                 id: this.props.currentItem.id,
-                firstname: this.props.currentItem.firstname,
-                lastname: this.props.currentItem.lastname,
+                firstName: this.props.currentItem.firstName,
+                lastName: this.props.currentItem.lastName,
                 age: this.props.currentItem.age,
             });
         }
@@ -61,34 +61,34 @@ class TeacherForm extends React.Component {
                     <h2>Teacher</h2>
                 </header>
                 <div className='forms-input-container'>
-                    <label htmlFor='teacher-firstname'>
+                    <label htmlFor='teacher-firstName'>
                         <h4>First Name*</h4>
                     </label>
                     <input 
                         className='forms-input-field'
                         type='text'
                         placeholder='Enter First Name'
-                        name='firstname'
-                        id='teacher-firstname'
+                        name='firstName'
+                        id='teacher-firstName'
                         pattern='[\p{L}]+'
-                        value={this.state.firstname}
-                        onChange={(ev) => this.handleInputChange(ev, 'firstname')}
+                        value={this.state.firstName}
+                        onChange={(ev) => this.handleInputChange(ev, 'firstName')}
                         required
                         />
                 </div>
                 <div className='forms-input-container'>
-                    <label htmlFor='teacher-lastname'>
+                    <label htmlFor='teacher-lastName'>
                         <h4>Last Name*</h4>
                     </label>
                     <input 
                         className='forms-input-field'
                         type='text'
                         placeholder='Enter Last Name'
-                        name='lastname' 
-                        id='teacher-lastname'
+                        name='lastName' 
+                        id='teacher-lastName'
                         pattern='[\p{L}]+'
-                        value={this.state.lastname}
-                        onChange={(ev) => this.handleInputChange(ev, 'lastname')}
+                        value={this.state.lastName}
+                        onChange={(ev) => this.handleInputChange(ev, 'lastName')}
                         required
                         />
                 </div>

@@ -6,7 +6,7 @@ import TeacherForm from '../../../components/forms/teacherForm/TeacherForm';
 import StudentForm from '../../../components/forms/studentForm/StudentForm';
 import CourseForm from '../../../components/forms/courseForm/CourseForm';
 import { editAction } from '../../../actions/editAction';
-import { getCurrentItem, dropCurrentItem, getTotalData } from '../../../actions/tablesAction';
+import { getCurrentItem, dropCurrentItem, getTable } from '../../../actions/tablesAction';
 import { dropRedirect } from '../../../actions/redirectAction';
 import './EditForm.css';
 
@@ -19,10 +19,29 @@ class EditForm extends React.Component {
     componentDidMount() {
         this.props.redirectId && this.props.boundDropRedirect();
         this.props.boundDropCurrentItem();
+        const pageName = this.props.match.params.page;
+        if(!this.props.fetched) {
+            switch(pageName) {
+                case 'classes':
+                    this.props.boundGetTable('classes');
+                    this.props.boundGetTable('teachers');
+                    break;
+                case 'students':
+                    this.props.boundGetTable('classes');
+                    break;
+                case 'teachers':
+                    break;
+                case 'courses':
+                    this.props.boundGetTable('classes');
+                    this.props.boundGetTable('teachers');
+                    break;
+                default:
+            }
+        }
     }
 
     componentDidUpdate() {
-        if(this.props.fetched && !this.props.currentItem) {
+        if(!this.props.currentItem) {
             const id = this.props.match.params.id;
             const pageName = this.props.match.params.page;
             id && this.props.boundGetCurrentItem(id, pageName);
@@ -55,8 +74,8 @@ class EditForm extends React.Component {
                     /> :
                     <CourseForm 
                                 closeForm={this.closeForm}
-                                selectclassList={this.props.classList}
-                                selectteacherList={this.props.teacherList}
+                                selectClassList={this.props.classList}
+                                selectTeacherList={this.props.teacherList}
                                 currentItem={this.props.currentItem}
                                 onSubmit={this.props.boundEditAction}
                     />
@@ -85,7 +104,7 @@ const mapDispatchToProps = (dispatch) => {
         boundGetCurrentItem: (id, pageName) => dispatch(getCurrentItem(id, pageName)),
         boundDropCurrentItem: () => dispatch(dropCurrentItem()),
         boundDropRedirect: () => dispatch(dropRedirect()),
-        boundGetTotalData: () => dispatch(getTotalData()),
+        boundGetTable: (tableName) => dispatch(getTable(tableName)),
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditForm));

@@ -2,16 +2,16 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "engines" : { 
-    "npm" : "6.1.0",
-    "node" : "10.7.0"
+  "engines": {
+    "npm": "6.1.0",
+    "node": "10.7.0"
   },
   "dependencies": {
-    "dotenv": "^6.0.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
+    "react-router-redux": "^4.0.8",
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
