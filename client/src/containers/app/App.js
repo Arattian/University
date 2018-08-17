@@ -9,8 +9,10 @@ import EditForm from '../../containers/form/editForm/EditForm';
 import { tableRawCount } from '../../actions/tablesAction';
 import { hideAlert, showDelete } from '../../actions/alertAction';
 import { deleteAction } from '../../actions/deleteAction';
+import { getUser, logOut } from '../../actions/loginAction';
 import SweetAlert from 'sweetalert2-react';
 import './App.css';
+
 
 class App extends React.Component {
 
@@ -18,15 +20,26 @@ class App extends React.Component {
         if (localStorage.token === 'undefined') {
             this.props.history.push('/');
             return;
+        } else if (!this.props.userMail) {
+            this.props.boundGetUser();
         }
+    }
+
+    logOut = () => {
+        localStorage.token = 'undefined';
+        this.props.history.push('/login');
+        this.props.boundLogOut();
     }
 
     render() {
         return (
             <div className='app'>
-                <Sidebar showModal={this.handleShowModalClick}/>
+                <Sidebar 
+                    userMail={this.props.userMail}
+                    logOut={this.logOut}
+                />
                     <Switch>
-                        <Route exact path='/admin'>
+                        <Route exact path={`/${this.props.userName}`}>
                             <Home 
                                 classCount={this.props.classCount}
                                 teacherCount={this.props.teacherCount}
@@ -86,6 +99,8 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        userMail: state.login.userMail,
+        userName: state.login.userName,
         classCount: state.tables.classCount,
         teacherCount: state.tables.teacherCount,
         studentCount: state.tables.studentCount,
@@ -105,6 +120,8 @@ const mapDispatchToProps = (dispatch) => {
         boundHideAlert: () => dispatch(hideAlert()),
         boundDeleteData: (id, deleteFrom) => dispatch(deleteAction(id, deleteFrom)),
         boundShowDelete: (id, deleteFrom) => dispatch(showDelete(id, deleteFrom)),
+        boundGetUser: () => dispatch(getUser()),
+        boundLogOut: () => dispatch(logOut()),
     }
 }
 

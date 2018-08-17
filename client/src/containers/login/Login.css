@@ -54,3 +54,14 @@
 .btn:hover {
   background-color: #384350;
 }
+
+.hide {
+  visibility: hidden;
+}
+
+.failed {
+  color: #ff2525;
+  font-size: 0.8rem;
+  margin-top: -50px;
+  margin-bottom: 55px;
+}

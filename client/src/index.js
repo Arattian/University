@@ -14,7 +14,7 @@ ReactDOM.render(
                         <Route exact path='/'>
                                 <Redirect to="/login"/>
                         </Route>
-                        <Route exact path='/login'>
+                        <Route path='/login'>
                                 <Login />
                         </Route>
                         <Route path='/admin'>
