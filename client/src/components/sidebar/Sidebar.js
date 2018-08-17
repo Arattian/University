@@ -8,6 +8,10 @@ class Sidebar extends React.Component {
         return (
             <div className='sidebar'>
                 <div className='sidebar-fixed'>
+                    <div onClick={this.props.logOut} className='link user'>
+                        <h3>{this.props.userMail}</h3>
+                        <i className="fas fa-sign-out-alt menu-icon"></i>
+                    </div>    
                     <Link to='/admin' className='link'>
                         <header className='logo' to='/admin'>
                             <i className="fas fa-university"></i>

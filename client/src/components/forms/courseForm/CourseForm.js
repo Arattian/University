@@ -71,7 +71,6 @@ class CourseForm extends React.Component {
 
     componentDidUpdate() {
         if(this.props.currentItem && !this.state.id) {
-            debugger;
             this.setState({
                 id: this.props.currentItem.id,
                 name: this.props.currentItem.name,
@@ -87,7 +86,6 @@ class CourseForm extends React.Component {
 
     render() {
         const {selectClassList, selectTeacherList, closeForm} = this.props;
-        console.log(this.state);
         return (
             <form onSubmit={(ev) => this.handleSubmit(ev, this.state)} className='course-form'>
                 <header className='forms-header'>

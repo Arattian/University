@@ -73,7 +73,6 @@ export function dropCurrentItem() {
 }
 
 export function getTable(tableName, message, redirectId) {
-    debugger;
     return (dispatch) => {
         (async () => {
             const response = await fetchHelper(`${CUSTOM_API}/admin/${tableName}`, 'GET');

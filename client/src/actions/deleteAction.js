@@ -8,7 +8,6 @@ export function deleteAction(id, pageName) {
         (async () => {
             const response = await fetchHelper(`${CUSTOM_API}/admin/${pageName}`, 'DELETE', {id});
             const res = await response.json();
-            debugger;
             res.success ? dispatch(getTable(pageName, 'deleted')) : dispatch(showError(res.message)); 
         })();
     }
