@@ -25,7 +25,7 @@ function tableCount(req, res) {
       raws.courseCount = count;
       res.json(raws);
     })
-    .catch(err => res.json({status: 403, text: 'Something went wrong'}));
+    .catch(err => res.json({statusCode: 403, message: 'Something went wrong'}));
 }
 
 module.exports =  {

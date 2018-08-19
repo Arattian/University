@@ -25,7 +25,8 @@ class StudentForm extends React.Component {
         return this.state.firstName !== '' &&
                 this.state.lastName !== '' &&
                 this.state.age !== '' &&
-                this.state.classId !== '';
+                this.state.classId !== '' &&
+                this.state.classId !== null;
     }
 
     handleSubmit = (ev, data, redirect) => {

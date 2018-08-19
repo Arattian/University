@@ -1,4 +1,4 @@
-import { CUSTOM_API, fetchHelper } from './constants';
+import { CUSTOM_API, fetchHelper, responseHelper } from './constants';
 
 export const LOGIN = 'LOGIN';
 export const WRONG_INPUT = 'WRONG_INPUT';
@@ -20,6 +20,7 @@ function wrongInput() {
 }
 
 export function logOut() {
+    localStorage.token = 'undefined';
     return {
         type: LOG_OUT,
     }
@@ -29,9 +30,8 @@ export function login(inputs) {
     return (dispatch) => {
         (async () => {
             const response = await fetchHelper(`${CUSTOM_API}/login`, 'POST', {inputs});
-            const res = await response.json();
-            localStorage.token = res.token;
-            res.result ? dispatch(authorizate(res.result, res.email, res.userName)) : dispatch(wrongInput());
+            localStorage.token = response.token;
+            response.success ? dispatch(authorizate(response.success, response.email, response.userName)) : dispatch(wrongInput());
         })();
     }
 }
@@ -39,9 +39,10 @@ export function login(inputs) {
 export function getUser() {
     return (dispatch) => {
         (async () => {
-            const response = await fetchHelper(`${CUSTOM_API}/login`, 'GET');
-            const res = await response.json();
-            dispatch(authorizate(res.result, res.email, res.userName)); 
+            const response = await fetchHelper(`${CUSTOM_API}/login`, 'GET');     
+            if (responseHelper(response, dispatch)) {
+                dispatch(authorizate(response.success, response.email, response.userName));
+            } 
         })();
     }
 }

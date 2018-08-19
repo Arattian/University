@@ -20,7 +20,9 @@ class ClassForm extends React.Component {
     }
 
     validateInput = () => {
-        return this.state.name !== '' && this.state.teacherId !== '';
+        return this.state.name !== '' &&
+         this.state.teacherId !== '' &&
+         this.state.teacherId !== null;
     }
 
     handleSubmit = (ev, data, redirect) => {

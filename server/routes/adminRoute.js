@@ -66,14 +66,14 @@ function getToken(req, res, next) {
         req.token = bearerToken;
         next();
     } else {
-        res.sendStatus(401);
+        res.json({statusCode: 401, message: 'Unauthorized. Please sign in.'});
     }
 }
 
 function verifyToken(req, res, next) {
     jwt.verify(req.token, process.env.SECRET_KEY, (err) => {
         if (err) {
-            res.sendStatus(401);
+            res.json({statusCode: 401, message: 'Unauthorized. Please sign in.'});
         } else {
             next();
         }

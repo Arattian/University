@@ -19,6 +19,10 @@ class TableWrapper extends React.Component {
     }
 
     componentDidMount() {
+        if (localStorage.token === 'undefined') {
+            this.props.history.push('/');
+            return false;
+        }
         const pageName = this.props.match.params.page;
         this.props.boundGetTable(pageName);
     }

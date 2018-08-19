@@ -10,12 +10,12 @@ function authorization(req, res) {
     if(user.email === req.body.inputs.mail && bcrypt.compareSync(req.body.inputs.pass, user.password)) {
       jwt.sign({email: user.email, userName: user.userName}, process.env.SECRET_KEY, { expiresIn: '10h'}, (err, token) => {
         if (err) {
-          res.sendStatus(403);
+          res.json({statusCode: 403, message: 'Something went wrong'});
         }
-        res.json({result: true, token, email: user.email, userName: user.userName});
+        res.json({success: true, token, email: user.email, userName: user.userName});
       })
     } else {
-      res.json({result: false});
+      res.json({success: false});
     }
   });
 }
@@ -23,9 +23,9 @@ function authorization(req, res) {
 function authorizate(req, res) {
   jwt.verify(req.token, process.env.SECRET_KEY, (err, user) => {
       if (err) {
-          res.sendStatus(401);
+          res.json({statusCode: 401, message: 'Unauthorized. Please sign in.'});;
       } else {
-          res.json({result: true, email: user.email, userName: user.userName});
+          res.json({success: true, email: user.email, userName: user.userName});
       }
   })
 }

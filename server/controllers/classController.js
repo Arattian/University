@@ -4,7 +4,7 @@ const { Classes, Teachers } = models;
 function addClass(req, res) {
   Classes.create({name: req.body.data.name, teacherId: req.body.data.teacherId})
     .then((raw) => res.json({statusCode: 200, success: true, id: raw.id}))
-    .catch(error => res.json({statusCode: 403, success: false}))
+    .catch(error => res.json({statusCode: 403, message: 'Something went wrong'}))
 }
 
 function editClass(req,res) {
@@ -13,13 +13,13 @@ function editClass(req,res) {
     teacherId: req.body.data.teacherId,
   }, {where: {id: req.body.id}})
     .then(() => res.json({statusCode: 200, success: true}))
-    .catch(err => res.json({statusCode: 403, success: false}));
+    .catch(err => res.json({statusCode: 403, message: 'Something went wrong'}));
 }
 
 function deleteClass(req, res) {
   Classes.destroy({where: {id: req.body.id}})
   .then(() => res.json({statusCode: 200, success: true}))
-  .catch(err => res.json({statusCode: 403, success: false}));
+  .catch(err => res.json({statusCode: 403, message: 'Something went wrong'}));
 }
 
 function currentClass(req, res) {
@@ -30,7 +30,7 @@ function currentClass(req, res) {
   .then(classToSend => {
     res.json(classToSend);
   })
-  .catch(err => res.json({status: 403, text: 'Something went wrong'}));
+  .catch(err => res.json({statusCode: 403, message: 'Something went wrong'}));
 }
 
 function allClasses(req, res) {
@@ -39,7 +39,7 @@ function allClasses(req, res) {
     attributes: ['id', 'name']
   })
   .then(classList => res.json(classList))
-  .catch(err => res.json({status: 403, text: 'Something went wrong'}))
+  .catch(err => res.json({statusCode: 403, message: 'Something went wrong'}))
 }
 
 module.exports =  {

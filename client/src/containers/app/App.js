@@ -25,6 +25,14 @@ class App extends React.Component {
         }
     }
 
+    shouldComponentUpdate() {
+        if (localStorage.token === 'undefined') {
+            this.props.history.push('/');
+            return false;
+        }
+        return true;
+    }
+
     logOut = () => {
         localStorage.token = 'undefined';
         this.props.history.push('/login');
