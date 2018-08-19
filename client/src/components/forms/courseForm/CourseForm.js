@@ -43,10 +43,13 @@ class CourseForm extends React.Component {
                 this.state.startTime !== '' &&
                 this.state.endTime !== '' &&
                 this.state.teacherId !== '' &&
-                this.state.classId !== '';
+                this.state.classId !== '' &&
+                this.state.teacherId !== null &&
+                this.state.classId !== null;
     }
 
     handleSubmit = (ev, data, redirect) => {
+        ;
         if(this.validateInput()) {
                 if(this.state.id) {
                     this.props.onSubmit(data, data.id, 'courses');

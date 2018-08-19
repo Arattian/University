@@ -12,7 +12,7 @@ function addCourse(req, res) {
     classId: req.body.data.classId,
   })
     .then((raw) => res.json({statusCode: 200, success: true, id: raw.id}))
-    .catch(error => res.json({statusCode: 403, success: false}))
+    .catch(error => res.json({statusCode: 403, message: 'Something went wrong'}))
 }
 
 function editCourse(req, res) {
@@ -26,13 +26,13 @@ function editCourse(req, res) {
     classId: req.body.data.classId,
   }, {where: {id: req.body.id}})
   .then(() => res.json({statusCode: 200, success: true}))
-  .catch(err => res.json({statusCode: 403, success: false}));
+  .catch(err => res.json({statusCode: 403, message: 'Something went wrong'}));
 }
 
 function deleteCourse(req, res) {
   Courses.destroy({where: {id: req.body.id}})
   .then(() => res.json({statusCode: 200, success: true}))
-  .catch(err => res.json({statusCode: 403, success: false}));
+  .catch(err => res.json({statusCode: 403, message: 'Something went wrong'}));
 }
 
 function currentCourse(req, res) {
@@ -43,7 +43,7 @@ function currentCourse(req, res) {
   .then(courseToSend => {
     res.json(courseToSend);
   })
-  .catch(err => res.json({status: 403, text: 'Something went wrong'}));
+  .catch(err => res.json({statusCode: 403, message: 'Something went wrong'}));
 }
 
 function allCourses(req, res) {
@@ -52,7 +52,7 @@ function allCourses(req, res) {
     attributes: ['id', 'name', 'start', 'end', 'startTime', 'endTime']
   })
   .then(courseList => res.json(courseList))
-  .catch(err => res.json({status: 403, text: 'Something went wrong'}))
+  .catch(err => res.json({statusCode: 403, message: 'Something went wrong'}))
 }
 
 module.exports =  {

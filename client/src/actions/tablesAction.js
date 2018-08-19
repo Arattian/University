@@ -1,4 +1,4 @@
-import { CUSTOM_API, fetchHelper } from './constants';
+import { CUSTOM_API, fetchHelper, responseHelper } from './constants';
 import { showSuccess } from './alertAction';
 import { redirect } from './redirectAction';
 export const CURRENT_DATA = 'CURRENT_DATA';
@@ -76,27 +76,23 @@ export function getTable(tableName, message, redirectId) {
     return (dispatch) => {
         (async () => {
             const response = await fetchHelper(`${CUSTOM_API}/admin/${tableName}`, 'GET');
-            const list = await response.json();
-            switch(tableName) {
-                case 'classes':
-                    dispatch(setTable(list, tableName));
-                    dispatch(availableTeachers());
-                    break;
-                case 'teachers':
-                    dispatch(setTable(list, tableName));
-                    dispatch(availableTeachers());
-                    break;
-                case 'students':
-                    dispatch(setTable(list, tableName));
-                    break;                    
-                case 'courses':
-                    dispatch(setTable(list, tableName));
-                    break;
-                default:
+            if (responseHelper(response, dispatch)) {
+                switch(tableName) {
+                    case 'classes':
+                        dispatch(setTable(response, tableName));
+                        dispatch(availableTeachers());
+                        break;
+                    case 'teachers':
+                        dispatch(setTable(response, tableName));
+                        dispatch(availableTeachers());
+                        break;                 
+                    default:
+                        dispatch(setTable(response, tableName));
+                }
+                message && dispatch(showSuccess(message));
+                redirectId && dispatch(redirect(tableName, redirectId));
+                message === 'edited' && dispatch(dropCurrentItem());
             }
-            message && dispatch(showSuccess(message));
-            redirectId && dispatch(redirect(tableName, redirectId));
-            message === 'edited' && dispatch(dropCurrentItem());
         })();
     }
 }
@@ -105,8 +101,8 @@ export function tableRawCount() {
     return (dispatch) => {
         (async () => {
             const response = await fetchHelper(`${CUSTOM_API}/admin`, 'GET');
-            const counts = await response.json();
-            dispatch(countRaws(counts.classCount, counts.teacherCount, counts.studentCount, counts.courseCount));
+
+            dispatch(countRaws(response.classCount, response.teacherCount, response.studentCount, response.courseCount));
         })();
     }
 }
@@ -116,8 +112,10 @@ export function getCurrentItem(id, pageName) {
     return (dispatch) => {
         (async () => {
             const response = await fetchHelper(`${CUSTOM_API}/admin/${pageName}/edit`, 'POST', {id});
-            const data = await response.json();
-            dispatch(setCurrentItem(data));
+            if (!response) {
+                return;
+            }
+            dispatch(setCurrentItem(response));
             pageName === 'classes' && dispatch(availableTeachers());
         })();
     }
